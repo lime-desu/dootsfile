@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-cd $DOOTS
+# wip add colors
+cd "$DOOTS" || exit
 
 # make sure we have pulled in and updated any submodules
 git submodule init
@@ -20,7 +20,7 @@ useronly=(
 stowit() {
     usr=$1
     app=$2
-    stow --simulate --verbose --restow --target "${usr}" "${app}"
+    stow --verbose --restow --target "${usr}" "${app}"
 }
 
 echo ""
