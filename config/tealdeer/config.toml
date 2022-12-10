@@ -37,4 +37,4 @@ auto_update = true
 auto_update_interval_hours = 720
 
 [directories]
-custom_pages_dir = "/var/home/epoy/.local/share/tealdeer/pages/"
+custom_pages_dir = "$HOME/.local/share/tealdeer/pages/"

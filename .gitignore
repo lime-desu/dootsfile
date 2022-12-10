@@ -1,2 +1,4 @@
 #"^{install,todo}-*.txt"
 *.txt
+*zcompdump*
+

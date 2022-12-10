@@ -8,4 +8,4 @@
 [pull]
 	rebase = false
 [core]
-	excludesfile = /home/void/.config/git/gitignore
+	excludesfile = $HOME/.config/git/gitignore
