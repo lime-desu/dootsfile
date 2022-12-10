@@ -9,6 +9,8 @@ export DOOTS="$HOME/Git/Local/dootfiles"
 export {EDITOR,VISUAL}="nvim"
 # bash
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
+# bat
+export BAT_THEME="Catppuccin-macchiato"
 # rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
