@@ -1,0 +1,11 @@
+[user]
+	name = lime
+	email = 114978689+lime-desu@users.noreply.github.com
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[pull]
+	rebase = false
+[core]
+	excludesfile = /home/void/.config/git/gitignore
