@@ -129,3 +129,7 @@ alias reinstall-grub="sudo rm -iv /boot/efi/EFI/fedora/grub.cfg && sudo rm -iv /
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+# (up-arrow-key) depends on terminal mode
+bindkey '^[[A' _atuin_search_widget
+bindkey '^[OA' _atuin_search_widget
