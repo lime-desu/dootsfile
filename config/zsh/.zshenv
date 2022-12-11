@@ -14,7 +14,7 @@ eval "$(atuin init zsh)"
 # bash
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
 # bat
-export BAT_THEME="Catppuccin-moccha"
+export BAT_THEME="Catppuccin-mocha"
 # rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
