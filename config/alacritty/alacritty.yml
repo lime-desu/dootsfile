@@ -112,9 +112,11 @@ window:
   #multiplier: 3
 
 # Font configuration
-#font:
+font:
   # Normal (roman) font face
-  #normal:
+  normal:
+    family: JetBrainsMono NF
+    style:  Regular
     # Font family
     #
     # Default:
@@ -127,7 +129,9 @@ window:
     #style: Regular
 
   # Bold font face
-  #bold:
+  bold:
+    family: JetBrainsMono NF
+    style: Bold
     # Font family
     #
     # If the bold family is not specified, it will fall back to the
@@ -138,7 +142,9 @@ window:
     #style: Bold
 
   # Italic font face
-  #italic:
+  italic:
+    family: JetBrainsMono NF
+    style: Italic
     # Font family
     #
     # If the italic family is not specified, it will fall back to the
@@ -149,7 +155,9 @@ window:
     #style: Italic
 
   # Bold italic font face
-  #bold_italic:
+  bold_italic:
+    family: JetBrainsMono NF
+    style: Bold Italic
     # Font family
     #
     # If the bold italic family is not specified, it will fall back to the
