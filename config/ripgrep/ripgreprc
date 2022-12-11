@@ -13,11 +13,15 @@
 # Don't let ripgrep vomit really long lines to my terminal, and show a preview.
 --max-columns=500
 --max-columns-preview
+# Limit directory depth
+--max-depth=10
 
 # Using glob patterns to include/exclude files or folders
 --glob=!{.git,.svn,node_modules,tealdeer,Trash,vendor}
---glob=!*.{lock}
+--glob=!*.{lock,cache}
 --glob=!{package-lock.json}
+--glob=!tmp/
+--glob=!log/
 
 # Set the colors.
 # --colors=line:none

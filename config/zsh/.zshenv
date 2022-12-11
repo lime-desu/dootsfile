@@ -18,7 +18,7 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export NB_DIR="$XDG_DATA_HOME/nb"
 export NBRC_PATH="$XDG_CONFIG_HOME/nbrc"
 # ripgrep
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 # zsh
 export ZDOTDIR="$HOME"/.config/zsh
 export ZSH="$XDG_DATA_HOME"/oh-my-zsh 
