@@ -79,24 +79,24 @@ FZF_DEFAULT_COMMAND="${INS_QRYS}" \
     	--preview-window "50%,<50(up,60%,border-rounded)" \
     	--preview="${INS_PRVW} {1} | ${INS_CLR_PRVW}" \
     	--bind="enter:execute(if grep -q 'in' \"${tmp_file}\"; then sudo dnf install {1}; 
-        	elif grep -q 'rm' \"${tmp_file}\"; then sudo dnf remove {1}; \
-        	elif grep -q 'up' \"${tmp_file}\"; then sudo dnf upgrade {1}; fi; ${QRY_READ})" \
-		--bind "alt-i:reload(${INS_QRYS})+change-preview(${INS_PRVW} {1} | ${INS_CLR_PRVW})+change-prompt(${INS_PRMPT})+execute-silent(printf 'in' > \"${tmp_file}\")+first" \
-		--bind "alt-r:reload(${RMV_QRYS})+change-preview(${RMV_PRVW} {1} | ${RMV_CLR_PRVW})+change-prompt(${RMV_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
-		--bind "alt-e:reload(${RUI_QRYS})+change-preview(${RUI_PRVW} {1} | ${RUI_CLR_PRVW})+change-prompt(${RUI_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
-		--bind "alt-u:reload(${UPD_QRYS})+change-preview(${UPD_PRVW} {1})+change-prompt(${UPD_PRMPT})+execute-silent(printf 'up' > \"${tmp_file}\")+first" \
+		elif grep -q 'rm' \"${tmp_file}\"; then sudo dnf remove {1}; \
+		elif grep -q 'up' \"${tmp_file}\"; then sudo dnf upgrade {1}; fi; ${QRY_READ})" \
+	--bind "alt-i:reload(${INS_QRYS})+change-preview(${INS_PRVW} {1} | ${INS_CLR_PRVW})+change-prompt(${INS_PRMPT})+execute-silent(printf 'in' > \"${tmp_file}\")+first" \
+	--bind "alt-r:reload(${RMV_QRYS})+change-preview(${RMV_PRVW} {1} | ${RMV_CLR_PRVW})+change-prompt(${RMV_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
+	--bind "alt-e:reload(${RUI_QRYS})+change-preview(${RUI_PRVW} {1} | ${RUI_CLR_PRVW})+change-prompt(${RUI_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
+	--bind "alt-u:reload(${UPD_QRYS})+change-preview(${UPD_PRVW} {1})+change-prompt(${UPD_PRMPT})+execute-silent(printf 'up' > \"${tmp_file}\")+first" \
     	--bind "ctrl-h:reload($HISTORY)+change-prompt(  History > )" \
-		--bind "ctrl-z:execute(sudo dnf history undo {1}; ${QRY_READ})" \
-		--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
-		--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
-		--bind "alt-t:execute(sudo dnf makecache;topgrade; ${QRY_READ})" \
-		--bind "alt-m:execute(sudo dnf makecache; ${QRY_READ})" \
-		--bind "alt-a:execute(sudo dnf autoremove;${QRY_READ})" \
-		--bind "ctrl-e:execute(sudo \$EDITOR /etc/dnf/dnf.conf > /dev/tty)" \
-		--bind "del:execute(sudo dnf clean packages expire-cache; ${QRY_READ})" \
-		--bind "alt-d:execute(sudo dnf distrosync;${QRY_READ})" \
-		--bind "alt-?:preview(printf '${SHOW_HELP}')" \
-		--bind "ctrl-a:select-all" 
+	--bind "ctrl-z:execute(sudo dnf history undo {1}; ${QRY_READ})" \
+	--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
+	--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
+	--bind "alt-t:execute(sudo dnf makecache;topgrade; ${QRY_READ})" \
+	--bind "alt-m:execute(sudo dnf makecache; ${QRY_READ})" \
+	--bind "alt-a:execute(sudo dnf autoremove;${QRY_READ})" \
+	--bind "ctrl-e:execute(sudo \$EDITOR /etc/dnf/dnf.conf > /dev/tty)" \
+	--bind "del:execute(sudo dnf clean packages expire-cache; ${QRY_READ})" \
+	--bind "alt-d:execute(sudo dnf distrosync;${QRY_READ})" \
+	--bind "alt-?:preview(printf '${SHOW_HELP}')" \
+	--bind "ctrl-a:select-all" 
 rm -f "${tmp_file}" &> /dev/null
 else
     printf "Error: Failed to create tmp file. %s $TMPDIR (or /tmp if $TMPDIR is unset) may not be writable.\n" >&2
