@@ -101,6 +101,14 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-$XDG_DATA_HOME/oh-my-zsh}/custom}/plugins/zsh-comple
 
 source $ZSH/oh-my-zsh.sh
 
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt BANG_HIST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
