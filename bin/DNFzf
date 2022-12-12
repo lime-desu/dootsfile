@@ -7,39 +7,35 @@ if ! hash fzf &> /dev/null; then
 fi
 
 # Colors                                 # Base Commands
-declare blu red grn ylw cyn rst bld mgn QRY PRVW QRY_PRFX QRY_SFFX                                   
+declare blu red grn ylw cyn rst bld mgn QRY PRVW QRY_PRFX QRY_SFFX AWK_VAR                   
 blu="$(tput setaf 4)";                  QRY="dnf --cacheonly --quiet repoquery ";                       
 red="$(tput setaf 1)";                  PRVW="dnf --cacheonly --quiet --color=always info";
 grn="$(tput setaf 2)";                  QRY_PRFX='  ';
 ylw="$(tput setaf 3)";                  QRY_SFFX=' > ';
 cyn="$(tput setaf 6)";                  QRY_READ="read -s -r -n1 -p $'\n$(tput setaf 4 && tput bold)Press any key to continue...$(tput sgr0)' && printf '\n'"; # bold text isnt working so i didn't use variable
-mgn="$(tput setaf 5)";
+mgn="$(tput setaf 5)";                  AWK_VAR="awk -v blk=\${blk} -v red=\${red} -v grn=\${grn} -v ylw=\${ylw} -v blu=\${blu} -v mgn=\${mgn} -v cyn=\${cyn} -v wht=\${wht} -v bld=\${bld} -v rst=\${rst}"
 rst="$(tput sgr 0)";
 bld="$(tput bold)";
 
 # Install mode
 declare INS_QRYS INS_PRMPT INS_PRVW INS_CLR_PRVW
-INS_QRYS="${QRY} --available --qf '${bld}${cyn}%{name}${rst} - ${blu}%{summary}'"
-INS_PRMPT="${cyn}${QRY_PRFX}Install packages${QRY_SFFX}"
-INS_PRVW="${PRVW}"; INS_CLR_PRVW="awk -v bld=${bld} -v rst=\$(tput sgr0) -v cyn=${cyn} -v blu=${blu} -F\":\" '{print blu bld \$1 rst cyn \$2}'"
+INS_QRYS="${QRY} --available --qf '${bld}${cyn}%{name}${rst} - ${blu}%{summary}'"       INS_PRMPT="${cyn}${QRY_PRFX}Install packages${QRY_SFFX}"
+INS_PRVW="${PRVW}";                                                                     INS_CLR_PRVW="${AWK_VAR} -F\":\" '{print blu bld \$1 rst cyn \$2}'"
 # Remove mode
 declare RMV_QRYS RMV_PRMPT RMV_PRVW RMV_CLR_PRVW
-RMV_QRYS="${QRY} --installed --qf '${bld}${red}%{name}${rst} - ${grn}%{summary}'"
-RMV_PRMPT="${red}${QRY_PRFX}Remove packages${QRY_SFFX}"
-RMV_PRVW="${PRVW} --installed"; RMV_CLR_PRVW="awk -v bld=${bld} -v rst=\$(tput sgr0) -v red=${red} -v grn=${grn} -F\":\" '{print grn bld \$1 rst red \$2}'"
+RMV_QRYS="${QRY} --installed --qf '${bld}${red}%{name}${rst} - ${grn}%{summary}'"       RMV_PRMPT="${red}${QRY_PRFX}Remove packages${QRY_SFFX}"
+RMV_PRVW="${PRVW} --installed";                                                         RMV_CLR_PRVW="${AWK_VAR} -F\":\" '{print grn bld \$1 rst red \$2}'"
 # Remove-userinstalled mode
 declare RUI_QRYS RUI_PRMPT RUI_PRVW RUI_CLR_PRVW
-RUI_QRYS="${QRY} --userinstalled --qf '${bld}${ylw}%{name}${rst} - ${red}%{summary}'"
-RUI_PRMPT="${ylw}${QRY_PRFX}User-Installed packages${QRY_SFFX}"
-RUI_PRVW="${PRVW} --installed"; RUI_CLR_PRVW="awk -v bld=${bld} -v rst=\$(tput sgr0) -v ylw=${ylw} -v red=${red} -F\":\" '{print red bld \$1 rst ylw \$2}'"
+RUI_QRYS="${QRY} --userinstalled --qf '${bld}${ylw}%{name}${rst} - ${red}%{summary}'"   RUI_PRMPT="${ylw}${QRY_PRFX}User-Installed packages${QRY_SFFX}"
+RUI_PRVW="${PRVW} --installed";                                                         RUI_CLR_PRVW="${AWK_VAR} -F\":\" '{print red bld \$1 rst ylw \$2}'"
 # Updates mode
 declare UPD_QRY UPD_QRYS UPD_PRVW UPD_PRMPT
-UPD_QRY="${QRY} --upgrades --qf '${grn}%{name}'"
+UPD_QRY="${QRY} --upgrades --qf '${grn}%{name}'"                                        UPD_PRMPT="${grn}${QRY_PRFX}Upgrade packages${QRY_SFFX}"
 UPD_QRYS="if [[ $(${UPD_QRY} | wc -c) -ne 0 ]]; then ${UPD_QRY}; else echo -e ${grn}'No updates available'.; echo -e 'Try refreshing metadata cache...'; fi"
-UPD_PRMPT="${grn}${QRY_PRFX}Upgrade packages${QRY_SFFX}"
 UPD_PRVW="${PRVW}"; 
 
-declare HISTORY="dnf history | tail -n +3 | awk -v mgn=${mgn} -v cyn=${cyn} -v blu=${blu} -v bld=${bld} -v rst=\$(tput sgr0) -F\"|\" '{print mgn \$1 cyn bld \$2 \"\t\" rst blu \$3}'"
+declare HISTORY="dnf history | tail -n +3 | ${AWK_VAR} -F\"|\" '{print mgn \$1 cyn bld \$2 \"\t\" rst blu \$3}'"
 
 SHOW_HELP=$(
 cat <<-EOF
@@ -62,7 +58,7 @@ cat <<-EOF
     ${blu}${bld}Ctrl-e      ${rst}Edit/configure DNF 
     ${blu}${bld}Delete      ${rst}Remove expired cache packages
 
-    ${blu}${bld}Alt-t       ${rst}Topgrade
+    ${blu}${bld}Alt-t       ${rst}Topgrade (upgrade everything)
 
     ${blu}${bld}Enter       ${rst}Confirm selection
     ${blu}${bld}Tab         ${rst}Mark package ()
@@ -93,7 +89,7 @@ FZF_DEFAULT_COMMAND="${INS_QRYS}" \
     --bind "ctrl-z:execute(sudo dnf history undo {1}; ${QRY_READ})" \
     --bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
     --bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
-	--bind "alt-t:execute(topgrade; ${QRY_READ})" \
+	--bind "alt-t:execute(sudo dnf makecache;topgrade; ${QRY_READ})" \
 	--bind "alt-m:execute(sudo dnf makecache; ${QRY_READ})" \
     --bind "alt-a:execute(sudo dnf autoremove;${QRY_READ})" \
     --bind "ctrl-e:execute(sudo \$EDITOR /etc/dnf/dnf.conf > /dev/tty)" \
