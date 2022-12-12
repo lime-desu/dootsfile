@@ -96,6 +96,9 @@ plugins=(
 	zsh-syntax-highlighting
 )
 
+# this should before placed before `"$ZSH/oh-my-zsh.sh"`
+fpath+=${ZSH_CUSTOM:-${ZSH:-$XDG_DATA_HOME/oh-my-zsh}/custom}/plugins/zsh-completions/src
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
