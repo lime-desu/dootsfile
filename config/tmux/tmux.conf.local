@@ -439,10 +439,13 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 # set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 set -g @continuum-boot-options 'alacritty'
-set -g @plugin 'tmux-plugins/tmux-sensible'
 
 set -g @plugin 'catppuccin/tmux'
 set -g @catppuccin_flavour 'mocha' # macchiato, latte, frappe
+
+set -g @plugin 'sainnhe/tmux-fzf'
+TMUX_FZF_LAUNCH_KEY="C-f"
+TMUX_FZF_OPTIONS="$FZF_THEME_CATPPUCCIN_MACCHIATO -p --color=fg:blue,fg+:blue,border:blue"
 
 # Options
 set -g default-terminal "xterm-256color"
@@ -451,3 +454,6 @@ set-option -ga terminal-overrides ",xterm-256color:Tc"
 set -g mouse on
 set -g mode-keys vi
 
+# Control-Shift-{Left,Right} to move window
+bind-key -n C-S-Left swap-window -t -1\; select-window -t -1
+bind-key -n C-S-Right swap-window -t +1\; select-window -t +1

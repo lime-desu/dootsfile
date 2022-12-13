@@ -83,7 +83,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
 	alias-tips
 	git
-	dircycle
+	# rebind this! dircycle
 	extract
 	fzf
 	fd
