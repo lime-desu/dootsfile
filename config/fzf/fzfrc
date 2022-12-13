@@ -1,0 +1,198 @@
+export FZF_SHOW_HELP_OPTS="$(
+cat <<-EOF
+
+        FZF Keybinds Shortcut
+
+        ?           Toggle/Hide Preview
+        C-space     Change preview layout
+        C-e         Open in Editor
+        C-v         Open in VsCode
+        C-o         Launch Application Chooser
+        M-o         Open in Default Appllication
+        C-/         Directory: Navigate on broot            
+        C-/         File: Open in Pager (bat)
+
+        M-s         Toggle Sort
+        C-y         Copy/Yank
+        C-a         Select all
+        C-M-d       Deselect All
+        Del         Delete/Remove file
+
+        Alt-?       Help (this page)
+        ESC         Quit
+EOF
+)"
+
+export FZF_THEME_CATPPUCCIN_MOCHA="
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+
+export FZF_PREVIEW_OPTS="
+--preview '
+    ([[ -f {} ]] && (bat --style=numbers --color=always --language=sh || cat {})) ||
+    ([[ -d {} ]] && (exa --all --tree --links --icons {} | less)) || echo {} 1> /dev/null | head -500'
+"
+# --preview="if [[ {} =~ ('.jpg'|'.JPG'|'.jpeg'|'.png'|'.PNG')$ ]]; then catimg -r2 -w$COLUMNS {};elif [ -d {} ]; then ls --color=always --group-directories-first -H {}:
+
+export FZF_PREVIEW_KEYBIND_OPTS="
+--bind '?:toggle-preview'
+--bind 'alt-?:preview(printf \"${FZF_SHOW_HELP_OPTS}\")'
+--bind 'alt-j:preview-down'
+--bind 'alt-k:preview-up'
+--bind 'ctrl-d:preview-page-down'
+--bind 'ctrl-u:preview-page-up'
+--bind 'ctrl-t:preview-top'
+--bind 'ctrl-b:preview-bottom'
+--bind 'ctrl-space:change-preview-window(right,80%,border-left,nohidden|down,80%,border-top,nohidden|down,50%,border-top,nohidden|up,80%,border-down,nohidden|up,50%,border-down,nohidden|left,80%,border-right,nohidden|left,50%,border-right,nohidden|down:3:nohidden:wrap|up:3,nohidden:wrap|right,50%,border-left,nohidden)'
+"
+export FZF_KEYBIND_SHORTCUTS="
+$FZF_PREVIEW_KEYBIND_OPTS
+--bind 'alt-o:execute(xdg-open {+})'
+--bind 'alt-s:toggle-sort'
+--bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --language=sh  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
+; fi)'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-alt-d:deselect-all'
+--bind 'ctrl-o:execute(flatpak run re.sonny.Junction {+})'
+--bind 'ctrl-y:execute-silent(echo {+} | wl-copy)'
+--bind 'ctrl-e:execute(${EDITOR} {} > /dev/tty)'
+--bind 'ctrl-v:execute(code {+})'
+--bind 'del:execute(rm -iv {};)+reload($FZF_DEFAULT_COMMAND)+clear-screen'
+"
+# --bind 'ctrl-e:execute(echo {} > /tmp/_nvim_cache && nvim {} > /dev/tty 2>&1 )'
+# --bind 'ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline'
+
+export FZF_DEFAULT_COMMAND="fd --color=always --hidden --exclude .git"
+
+export FZF_DEFAULT_OPTS="
+"$FZF_PREVIEW_OPTS"
+"$FZF_KEYBIND_SHORTCUTS"
+"$FZF_THEME_CATPPUCCIN_MOCHA"
+-i
+--ansi
+--layout=reverse
+--info=inline
+--height=90%
+--multi
+--preview-window=:hidden
+"
+
+export FZF_ALT_C_COMMAND="fd --type=d --color=always --hidden --exclude .git"
+
+export FZF_ALT_C_OPTS="
+--preview 'exa -TL=3 --icons {} | head -200'
+--bind 'alt-h:reload(fd --type=d --color=always --follow --exclude .git)'
+--bind 'alt-c:reload(fd -p ~ --color=always --hidden --type=d --follow)'
+"
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+export FZF_CTRL_T_OPTS="
+--exit-0
+--select-1
+--info=default
+--layout=reverse-list
+--header 'Alt-D: Directories | Alt-F: Files | Alt-H: Hide Files'
+--bind 'alt-d:change-prompt(  Directories > )+reload("$FZF_ALT_C_COMMAND")'
+--bind 'alt-f:change-prompt(  Files > )+reload("$FZF_DEFAULT_COMMAND")'
+--bind 'alt-h:change-prompt(  Hide Files > )+reload(fd --type=f --color=always --follow)'
+--preview '(highlight -O ansi -l {} 2> /dev/null ||
+    bat --style=numbers --color=always --language=sh --line-range :500 {} ||
+    exa --tree --icons {}) 2> /dev/null | head -500'
+--bind 'ctrl-t:change-prompt(Home > )+reload(fd --base-directory ~ --color=always --hidden --exclude .git)'
+"
+
+export FZF_CTRL_R_OPTS="
+--preview 'echo {+} | bat --color=always --wrap never --language=sh --style=plain'
+--preview-window down:3:nohidden:wrap"
+
+# export FZF_TMUX_OPTS='-p80% --color=border:blue'
+# FZF_TMUX_CTRL_R_OPT="fzf-tmux -p $FZF_CTRL_R_OPTS"
+# --bind 'alt-p:execute($'FZF_TMUX_OPTS'='-p90% --color=border:blue')'
+
+_fzf_compgen_path() {
+  fd --color=always --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+  fd --color=always --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# use atuin history instead
+fzf-history-widget() {
+  local selected num
+  setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+  selected=( $(atuin history list --cmd-only | tac | awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' | bat --color=always --wrap never --language=sh --style=plain | 
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} ${FZF_DEFAULT_OPTS-} -n2..,.. --scheme=history --bind=ctrl-r:toggle-sort,ctrl-z:ignore ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+  local ret=$?
+  if [ -n "$selected" ]; then
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+    fi
+  fi
+  zle reset-prompt
+  return $ret
+}
+zle      -N       fzf-history-widget
+bindkey '^R'      fzf-history-widget
+
+
+fzf-man-widget() {
+  batman="man {1} | col -bx | bat --language=man --plain --color always --theme=\"Monokai Extended\""
+   man -k . | sort \
+   | awk -v cyan=$(tput setaf 6) -v blue=$(tput setaf 4) -v res=$(tput sgr0) -v bld=$(tput bold) '{ $1=cyan bld $1; $2=res blue;} 1' \
+   | fzf  \
+      -q "$1" \
+      --ansi \
+      --tiebreak=begin \
+      --prompt=' Man > '  \
+      --header="M-t: tl;dr | M-c: cheat.sh | M:m manual " \
+      --preview-window '50%,rounded,<50(up,85%,border-bottom)' \
+      --preview "${batman}" \
+      --bind "enter:execute(man {1})" \
+      --bind "alt-c:+change-preview(cht.sh {1})+change-prompt(ﯽ Cheat > )" \
+      --bind "alt-m:+change-preview(${batman})+change-prompt( Man > )" \
+      --bind "alt-t:+change-preview(tldr --color=always {1})+change-prompt(ﳁ TLDR > )"
+  zle reset-prompt
+}
+zle     -N          fzf-man-widget
+bindkey '^h'        fzf-man-widget
+
+#todo: add colors and preview long list
+fzf-cd-recent-dir-widget () {
+  local dir
+  print -rNC1 -- $dirstack |
+    fzf --read0 --print0 |
+    IFS= read -rd '' dir &&
+    builtin cd -- $dir && zle accept-line
+  zle clear-screen
+}
+
+zle -N fzf-cd-recent-dir-widget
+bindkey '^[C' fzf-cd-recent-dir-widget #<Alt-Shift-C>
+
+fzf-dictionary-widget() {
+local dict wiki wikis gogl
+dict="dict {}"
+wiki="wiki {} > /dev/tty"
+wweb="w3m https://en.wikipedia.org/wiki/{}"
+gogl="w3m https://google.com/search?q=define\ {}"
+  LBUFFER="$LBUFFER$(FZF_DEFAULT_COMMAND= cat /usr/share/dict/*words | sort | uniq -id | \
+    fzf-tmux \
+        -p60% \
+        --layout=default \
+        --header-first \
+        --header="M-w: Wiki | M-d: Define | M-g: Google" \
+        --color=fg:blue,fg+:blue,border:blue \
+        --bind="alt-d:change-preview($dict)" \
+        --bind="alt-w:execute($wiki)" \
+        --bind="alt-g:execute($gogl)" \
+        --prompt=" > " \
+        --preview "$dict" \
+        --preview-window='up,85%,border-bottom,wrap' | paste -sd" " -)"
+  zle reset-prompt
+}
+
+zle     -N    fzf-dictionary-widget
+bindkey '^[d' fzf-dictionary-widget #<Alt-D>

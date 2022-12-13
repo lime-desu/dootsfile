@@ -15,12 +15,11 @@ export ATUIN_NOBIND="true"
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
 # bat
 export BAT_THEME="Catppuccin-mocha"
-export MANPAGER="sh -c 'col -bx | bat -l man -p --theme=Monokai\ Extended'" # bat as manpager
-# man 2 select
+# export MANPAGER="sh -c 'col -bx | bat -l man -p --theme=Monokai\ Extended'" # bat as manpager
 # less (pager, for colored man pages) 
-export LESS_TERMCAP_md=$'\E[01;31m' LESS_TERMCAP_me=$'\E[0m' GROFF_NO_SGR=1
-export LESS_TERMCAP_se=$'\E[0m' LESS_TERMCAP_so=$'\E[01;32m'
-export LESS_TERMCAP_us=$'\E[04;33m' LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_md=$'\E[01;34m' LESS_TERMCAP_me=$'\E[0m' GROFF_NO_SGR=1
+export LESS_TERMCAP_se=$'\E[0m' LESS_TERMCAP_so=$'\E[01;36m'
+export LESS_TERMCAP_us=$'\E[04;35m' LESS_TERMCAP_ue=$'\E[0m'
 # nb
 export NB_DIR="$XDG_DATA_HOME/nb"
 export NBRC_PATH="$XDG_CONFIG_HOME/nbrc"
