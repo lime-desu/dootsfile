@@ -40,7 +40,7 @@
     # (you really should read https://dystroy.org/broot/modal/
     # before as it may not suit everybody even among vim users)
     #
-    # modal: true
+    modal: true
 
     ###############################################################
     # Whether to mark the selected line with a triangle
