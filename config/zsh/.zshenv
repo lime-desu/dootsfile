@@ -10,7 +10,7 @@ export {EDITOR,VISUAL}="nvim"
 
 # atuin
 export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
+# eval "$(atuin init zsh)"
 # bash
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
 # bat
