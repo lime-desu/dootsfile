@@ -50,7 +50,7 @@ export FZF_KEYBIND_SHORTCUTS="
 $FZF_PREVIEW_KEYBIND_OPTS
 --bind 'alt-o:execute(xdg-open {+})'
 --bind 'alt-s:toggle-sort'
---bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --language=sh  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
+--bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --language=sh {}  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
 ; fi)'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-alt-d:deselect-all'

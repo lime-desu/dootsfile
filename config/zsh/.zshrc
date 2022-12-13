@@ -101,6 +101,10 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-$XDG_DATA_HOME/oh-my-zsh}/custom}/plugins/zsh-comple
 
 source $ZSH/oh-my-zsh.sh
 
+source /usr/share/zsh/site-functions/fzf
+zstyle ':autocomplete:tab:*' fzf-completion yes
+zstyle ':autocomplete:*' min-input 1
+
 HISTSIZE=10000000
 SAVEHIST=10000000
 setopt BANG_HIST
