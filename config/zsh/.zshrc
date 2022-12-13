@@ -83,7 +83,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
 	alias-tips
 	git
-	# rebind this! dircycle
+	dircycle
 	extract
 	fzf
 	fd
@@ -154,3 +154,7 @@ bindkey '^[OA' _atuin_search_widget
 
 # fzf config file
 [[ -f $XDG_CONFIG_HOME/fzf/fzfrc ]] && source $XDG_CONFIG_HOME/fzf/fzfrc
+
+# Alt-{Left,Right}
+bindkey '^[[1;3D'	insert-cycledleft
+bindkey '^[[1;3C'	insert-cycledright
