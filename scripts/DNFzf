@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+basename="$(basename "$0")"
+
+if ! hash fzf &> /dev/null; then
+    printf 'Error: Missing dep: fzf is required to use %s.\n' "${basename}" >&2
+    exit 64
+fi
+
+# Colors                                 # Base Commands
+declare blu red grn ylw cyn rst bld mgn QRY PRVW QRY_PRFX QRY_SFFX AWK_VAR                   
+blu="$(tput setaf 4)";                  QRY="dnf --cacheonly --quiet repoquery ";                       
+red="$(tput setaf 1)";                  PRVW="dnf --cacheonly --quiet --color=always info";
+grn="$(tput setaf 2)";                  QRY_PRFX='  ';
+ylw="$(tput setaf 3)";                  QRY_SFFX=' > ';
+cyn="$(tput setaf 6)";                  QRY_READ="read -s -r -n1 -p $'\n$(tput setaf 4 && tput bold)Press any key to continue...$(tput sgr0)' && printf '\n'"; # bold text isnt working so i didn't use variable
+mgn="$(tput setaf 5)";                  AWK_VAR="awk -v blk=\${blk} -v red=\${red} -v grn=\${grn} -v ylw=\${ylw} -v blu=\${blu} -v mgn=\${mgn} -v cyn=\${cyn} -v wht=\${wht} -v bld=\${bld} -v rst=\${rst}"
+rst="$(tput sgr 0)";
+bld="$(tput bold)";
+
+# Install mode
+declare INS_QRYS INS_PRMPT INS_PRVW INS_CLR_PRVW
+INS_QRYS="${QRY} --available --qf '${bld}${cyn}%{name}${rst} - ${blu}%{summary}'"       INS_PRMPT="${cyn}${QRY_PRFX}Install packages${QRY_SFFX}"
+INS_PRVW="${PRVW}";                                                                     INS_CLR_PRVW="${AWK_VAR} -F\":\" '{print blu bld \$1 rst cyn \$2}'"
+# Remove mode
+declare RMV_QRYS RMV_PRMPT RMV_PRVW RMV_CLR_PRVW
+RMV_QRYS="${QRY} --installed --qf '${bld}${red}%{name}${rst} - ${grn}%{summary}'"       RMV_PRMPT="${red}${QRY_PRFX}Remove packages${QRY_SFFX}"
+RMV_PRVW="${PRVW} --installed";                                                         RMV_CLR_PRVW="${AWK_VAR} -F\":\" '{print grn bld \$1 rst red \$2}'"
+# Remove-userinstalled mode
+declare RUI_QRYS RUI_PRMPT RUI_PRVW RUI_CLR_PRVW
+RUI_QRYS="${QRY} --userinstalled --qf '${bld}${ylw}%{name}${rst} - ${red}%{summary}'"   RUI_PRMPT="${ylw}${QRY_PRFX}User-Installed packages${QRY_SFFX}"
+RUI_PRVW="${PRVW} --installed";                                                         RUI_CLR_PRVW="${AWK_VAR} -F\":\" '{print red bld \$1 rst ylw \$2}'"
+# Updates mode
+declare UPD_QRY UPD_QRYS UPD_PRVW UPD_PRMPT
+UPD_QRY="${QRY} --upgrades --qf '${grn}%{name}'"                                        UPD_PRMPT="${grn}${QRY_PRFX}Upgrade packages${QRY_SFFX}"
+UPD_QRYS="if [[ $(${UPD_QRY} | wc -c) -ne 0 ]]; then ${UPD_QRY}; else echo -e ${grn}'No updates available'.; echo -e 'Try refreshing metadata cache...'; fi"
+UPD_PRVW="${PRVW}"; 
+
+declare HISTORY="dnf history | tail -n +3 | ${AWK_VAR} -F\"|\" '{print mgn \$1 cyn bld \$2 \"\t\" rst blu \$3}'"
+
+SHOW_HELP=$(
+cat <<-EOF
+
+    ${blu}${bld}${basename}${rst}
+    ${blu}Interactive package manager for Fedora
+
+    ${blu}${bld}Alt-i       ${rst}Install packages (default)
+    ${blu}${bld}Alt-r       ${rst}Remove packages
+    ${blu}${bld}Alt-e       ${rst}Erase/Remove User-Installed packages
+    ${blu}${bld}Alt-u       ${rst}Updates mode
+    ${blu}${bld}Alt-m       ${rst}Update package metadata cache
+    ${blu}${bld}Alt-a       ${rst}Auto remove packages/dependencies
+
+    ${blu}${bld}Ctrl-h      ${rst}History mode
+    ${blu}${bld}Ctrl-z      ${rst}Undo History 
+    ${blu}${bld}Ctrl-y      ${rst}Redo History
+
+    ${blu}${bld}Ctrl-a      ${rst}Select all
+    ${blu}${bld}Ctrl-e      ${rst}Edit/configure DNF 
+    ${blu}${bld}Delete      ${rst}Remove expired cache packages
+
+    ${blu}${bld}Alt-t       ${rst}Topgrade (upgrade everything)
+
+    ${blu}${bld}Enter       ${rst}Confirm selection
+    ${blu}${bld}Tab         ${rst}Mark package ()
+    ${blu}${bld}Shift-Tab   ${rst}Unmark package
+
+    ${blu}${bld}Alt-?       ${rst}Help (this page)
+    ${blu}${bld}ESC         ${rst}Quit                          
+EOF
+)
+
+declare tmp_file
+if tmp_file="$(mktemp --tmpdir "${basename}".XXXXXX)"; then
+printf 'in' > "${tmp_file}" && SHELL='/bin/bash' \
+FZF_DEFAULT_COMMAND="${INS_QRYS}" \
+	fzf-tmux -p75% --ansi --multi --tiebreak=begin --query="$*" \
+    	--prompt="${INS_PRMPT}" --layout=reverse-list --marker=' ' \
+    	--header=" ${basename} | Press Alt+? for help or ESC to quit"   --header-first \
+    	--preview-window "50%,<50(up,60%,border-rounded)" \
+    	--preview="${INS_PRVW} {1} | ${INS_CLR_PRVW}" \
+    	--bind="enter:execute(if grep -q 'in' \"${tmp_file}\"; then sudo dnf install {1}; 
+		elif grep -q 'rm' \"${tmp_file}\"; then sudo dnf remove {1}; \
+		elif grep -q 'up' \"${tmp_file}\"; then sudo dnf upgrade {1}; fi; ${QRY_READ})" \
+	--bind "alt-i:reload(${INS_QRYS})+change-preview(${INS_PRVW} {1} | ${INS_CLR_PRVW})+change-prompt(${INS_PRMPT})+execute-silent(printf 'in' > \"${tmp_file}\")+first" \
+	--bind "alt-r:reload(${RMV_QRYS})+change-preview(${RMV_PRVW} {1} | ${RMV_CLR_PRVW})+change-prompt(${RMV_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
+	--bind "alt-e:reload(${RUI_QRYS})+change-preview(${RUI_PRVW} {1} | ${RUI_CLR_PRVW})+change-prompt(${RUI_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
+	--bind "alt-u:reload(${UPD_QRYS})+change-preview(${UPD_PRVW} {1})+change-prompt(${UPD_PRMPT})+execute-silent(printf 'up' > \"${tmp_file}\")+first" \
+    	--bind "ctrl-h:reload($HISTORY)+change-prompt(  History > )" \
+	--bind "ctrl-z:execute(sudo dnf history undo {1}; ${QRY_READ})" \
+	--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
+	--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
+	--bind "alt-t:execute(sudo dnf makecache;topgrade; ${QRY_READ})" \
+	--bind "alt-m:execute(sudo dnf makecache; ${QRY_READ})" \
+	--bind "alt-a:execute(sudo dnf autoremove;${QRY_READ})" \
+	--bind "ctrl-e:execute(sudo \$EDITOR /etc/dnf/dnf.conf > /dev/tty)" \
+	--bind "del:execute(sudo dnf clean packages expire-cache; ${QRY_READ})" \
+	--bind "alt-d:execute(sudo dnf distrosync;${QRY_READ})" \
+	--bind "alt-?:preview(printf '${SHOW_HELP}')" \
+	--bind "ctrl-a:select-all" 
+rm -f "${tmp_file}" &> /dev/null
+else
+    printf "Error: Failed to create tmp file. %s $TMPDIR (or /tmp if $TMPDIR is unset) may not be writable.\n" >&2
+    exit 65
+fi

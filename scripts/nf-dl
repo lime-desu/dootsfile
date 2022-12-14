@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# prevent the install_font from executing when exiting or closing fzf
+set -o pipefail 
+
+FONTDIR="$HOME/.local/share/fonts"
+
+get_nf_links() {
+	curl --silent https://www.nerdfonts.com/font-downloads | grep '/download/' | cut -d'"' -f 2 | sort -u 
+}
+
+set_nf_name() {
+	get_nf_links | \
+		awk -v blu=$(tput setaf 4) -v cyn=$(tput setaf 6) -v bld=$(tput bold) -v rst=$(tput sgr0)\
+		-F'/' '
+		{
+			print blu bld $9 rst "&& - " cyn $0
+		}' \
+		| sed 's/\.zip//' | column -ts '&&'
+}
+
+install_font() {
+	[ -d "${FONTDIR}" ] || mkdir -p "${FONTDIR}"
+	filename=$(unzip -Z *.zip | head -1 | sed 's/Archive:  //' | sed 's/.zip//' )
+	mkdir -p "${FONTDIR}/$filename"
+	unzip "$filename" -d "${FONTDIR}/$filename/"
+	fc-cache -fv "${FONTDIR}"
+	rm -i *.zip 
+	[ -e "${FONTDIR}" ] && echo "Nerd Font: $filename has been installed"
+}
+
+set_nf_name | \
+fzf --ansi -m \
+	--no-separator \
+	--bind "del:execute([ -d ${FONTDIR}/{1} ] && rm -IR ${FONTDIR}/{1})" \
+	--layout=reverse \
+	--tiebreak=begin  | awk '{print $3}' | xargs -ro wget && install_font
