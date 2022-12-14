@@ -445,7 +445,13 @@ set -g @catppuccin_flavour 'mocha' # macchiato, latte, frappe
 
 set -g @plugin 'sainnhe/tmux-fzf'
 TMUX_FZF_LAUNCH_KEY="C-f"
-TMUX_FZF_OPTIONS="$FZF_THEME_CATPPUCCIN_MACCHIATO -p --color=fg:blue,fg+:blue,border:blue"
+# variable doesnt work :/
+# TMUX_FZF_OPTIONS="$FZF_THEME_CATPPUCCIN_MOCHA -p --color=fg:blue,fg+:blue,border:blue"
+ 
+TMUX_FZF_OPTIONS="--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+-p --color=fg:blue,fg+:blue,border:blue"
 
 # Options
 set -g default-terminal "xterm-256color"
