@@ -148,7 +148,7 @@ fzf-man-widget() {
       --tiebreak=begin \
       --prompt=' Man > '  \
       --header="M-t: tl;dr | M-c: cheat.sh | M:m manual " \
-      --preview-window '50%,rounded,<50(up,85%,border-bottom)' \
+      --preview-window '50%,rounded,<50(down,80%,border-up)' \
       --preview "${batman}" \
       --bind "enter:execute(man {1})" \
       --bind "alt-c:+change-preview(cht.sh {1})+change-prompt(ﯽ Cheat > )" \
