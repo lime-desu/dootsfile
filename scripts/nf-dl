@@ -3,7 +3,15 @@
 # prevent the install_font from executing when exiting or closing fzf
 set -o pipefail 
 
-FONTDIR="$HOME/.local/share/fonts"
+if [ "$(uname -s)" == "Linux" ]; then
+    FONT_DIR="$HOME/.local/share/fonts"
+fi
+
+if [ "$(uname -s)" == "Darwin" ]; then
+    FONT_DIR="/Applications/Fonts"
+fi
+
+blu=$(tput setaf 4) cyn=$(tput setaf 6) bld=$(tput bold) rst=$(tput sgr0)
 
 get_nf_links() {
 	curl --silent https://www.nerdfonts.com/font-downloads | grep '/download/' | cut -d'"' -f 2 | sort -u 
@@ -11,7 +19,7 @@ get_nf_links() {
 
 set_nf_name() {
 	get_nf_links | \
-		awk -v blu=$(tput setaf 4) -v cyn=$(tput setaf 6) -v bld=$(tput bold) -v rst=$(tput sgr0)\
+		awk -v blu="${blu}" -v cyn="${cyn}" -v bld="${bld}" -v rst="${rst}" \
 		-F'/' '
 		{
 			print blu bld $9 rst "&& - " cyn $0
@@ -20,18 +28,22 @@ set_nf_name() {
 }
 
 install_font() {
-	[ -d "${FONTDIR}" ] || mkdir -p "${FONTDIR}"
+	[ -d "${FONT_DIR}" ] || mkdir -p "${FONT_DIR}"
 	filename=$(unzip -Z *.zip | head -1 | sed 's/Archive:  //' | sed 's/.zip//' )
-	mkdir -p "${FONTDIR}/$filename"
-	unzip "$filename" -d "${FONTDIR}/$filename/"
-	fc-cache -fv "${FONTDIR}"
+	mkdir -p "${FONT_DIR}/$filename"
+	unzip "$filename" -d "${FONT_DIR}/$filename/"
+	fc-cache -f "${FONT_DIR}"
+	echo -e "${blu}${bld}$filename.zip : ${rst}${cyn}has been downloaded\n${rst}Would you like to delete or keep the file(y/n):"
 	rm -i *.zip 
-	[ -e "${FONTDIR}" ] && echo "Nerd Font: $filename has been installed"
+	[ -e "${FONT_DIR}/$filename" ] && echo "${cyn}Nerd Font: ${blu}${bld}$filename ${rst}has been installed"
 }
 
+# if using fzf v35 below // remove --no-separator
 set_nf_name | \
-fzf --ansi -m \
+fzf --ansi -m +x \
 	--no-separator \
-	--bind "del:execute([ -d ${FONTDIR}/{1} ] && rm -IR ${FONTDIR}/{1})" \
-	--layout=reverse \
-	--tiebreak=begin  | awk '{print $3}' | xargs -ro wget && install_font
+	--tiebreak=begin \
+	--header="NerdFont Download" \
+	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
+	--layout=reverse | awk '{print $3}' | xargs -ro wget && install_font
+	
