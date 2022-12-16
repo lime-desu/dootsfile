@@ -160,4 +160,6 @@ bindkey '^[OA' _atuin_search_widget
 bindkey '^[[1;3D'	insert-cycledleft
 bindkey '^[[1;3C'	insert-cycledright
 
-source $DOOTS/scripts/*.sh
+# source $DOOTS/scripts/*.sh # fzf git doesnt get sourced here hmm...
+source $DOOTS/scripts/fzf-flatpak.sh
+source $DOOTS/scripts/fzf-git.sh
