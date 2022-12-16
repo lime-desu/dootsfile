@@ -9,3 +9,6 @@
 	rebase = false
 [core]
 	excludesfile = $HOME/.config/git/gitignore
+[gc]
+	reflogExpire = 200
+	reflogExpireUnreachable = 90
