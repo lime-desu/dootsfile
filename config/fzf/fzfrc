@@ -71,10 +71,11 @@ export FZF_DEFAULT_OPTS="
 "$FZF_THEME_CATPPUCCIN_MOCHA"
 -i
 --ansi
---layout=reverse
---info=inline
---height=90%
 --multi
+--height=90%
+--info=inline
+--no-separator
+--layout=reverse
 --preview-window=:hidden
 "
 
@@ -111,6 +112,7 @@ export FZF_CTRL_R_OPTS="
 # FZF_TMUX_CTRL_R_OPT="fzf-tmux -p $FZF_CTRL_R_OPTS"
 # --bind 'alt-p:execute($'FZF_TMUX_OPTS'='-p90% --color=border:blue')'
 
+# fzf completion '**' doesn't preview files (idk if it is a bug)
 _fzf_compgen_path() {
   fd --color=always --hidden --follow --exclude ".git" . "$1"
 }
@@ -118,7 +120,8 @@ _fzf_compgen_dir() {
   fd --color=always --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-# use atuin history instead
+# use atuin history instead 
+# todo figure this out: pressing enter the history doesn't get accepted 
 fzf-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null

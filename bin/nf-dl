@@ -41,7 +41,6 @@ install_font() {
 # if using fzf v35 below // remove --no-separator
 set_nf_name | \
 fzf --ansi -m +x \
-	--no-separator \
 	--tiebreak=begin \
 	--header="NerdFont Download" \
 	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
