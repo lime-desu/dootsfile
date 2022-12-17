@@ -32,7 +32,7 @@ RUI_PRVW="${PRVW} --installed";                                                 
 # Updates mode
 declare UPD_QRY UPD_QRYS UPD_PRVW UPD_PRMPT
 UPD_QRY="${QRY} --upgrades --qf '${grn}%{name}'"                                        UPD_PRMPT="${grn}${QRY_PRFX}Upgrade packages${QRY_SFFX}"
-UPD_QRYS="if [[ $(${UPD_QRY} | wc -c) -ne 0 ]]; then ${UPD_QRY}; else echo -e ${grn}'No updates available'.; echo -e 'Try refreshing metadata cache...'; fi"
+UPD_QRYS="if [[ \$(${UPD_QRY} | wc -c) -ne 0 ]]; then ${UPD_QRY}; else echo -e ${grn}'No updates available'.; echo -e 'Try refreshing metadata cache...'; fi"
 UPD_PRVW="${PRVW}"; 
 
 declare HISTORY="dnf history | tail -n +8 | awk -v mgn=\$(tput setaf 5) -v cyn=\$(tput setaf 6) -v bld=\$(tput bold) -v rst=\$(tput sgr0) -v blu=\$(tput setaf 4) -F\"|\" '{print mgn \$1 cyn bld \$2 rst blu \$3}'"
@@ -75,7 +75,7 @@ declare tmp_file
 if tmp_file="$(mktemp --tmpdir "${basename}".XXXXXX)"; then
 printf 'in' > "${tmp_file}" && SHELL='/bin/bash' \
 FZF_DEFAULT_COMMAND="${INS_QRYS}" \
-	fzf --ansi --multi --tiebreak=begin --query="$*" \
+	fzf --ansi --multi --tiebreak=begin --query="$*" --no-separator \
     --prompt="${INS_PRMPT}" --layout=reverse-list --marker=' ' \
     --header=" ${basename} | Press Alt+? for help or ESC to quit"   --header-first \
     --preview-window "50%,<50(up,60%,border-rounded)" \
