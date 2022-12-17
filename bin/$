@@ -1,9 +1,62 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 # Ever pasted "$ somecommand" into the terminal and gotten this error?
 # -bash: $: command not found
 
 # Begone, silly errors! Lazy copy + paste forever!! ETCETERA!!!!
 
-echo 'Quit pasting in commands from the internet, you lazy bum.'
+random_messages=(
+  "Quit pasting in commands from the internet, you lazy bum."
+  "What do you think this is, a magic terminal that can execute any random command you throw at it?"
+  "Are you trying to break the terminal with your ridiculous command-pasting habits?"
+  "You can't just copy and paste random commands from the internet and expect them to work."
+  "Do you even know what the commands you're pasting in do, or are you just blindly hoping they'll work?"
+  "Pasting in commands from the internet doesn't make you a hacker, it just makes you lazy."
+  "I'm not a genie that can make any random command you paste work." 
+  "I think it's time to retire your copy-paste finger and try actually typing out commands."
+  "I'm not a fan of your copy-pasting habits. Try typing out a real command for once."
+  "Do you even know what you're doing, or are you just blindly pasting commands from the internet?"
+  "Maybe try actually understanding what the commands you're running do before you execute them."
+  "Seriously? You expect me to run that command? I'm not that gullible."
+  )
+
+error_messages=(
+  "I'm not sure what you were trying to do with that command, but it's not going to work."
+  "I'm not sure what kind of sorcery you were trying to perform with that command, but it's not going to work."
+  "I'm sorry, but I refuse to execute your ridiculous command."
+  "I'm sorry, but I can't execute your nonsensical command."
+  "I'm sorry, but I can't execute your command. It goes against everything I stand for."
+  "I'm sorry, but I can't execute your command. It's just too absurd."
+  "I'm sorry, but I can't execute your command. It's too ridiculous, even for me."
+  "I'm sorry, but I can't execute your command. It's too absurd to be taken seriously."
+  "I'm sorry, but I can't execute your command. It's just too absurd to be believed."
+)
+
+# colors are in bold text
+colors=(
+  '\033[1;31m' # red
+  '\033[1;32m' # green
+  '\033[1;33m' # yellow
+  '\033[1;34m' # blue
+  '\033[1;35m' # purple
+  '\033[1;36m' # cyan
+)
+# escape bold text 
+normal="\033[0m"
+
+# generate a random index into array colors
+index=$(( $RANDOM % ${#colors[@]} ))
+random_color=${colors[$index]}
+
+exit_status=$?
+# Check the exit status of the command
+if [ $exit_status -eq 0 ]; then
+	selected_message=${random_messages[$RANDOM % ${#random_messages[@]}]}
+else
+	selected_message=${error_messages[$RANDOM % ${#error_messages[@]}]}
+fi
+
+echo -e "${random_color}$selected_message${normal}\n"
 "$@"
+
+exit $exit_status
