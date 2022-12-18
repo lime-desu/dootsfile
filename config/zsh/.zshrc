@@ -163,3 +163,6 @@ bindkey '^[[1;3C'	insert-cycledright
 # source $DOOTS/scripts/*.sh # fzf git doesnt get sourced here hmm...
 source $DOOTS/scripts/fzf-flatpak.sh
 source $DOOTS/scripts/fzf-git.sh
+
+# To customize prompt, run `p10k configure` or edit ~/Git/Local/dootfiles/config/zsh/.p10k.zsh.
+[[ ! -f ~/Git/Local/dootfiles/config/zsh/.p10k.zsh ]] || source ~/Git/Local/dootfiles/config/zsh/.p10k.zsh
