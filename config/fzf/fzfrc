@@ -28,12 +28,13 @@ export FZF_THEME_CATPPUCCIN_MOCHA="
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
-export FZF_PREVIEW_OPTS="
---preview '
-    ([[ -f {} ]] && (bat --style=numbers --color=always --language=sh || cat {})) ||
-    ([[ -d {} ]] && (exa --all --tree --links --icons {} | less)) || echo {} 1> /dev/null | head -500'
+export FZF_PREVIEW_OPTS="--preview
+'([[ {} =~ ('.jpg'|'.JPG'|'.jpeg'|'.png'|'.PNG')$ ]] && (catimg -w 100 {})) || 
+([[ -f {} ]] && (bat --style=header,numbers,changes,plain --color=always --language=sh --line-range :500 {} || cat {})) || 
+([[ -d {} ]] && (exa --all --tree --level=5 --icons {} | less )) || echo {} 2>/dev/null | head -n 500'
 "
-# --preview="if [[ {} =~ ('.jpg'|'.JPG'|'.jpeg'|'.png'|'.PNG')$ ]]; then catimg -r2 -w$COLUMNS {};elif [ -d {} ]; then ls --color=always --group-directories-first -H {}:
+
+#'([[ \$(file -bL --mime-type {} 2> /dev/null = image) ]] && (catimg -w 100 {})) || # throwing an stb error cant silence
 
 export FZF_PREVIEW_KEYBIND_OPTS="
 --bind '?:toggle-preview'
@@ -82,7 +83,7 @@ export FZF_DEFAULT_OPTS="
 export FZF_ALT_C_COMMAND="fd --type=d --color=always --hidden --exclude .git"
 
 export FZF_ALT_C_OPTS="
---preview 'exa -TL=3 --icons {} | head -200'
+--preview 'exa --long --tree --level=3 --icons --links {} | head -500'
 --bind 'alt-h:reload(fd --type=d --color=always --follow --exclude .git)'
 --bind 'alt-c:reload(fd -p ~ --color=always --hidden --type=d --follow)'
 "
@@ -97,10 +98,8 @@ export FZF_CTRL_T_OPTS="
 --header 'Alt-D: Directories | Alt-F: Files | Alt-H: Hide Files'
 --bind 'alt-d:change-prompt(  Directories > )+reload("$FZF_ALT_C_COMMAND")'
 --bind 'alt-f:change-prompt(  Files > )+reload("$FZF_DEFAULT_COMMAND")'
+$FZF_PREVIEW_OPTS
 --bind 'alt-h:change-prompt(  Hide Files > )+reload(fd --type=f --color=always --follow)'
---preview '(highlight -O ansi -l {} 2> /dev/null ||
-    bat --style=numbers --color=always --language=sh --line-range :500 {} ||
-    exa --tree --icons {}) 2> /dev/null | head -500'
 --bind 'ctrl-t:change-prompt(Home > )+reload(fd --base-directory ~ --color=always --hidden --exclude .git)'
 "
 
