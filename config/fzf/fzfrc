@@ -29,7 +29,7 @@ export FZF_THEME_CATPPUCCIN_MOCHA="
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 export FZF_PREVIEW_OPTS="--preview
-'([[ {} =~ ('.jpg'|'.JPG'|'.jpeg'|'.png'|'.PNG')$ ]] && (catimg -w 100 {})) || 
+'([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]] && (chafa {} && exiftool {})) || 
 ([[ -f {} ]] && (bat --style=header,numbers,changes,plain --color=always --language=sh --line-range :500 {} || cat {})) || 
 ([[ -d {} ]] && (exa --all --tree --level=5 --icons {} | less )) || echo {} 2>/dev/null | head -n 500'
 "
@@ -51,8 +51,14 @@ export FZF_KEYBIND_SHORTCUTS="
 $FZF_PREVIEW_KEYBIND_OPTS
 --bind 'alt-o:execute(xdg-open {+})'
 --bind 'alt-s:toggle-sort'
---bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --style=\"header,numbers,changes\" --language=sh {}  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
-; fi)'
+--bind 'ctrl-/:execute(
+if [[ -d {} ]]; then
+  broot {} < /dev/tty > /dev/tty 2>&1
+elif [[ \$(file --mime {}) =~ image/ ]]; then
+  chafa {} | less > /dev/tty
+else
+  bat --paging=always --style=plain --color=always --language=sh {} > /dev/tty
+fi)'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-alt-d:deselect-all'
 --bind 'ctrl-o:execute(flatpak run re.sonny.Junction {+})'
@@ -61,8 +67,9 @@ $FZF_PREVIEW_KEYBIND_OPTS
 --bind 'ctrl-v:execute(code {+})'
 --bind 'del:execute(rm -iv {};)+reload($FZF_DEFAULT_COMMAND)+clear-screen'
 "
-# --bind 'ctrl-e:execute(echo {} > /tmp/_nvim_cache && nvim {} > /dev/tty 2>&1 )'
 # --bind 'ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline'
+# --bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --style=\"header,numbers,changes\" --language=sh {}  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
+# ; fi)'
 
 export FZF_DEFAULT_COMMAND="fd --color=always --hidden --exclude .git"
 
