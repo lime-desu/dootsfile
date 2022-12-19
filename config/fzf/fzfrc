@@ -31,7 +31,7 @@ export FZF_THEME_CATPPUCCIN_MOCHA="
 export FZF_PREVIEW_OPTS="--preview
 '([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]] && (chafa {} && exiftool {})) || 
 ([[ -f {} ]] && (bat --style=header,numbers,changes,plain --color=always --language=sh --line-range :500 {} || cat {})) || 
-([[ -d {} ]] && (exa --all --tree --level=5 --icons {} | less )) || echo {} 2>/dev/null | head -n 500'
+([[ -d {} ]] && (lsd  -all --long --tree --depth=5 --group-dirs=first -I=.git {} )) || echo {} 3>/dev/null | head -n 500'
 "
 
 #'([[ \$(file -bL --mime-type {} 2> /dev/null = image) ]] && (catimg -w 100 {})) || # throwing an stb error cant silence
@@ -90,7 +90,8 @@ export FZF_DEFAULT_OPTS="
 export FZF_ALT_C_COMMAND="fd --type=d --color=always --hidden --exclude .git"
 
 export FZF_ALT_C_OPTS="
---preview 'exa --long --tree --level=3 --icons --links {} | head -500'
+--preview 'lsd --all --tree --depth=3 {} | head -500'
+--preview-window 'nohidden,<50(up,65%,border-bottom)'
 --bind 'alt-h:reload(fd --type=d --color=always --follow --exclude .git)'
 --bind 'alt-c:reload(fd -p ~ --color=always --hidden --type=d --follow)'
 "
@@ -105,7 +106,6 @@ export FZF_CTRL_T_OPTS="
 --header 'Alt-D: Directories | Alt-F: Files | Alt-H: Hide Files'
 --bind 'alt-d:change-prompt(  Directories > )+reload("$FZF_ALT_C_COMMAND")'
 --bind 'alt-f:change-prompt(  Files > )+reload("$FZF_DEFAULT_COMMAND")'
-$FZF_PREVIEW_OPTS
 --bind 'alt-h:change-prompt(  Hide Files > )+reload(fd --type=f --color=always --follow)'
 --bind 'ctrl-t:change-prompt(Home > )+reload(fd --base-directory ~ --color=always --hidden --exclude .git)'
 "
