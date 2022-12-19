@@ -2,4 +2,4 @@
 *.cava
 *.txt
 *zcompdump*
-
+*.luarc.*
