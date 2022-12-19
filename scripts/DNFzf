@@ -75,19 +75,24 @@ declare tmp_file
 if tmp_file="$(mktemp --tmpdir "${basename}".XXXXXX)"; then
 printf 'in' > "${tmp_file}" && SHELL='/bin/bash' \
 FZF_DEFAULT_COMMAND="${INS_QRYS}" \
-	fzf --ansi --multi --tiebreak=begin --query="$*" --no-separator \
-    --prompt="${INS_PRMPT}" --layout=reverse-list --marker=' ' \
-    --header=" ${basename} | Press Alt+? for help or ESC to quit"   --header-first \
-    --preview-window "50%,<50(up,60%,border-rounded)" \
-    --preview="${INS_PRVW} {1} | ${INS_CLR_PRVW}" \
-    --bind="enter:execute(if grep -q 'in' \"${tmp_file}\"; then sudo dnf install {1}; 
-    elif grep -q 'rm' \"${tmp_file}\"; then sudo dnf remove {1}; \
-    elif grep -q 'up' \"${tmp_file}\"; then sudo dnf upgrade {1}; fi; ${QRY_READ})" \
+    fzf --ansi --multi --tiebreak=begin --query="$*" --no-separator \
+        --prompt="${INS_PRMPT}" --layout=reverse-list --marker=' ' \
+        --header=" ${basename} | Press Alt+? for help or ESC to quit"   --header-first \
+        --preview-window "50%,<50(up,60%,border-rounded)" \
+        --preview="${INS_PRVW} {1} | ${INS_CLR_PRVW}" \
+        --bind="enter:execute(
+	if grep -q 'in' \"${tmp_file}\"; then 
+	    sudo dnf install {+1}; 
+        elif grep -q 'rm' \"${tmp_file}\"; then 
+	    sudo dnf remove {+1}; \
+        elif grep -q 'up' \"${tmp_file}\"; then 
+	    sudo dnf upgrade {+}; 
+	fi; ${QRY_READ})" \
 	--bind "alt-i:reload(${INS_QRYS})+change-preview(${INS_PRVW} {1} | ${INS_CLR_PRVW})+change-prompt(${INS_PRMPT})+execute-silent(printf 'in' > \"${tmp_file}\")+first" \
 	--bind "alt-r:reload(${RMV_QRYS})+change-preview(${RMV_PRVW} {1} | ${RMV_CLR_PRVW})+change-prompt(${RMV_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
 	--bind "alt-e:reload(${RUI_QRYS})+change-preview(${RUI_PRVW} {1} | ${RUI_CLR_PRVW})+change-prompt(${RUI_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
 	--bind "alt-u:reload(${UPD_QRYS})+change-preview(${UPD_PRVW} {1})+change-prompt(${UPD_PRMPT})+execute-silent(printf 'up' > \"${tmp_file}\")+first" \
-    --bind "ctrl-h:reload($HISTORY)+change-prompt(  History > )" \
+	--bind "ctrl-h:reload($HISTORY)+change-prompt(  History > )+change-preview-window(hidden)" \
 	--bind "ctrl-z:execute(sudo dnf history undo {1}; ${QRY_READ})" \
 	--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
 	--bind "alt-t:execute(sudo dnf makecache;topgrade; ${QRY_READ})" \
