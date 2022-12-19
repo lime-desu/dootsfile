@@ -23,12 +23,11 @@ if [[ $- =~ i ]]; then
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 _fzf_flatpak_fzf() {
   fzf-tmux -p85% -- \
-    --ansi --nth=1.. \
-	--no-separator \
-    --layout=reverse --multi --height=50% --border \
+    --tiebreak=begin \
+    -m --ansi --nth=1.. \
     --color='header:italic:underline' \
     --color='fg:blue,fg+:blue,border:blue' \
-    --tiebreak=begin \
+    --layout=reverse --height=50% --border \
     --preview-window "nohidden,50%,<50(down,60%,border-rounded)" \
     --bind="alt-?:preview(printf \"${FZF_FLATPAK_HELP}\")"  "$@"
 }
@@ -59,7 +58,7 @@ _fzf_flatpak_install() {
     --preview "flatpak --system remote-info flathub {-1} | awk $AWK_COLOR_VAR -F\":\" '{print YLW BLD \$1 RST MGN \$2}'" \
     --bind="alt-u:execute(flatpak update > /dev/tty; read -r)" \
     --bind="alt-m:change-preview(flatpak metadata {-1})" \
-    --bind "enter:execute(flatpak install flathub {-1} > /dev/tty)+clear-screen" "$@"
+    --bind "enter:execute(flatpak install flathub {+-1} > /dev/tty)+clear-screen" "$@"
 }
 
 # _fzf_flatpak_remotes?() {
@@ -84,16 +83,17 @@ _fzf_flatpak_installed_lists-no_runtimes() {
     flatpak list --app --columns=application,name | _fzf_flatpak_installed_lists
 }
 
+# `flatpak run` only accepts one argument so it isn't possible to run multiple apps
 _fzf_flatpak_fzf_installed_lists() {
   _fzf_flatpak_fzf \
     --header="M-u: Uninstall | Del: Remove Unused | F4: Kill |M-r: Run" \
-    --bind "f4:execute(flatpak kill {-1})" \
+    --bind "f4:execute(flatpak kill {+-1})" \
     --bind "del:execute(flatpak remove --unused > /dev/tty; read -r)" \
     --bind "alt-r:change-prompt(  Run > )+execute-silent(touch /tmp/run && rm -r /tmp/uns)" \
     --bind "alt-u:change-prompt(  Uninstall > )+execute-silent(touch /tmp/uns && rm -r /tmp/run)" \
     --bind "enter:execute(
     if [ -f /tmp/uns ]; then 
-      flatpak uninstall {-1} > /dev/tty; 
+      flatpak uninstall {+-1} > /dev/tty; 
     elif [ -f /tmp/run ]; then
       flatpak run {-1} > /dev/null; 
     fi
