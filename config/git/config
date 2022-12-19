@@ -1,14 +1,53 @@
 [user]
-	name = lime
-	email = 114978689+lime-desu@users.noreply.github.com
+    name = lime
+    email = 114978689+lime-desu@users.noreply.github.com
+
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
 [color]
-	ui = auto
+    ui = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red
+    new = green 
+    
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = red
+
 [pull]
-	rebase = false
+    rebase = false
+
 [core]
-	excludesfile = $HOME/.config/git/gitignore
+    pager = delta
+    excludesfile = $HOME/.config/git/gitignore
+
 [gc]
-	reflogExpire = 200
-	reflogExpireUnreachable = 90
+    reflogExpire = 200
+    reflogExpireUnreachable = 90
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    line-numbers = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[help]
+    autocorrect = 1
