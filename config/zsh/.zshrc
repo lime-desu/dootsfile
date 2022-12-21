@@ -139,7 +139,6 @@ setopt HIST_IGNORE_SPACE
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source $HOME/.config/broot/launcher/bash/br
 
 alias update-grub="sudo grub2-mkconfig -o /etc/grub2.cfg && sudo grub2-mkconfig -o /etc/grub2-efi.cfg && sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
 
@@ -160,9 +159,8 @@ bindkey '^[OA' _atuin_search_widget
 bindkey '^[[1;3D'	insert-cycledleft
 bindkey '^[[1;3C'	insert-cycledright
 
+source $XDG_CONFIG_HOME/broot/launcher/bash/br
 # source $DOOTS/scripts/*.sh # fzf git doesnt get sourced here hmm...
 source $DOOTS/scripts/fzf-flatpak.sh
 source $DOOTS/scripts/fzf-git.sh
 
-# To customize prompt, run `p10k configure` or edit ~/Git/Local/dootfiles/config/zsh/.p10k.zsh.
-[[ ! -f ~/Git/Local/dootfiles/config/zsh/.p10k.zsh ]] || source ~/Git/Local/dootfiles/config/zsh/.p10k.zsh

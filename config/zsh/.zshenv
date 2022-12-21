@@ -23,6 +23,8 @@ export LESS_TERMCAP_se=$'\E[0m' LESS_TERMCAP_so=$'\E[01;31m'
 # man (use less as man pager for now)
 export MANPAGER="less -R --use-color -Dd+b -Du+c"
 # export MANPAGER="sh -c 'col -bx | bat -l man -p --theme=Monokai\ Extended'" # bat as manpager
+# libice
+export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority 
 # nb
 export NB_DIR="$XDG_DATA_HOME/nb"
 export NBRC_PATH="$XDG_CONFIG_HOME/nbrc"
