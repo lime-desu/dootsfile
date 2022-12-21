@@ -127,8 +127,7 @@ _fzf_compgen_dir() {
 }
 
 # use atuin history instead 
-# todo figure this out: pressing enter the history doesn't get accepted 
-fzf-history-widget() {
+fzf-atuin-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
   selected=( $(atuin history list --cmd-only | tac | awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' | bat --color=always --wrap never --language=sh --style=plain | 
@@ -140,11 +139,12 @@ fzf-history-widget() {
       zle vi-fetch-history -n $num
     fi
   fi
+  zle -U "$selected"
   zle reset-prompt
   return $ret
 }
-zle      -N       fzf-history-widget
-bindkey '^R'      fzf-history-widget
+zle      -N       fzf-atuin-history-widget
+bindkey '^R'      fzf-atuin-history-widget
 
 
 fzf-man-widget() {
