@@ -34,15 +34,27 @@ install_font() {
 	unzip "$filename" -d "${FONT_DIR}/$filename/"
 	fc-cache -f "${FONT_DIR}"
 	echo -e "${blu}${bld}$filename.zip : ${rst}${cyn}has been downloaded\n${rst}Would you like to delete or keep the file(y/n):"
-	rm -i *.zip 
+	rm -i $filename.zip 
 	[ -e "${FONT_DIR}/$filename" ] && echo "${cyn}Nerd Font: ${blu}${bld}$filename ${rst}has been installed"
 }
 
-# if using fzf v35 below // remove --no-separator
-set_nf_name | \
-fzf --ansi -m +x \
-	--tiebreak=begin \
-	--header="NerdFont Download" \
-	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
-	--layout=reverse | awk '{print $3}' | xargs -ro wget && install_font
+export -f install_font
+alias font_install="install_font"
+
+ set_nf_name | \
+	fzf --ansi -m +x \
+ 	--tiebreak=begin \
+ 	--header="NerdFont Download" \
+ 	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
+ 	--layout=reverse | awk '{print $3}' | xargs -ro wget && install_font
 	
+# todo
+
+# set_nf_name | \
+#	fzf --ansi -m +x \
+# 	--tiebreak=begin \
+# 	--header="NerdFont Download" \
+# 	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
+# 	--bind="enter:execute(echo -e '${blu}Downloading ${cyn}${bld}{1} Nerd Font...${rst}\n';wget {+3} && install_font )" \
+# 	--layout=reverse 
+# 	
