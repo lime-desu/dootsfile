@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+dir="cd $(dirname $0)"
+
+get_nf_cheat_sheets() {
+	$dir
+	echo -ne "$(curl -s https://www.nerdfonts.com/cheat-sheet \
+        | grep 'class="class-name">' \
+        | sed 's/ *<div class="class-name">//; s/<\/div><div class="codepoint">/ \\u/; s/<\/div>//; s/\(.* \)\(.*\)/\2 \1/; s/nf-/\ /' \
+        )" > nf-cht.sh
+}
+
+# calling a functions on fzf isn't working hmm...
+export -f get_nf_cheat_sheets
+
+awk '{print $1 "    -- " $2}' nf-cht.sh | \
+        fzf -m \
+        --header "Nerd Font Cheat.sh" \
+        --bind "alt-u:execute:bash(get_nf_cheat_sheets)"
