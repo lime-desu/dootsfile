@@ -108,7 +108,7 @@ _fzf_git_fzf() {
     --layout=reverse --multi --height=50% --min-height=20 --border \
     --color='header:italic:underline' \
     --color='fg:blue,fg+:blue,border:blue' \
-	--preview-window='right,50%,border-left,<50(down,70%,border-top)' \
+	  --preview-window='right,50%,border-left,<50(down,70%,border-top)' \
     --bind="alt-?:preview(printf \"${FZF_GIT_HELP}\")"  "$@"
 }
 
@@ -177,11 +177,11 @@ _fzf_git_tags() {
 _fzf_git_hashes() {
   _fzf_git_check || return
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
-  _fzf_git_fzf --ansi --no-sort --bind 'ctrl-s:toggle-sort' \
+  _fzf_git_fzf --ansi --no-sort --bind 'alt-s:toggle-sort' \
     --prompt '🍡 Hashes> ' \
-    --header $'CTRL-O (open in browser) ╱ CTRL-D (diff) ╱ CTRL-S (toggle sort)\n\n' \
+    --header $'CTRL-O (open in browser) ╱ ALT-D (diff) ╱ ALT-S (toggle sort)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git commit {}" \
-    --bind 'ctrl-d:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
+    --bind 'alt-d:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
     --color hl:underline,hl+:underline \
     --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git show --color=always' "$@" |
   awk 'match($0, /[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]*/) { print substr($0, RSTART, RLENGTH) }'
@@ -236,8 +236,8 @@ if [[ -n "${BASH_VERSION:-}" ]]; then
     bind '"\er": redraw-current-line'
     local o
     for o in "$@"; do
-      bind '"\C-g\C-'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
-      bind '"\C-g'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
+      bind '"\M-g\M-'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
+      bind '"\M-g'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
     done
   }
 elif [[ -n "${ZSH_VERSION:-}" ]]; then
@@ -253,8 +253,8 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
     for o in "$@"; do
       eval "fzf-git-$o-widget() { local result=\$(_fzf_git_$o | __fzf_git_join); zle reset-prompt; LBUFFER+=\$result }"
       eval "zle -N fzf-git-$o-widget"
-      eval "bindkey '^g^${o[1]}' fzf-git-$o-widget"
-      eval "bindkey '^g${o[1]}' fzf-git-$o-widget"
+      eval "bindkey '^[g^[${o[1]}' fzf-git-$o-widget"
+      eval "bindkey '^[g[${o[1]}' fzf-git-$o-widget"
     done
   }
 fi
