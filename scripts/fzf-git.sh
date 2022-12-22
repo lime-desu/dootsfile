@@ -55,7 +55,7 @@ elif [[ $# -gt 1 ]]; then
       remote=$2
       path=/tree/$branch
       ;;
-    file) path=/blob/$branch/$2 ;;
+    file) path=/blob/$branch/$(git rev-parse --show-prefix)$2 ;;
     tag)  path=/releases/tag/$2 ;;
     *)    exit 1 ;;
   esac
@@ -108,7 +108,7 @@ _fzf_git_fzf() {
     --layout=reverse --multi --height=50% --min-height=20 --border \
     --color='header:italic:underline' \
     --color='fg:blue,fg+:blue,border:blue' \
-	  --preview-window='right,50%,border-left,<50(down,70%,border-top)' \
+	  --preview-window='right,50%,nohidden,<50(down,70%,nohidden)' \
     --bind="alt-?:preview(printf \"${FZF_GIT_HELP}\")"  "$@"
 }
 
@@ -155,7 +155,7 @@ _fzf_git_branches() {
     --prompt '🌲 Branches> ' \
     --header-lines 2 \
     --tiebreak begin \
-    --preview-window down,border-top,40% \
+    --preview-window down,40% \
     --color hl:underline,hl+:underline \
     --no-hscroll \
     --bind "ctrl-o:execute-silent:bash $__fzf_git branch {}" \
@@ -167,7 +167,7 @@ _fzf_git_branches() {
 _fzf_git_tags() {
   _fzf_git_check || return
   git tag --sort -version:refname |
-  _fzf_git_fzf --preview-window right,70%,border-left \
+  _fzf_git_fzf --preview-window right,70% \
     --prompt '📛 Tags> ' \
     --header $'CTRL-O (open in browser)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git tag {}" \
@@ -194,7 +194,7 @@ _fzf_git_remotes() {
     --prompt '📡 Remotes> ' \
     --header $'CTRL-O (open in browser)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git remote {1}" \
-    --preview-window right,70%,border-left \
+    --preview-window right,70%\
     --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" {1}/"$(git rev-parse --abbrev-ref HEAD)"' "$@" |
   cut -d$'\t' -f1
 }
