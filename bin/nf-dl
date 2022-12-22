@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-# prevent the install_font from executing when exiting or closing fzf
-set -o pipefail 
-
 if [ "$(uname -s)" == "Linux" ]; then
-    FONT_DIR="$HOME/.local/share/fonts"
+	FONT_DIR="$HOME/.local/share/fonts"
 fi
 
 if [ "$(uname -s)" == "Darwin" ]; then
-    FONT_DIR="/Applications/Fonts"
+	FONT_DIR="/Applications/Fonts"
 fi
 
 blu=$(tput setaf 4) cyn=$(tput setaf 6) bld=$(tput bold) rst=$(tput sgr0)
@@ -27,34 +24,17 @@ set_nf_name() {
 		| sed 's/\.zip//' | column -ts '&&'
 }
 
-install_font() {
-	[ -d "${FONT_DIR}" ] || mkdir -p "${FONT_DIR}"
-	filename=$(unzip -Z *.zip | head -1 | sed 's/Archive:  //' | sed 's/.zip//' )
-	mkdir -p "${FONT_DIR}/$filename"
-	unzip "$filename" -d "${FONT_DIR}/$filename/"
-	fc-cache -f "${FONT_DIR}"
-	echo -e "${blu}${bld}$filename.zip : ${rst}${cyn}has been downloaded\n${rst}Would you like to delete or keep the file(y/n):"
-	rm -i $filename.zip 
-	[ -e "${FONT_DIR}/$filename" ] && echo "${cyn}Nerd Font: ${blu}${bld}$filename ${rst}has been installed"
-}
-
-export -f install_font
-alias font_install="install_font"
-
- set_nf_name | \
-	fzf --ansi -m +x \
- 	--tiebreak=begin \
- 	--header="NerdFont Download" \
- 	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
- 	--layout=reverse | awk '{print $3}' | xargs -ro wget && install_font
-	
-# todo
-
-# set_nf_name | \
-#	fzf --ansi -m +x \
-# 	--tiebreak=begin \
-# 	--header="NerdFont Download" \
-# 	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
-# 	--bind="enter:execute(echo -e '${blu}Downloading ${cyn}${bld}{1} Nerd Font...${rst}\n';wget {+3} && install_font )" \
-# 	--layout=reverse 
-# 	
+set_nf_name | \
+fzf --ansi +x \
+	--tiebreak=begin \
+	--layout=reverse \
+	--header="NerdFont Download" \
+	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
+	--bind="enter:execute(
+		echo -e '${blu}Downloading ${cyn}${bld}{1} Nerd Font...${rst}\n';wget {3}
+		[ -d ${FONT_DIR} ] || mkdir -p ${FONT_DIR}; mkdir -p ${FONT_DIR}/{1}
+		unzip {1} -d ${FONT_DIR}/{1}
+		fc-cache -f ${FONT_DIR} && [ -e ${FONT_DIR}/{1} ] && echo \"\n${cyn}Nerd Font: ${blu}${bld}{1} ${rst}${cyn}has been installed\n\"
+		echo -e \"${cyn}Would you like to delete or keep ${blu}${bld}{1}.zip${rst}${cyn}(y/n):\" && rm -i {1}.zip
+		echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
+	)" 
