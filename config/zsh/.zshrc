@@ -163,4 +163,4 @@ source $XDG_CONFIG_HOME/broot/launcher/bash/br
 # source $DOOTS/scripts/*.sh # fzf git doesnt get sourced here hmm...
 source $DOOTS/scripts/fzf-flatpak.sh
 source $DOOTS/scripts/fzf-git.sh
-
+source $DOOTS/config/zsh/rc/catppuccin-zsh.zsh
