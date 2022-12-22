@@ -1,40 +1,45 @@
 #!/usr/bin/env bash
 
 if [ "$(uname -s)" == "Linux" ]; then
-	FONT_DIR="$HOME/.local/share/fonts"
+    FONT_DIR="$HOME/.local/share/fonts"
 fi
 
 if [ "$(uname -s)" == "Darwin" ]; then
-	FONT_DIR="/Applications/Fonts"
+    FONT_DIR="/Applications/Fonts"
 fi
 
 blu=$(tput setaf 4) cyn=$(tput setaf 6) bld=$(tput bold) rst=$(tput sgr0)
 
 get_nf_links() {
-	curl --silent https://www.nerdfonts.com/font-downloads | grep '/download/' | cut -d'"' -f 2 | sort -u 
+    curl --silent https://www.nerdfonts.com/font-downloads | grep '/download/' | cut -d'"' -f 2 | sort -u 
 }
 
 set_nf_name() {
-	get_nf_links | \
-		awk -v blu="${blu}" -v cyn="${cyn}" -v bld="${bld}" -v rst="${rst}" \
-		-F'/' '
-		{
-			print blu bld $9 rst "&& - " cyn $0
-		}' \
-		| sed 's/\.zip//' | column -ts '&&'
+    get_nf_links | \
+        awk -v blu="${blu}" -v cyn="${cyn}" -v bld="${bld}" -v rst="${rst}" \
+         -F'/' '
+        {
+            print blu bld $9 rst "&& - " cyn $0
+        }' \
+        | sed 's/\.zip//' | column -ts '&&'
 }
 
 set_nf_name | \
-fzf --ansi +x \
-	--tiebreak=begin \
-	--layout=reverse \
-	--header="NerdFont Download" \
-	--bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
-	--bind="enter:execute(
-		echo -e '${blu}Downloading ${cyn}${bld}{1} Nerd Font...${rst}\n';wget {3}
-		[ -d ${FONT_DIR} ] || mkdir -p ${FONT_DIR}; mkdir -p ${FONT_DIR}/{1}
-		unzip {1} -d ${FONT_DIR}/{1}
-		fc-cache -f ${FONT_DIR} && [ -e ${FONT_DIR}/{1} ] && echo \"\n${cyn}Nerd Font: ${blu}${bld}{1} ${rst}${cyn}has been installed\n\"
-		echo -e \"${cyn}Would you like to delete or keep ${blu}${bld}{1}.zip${rst}${cyn}(y/n):\" && rm -i {1}.zip
-		echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
-	)" 
+    fzf --ansi +x \
+    --tiebreak=begin \
+    --layout=reverse \
+    --header="NerdFont Download" \
+    --bind="del:execute([ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1})" \
+    --bind="enter:execute(
+        echo -e '${blu}Downloading ${cyn}${bld}{1} Nerd Font...${rst}\n';wget {3}
+        [ -d ${FONT_DIR} ] || mkdir -p ${FONT_DIR}; mkdir -p ${FONT_DIR}/{1}
+        unzip {1} -d ${FONT_DIR}/{1}
+        fc-cache -f ${FONT_DIR} && [ -e ${FONT_DIR}/{1} ] && echo \"\n${cyn}Nerd Font: ${blu}${bld}{1} ${rst}${cyn}has been installed\n\"
+        echo -e \"${cyn}Would you like to delete or keep ${blu}${bld}{1}.zip${rst}${cyn}(y/n):\" && rm -i {1}.zip
+        echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
+    )" 
+
+# to add if possible or if i can
+# - preview? 
+# - indicator ([x] [ ] installed or not)
+# - windows? idk this shit

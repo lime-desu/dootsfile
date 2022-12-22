@@ -13,6 +13,7 @@ get_nf_cheat_sheets() {
 # calling a functions on fzf isn't working hmm...
 export -f get_nf_cheat_sheets
 
+$dir;
 awk '{print $1 "    -- " $2}' nf-cht.sh | \
         fzf -m \
         --header "Nerd Font Cheat.sh" \

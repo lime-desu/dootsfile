@@ -90,7 +90,7 @@ export FZF_DEFAULT_OPTS="
 export FZF_ALT_C_COMMAND="fd --type=d --color=always --hidden --exclude .git"
 
 export FZF_ALT_C_OPTS="
---preview 'lsd --all --tree --depth=3 {} | head -500'
+--preview 'lsd --all --long --tree --depth=3 {} | head -500'
 --preview-window 'nohidden,<50(up,65%,border-bottom)'
 --bind 'alt-h:reload(fd --type=d --color=always --follow --exclude .git)'
 --bind 'alt-c:reload(fd -p ~ --color=always --hidden --type=d --follow)'
