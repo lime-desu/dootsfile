@@ -42,6 +42,14 @@
     navigate = true
     light = false
     line-numbers = true
+    line-numbers-minus-style = red
+    line-numbers-plus-style = green
+    line-numbers-zero-style = black
+    file-style = blue bold
+    plus-style = green
+    minus-style = red
+    plus-emph-style = syntax "#40a02b"  # green latte
+    minus-emph-style = syntax "#d20f39" # red latte
 
 [merge]
     conflictstyle = diff3
