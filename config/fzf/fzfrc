@@ -45,7 +45,8 @@ export FZF_PREVIEW_KEYBIND_OPTS="
 --bind 'ctrl-u:preview-page-up'
 --bind 'ctrl-t:preview-top'
 --bind 'ctrl-b:preview-bottom'
---bind 'ctrl-space:change-preview-window(right,80%,border-left,nohidden|down,80%,border-top,nohidden|down,50%,border-top,nohidden|up,80%,border-down,nohidden|up,50%,border-down,nohidden|left,80%,border-right,nohidden|left,50%,border-right,nohidden|down:3:nohidden:wrap|up:3,nohidden:wrap|right,50%,border-left,nohidden)'
+--bind 'ctrl-l:clear-screen+clear-selection+clear-query'
+--bind 'ctrl-space:change-preview-window(right,80%,nohidden|down,80%,border-top,nohidden|down,50%,nohidden|up,80%,border-down,nohidden|up,50%,nohidden|left,80%,nohidden|left,50%,nohidden|down:3:nohidden:wrap|up:3,nohidden:wrap|right,50%,nohidden)'
 "
 export FZF_KEYBIND_SHORTCUTS="
 $FZF_PREVIEW_KEYBIND_OPTS
@@ -91,7 +92,7 @@ export FZF_ALT_C_COMMAND="fd --type=d --color=always --hidden --exclude .git"
 
 export FZF_ALT_C_OPTS="
 --preview 'lsd --all --long --tree --depth=3 {} | head -500'
---preview-window 'nohidden,<50(up,65%,border-bottom)'
+--preview-window 'nohidden,<50(down,75%,border-top)'
 --bind 'alt-h:reload(fd --type=d --color=always --follow --exclude .git)'
 --bind 'alt-c:reload(fd -p ~ --color=always --hidden --type=d --follow)'
 "
@@ -103,6 +104,7 @@ export FZF_CTRL_T_OPTS="
 --select-1
 --info=default
 --layout=reverse-list
+--preview-window '50%,<50(up,75%,border-down)'
 --header 'Alt-D: Directories | Alt-F: Files | Alt-H: Hide Files'
 --bind 'alt-d:change-prompt(  Directories > )+reload("$FZF_ALT_C_COMMAND")'
 --bind 'alt-f:change-prompt(  Files > )+reload("$FZF_DEFAULT_COMMAND")'
@@ -112,7 +114,7 @@ export FZF_CTRL_T_OPTS="
 
 export FZF_CTRL_R_OPTS="
 --preview 'echo {+} | bat --color=always --wrap never --language=sh --style=plain'
---preview-window down:3:nohidden:wrap"
+--preview-window 'down:3:nohidden:wrap'"
 
 # export FZF_TMUX_OPTS='-p80% --color=border:blue'
 # FZF_TMUX_CTRL_R_OPT="fzf-tmux -p $FZF_CTRL_R_OPTS"
