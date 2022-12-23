@@ -1,5 +1,6 @@
 #"^{install,todo}-*.txt"
 *.cava
+*.log
 *.txt
 *zcompdump*
 *.luarc.*
