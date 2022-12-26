@@ -94,6 +94,12 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+-- Redefine Tab as 4 Spaces
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
