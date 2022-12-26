@@ -152,15 +152,23 @@ eval "$(atuin init zsh)"
 bindkey '^[[A' _atuin_search_widget
 bindkey '^[OA' _atuin_search_widget
 
-# fzf config file
-[[ -f $XDG_CONFIG_HOME/fzf/fzfrc ]] && source $XDG_CONFIG_HOME/fzf/fzfrc
-
 # Alt-{Left,Right}
 bindkey '^[[1;3D'	insert-cycledleft
 bindkey '^[[1;3C'	insert-cycledright
 
-source $XDG_CONFIG_HOME/broot/launcher/bash/br
-# source $DOOTS/scripts/*.sh # fzf git doesnt get sourced here hmm...
-source $DOOTS/scripts/fzf-flatpak.sh
-source $DOOTS/scripts/fzf-git.sh
-source $DOOTS/config/zsh/rc/catppuccin-zsh.zsh
+# File directory that are needed to source
+files=(
+ # broot
+ $XDG_CONFIG_HOME/broot/launcher/bash/br
+ # fzf config file
+ $XDG_CONFIG_HOME/fzf/fzfrc
+ # fzf-sripts
+ $DOOTS/scripts/fzf-{flatpak,git}.sh
+ # zsh
+ $XDG_CONFIG_HOME/zsh/**/*.zsh
+  )
+
+for file in $files; do
+  emulate -L zsh
+  source $file
+done
