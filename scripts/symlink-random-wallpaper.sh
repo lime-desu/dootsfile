@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source_dir="$HOME/Pictures/Wallpapers"
-dest_dir="$HOME/Pictures/Wallpapers/Random-Wallpapers"
+dest_dir="$HOME/Pictures/Wallpapers/Random_Wallpapers"
 
 # create destination dir if it doesn't exist
 [ -d "$dest_dir" ] || mkdir -p "$dest_dir"
