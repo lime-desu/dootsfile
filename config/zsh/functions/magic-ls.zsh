@@ -8,7 +8,7 @@ function magic-ls () {
         zle down-case-word
     fi
 }
-zle -N _magic-ls
+zle -N magic-ls
 
 bindkey '\el' magic-ls
 

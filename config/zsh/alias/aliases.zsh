@@ -4,7 +4,7 @@ alias \
     l='ll --all --icons' \
     l.='ls -d .* --icons' \
     ip="ip -human -color addr" \
-    myip="ip | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'"
+    myip="ip | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' && curl ifconfig.me; echo"
 
 alias \
     off='poweroff' \
