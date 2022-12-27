@@ -41,11 +41,12 @@ export HISTFILE="$XDG_STATE_HOME"/zsh/history
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 # paths
 typeset -U
-export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$CARGO_HOME/bin
-# not working breaks my shell (gitstatus failed to iniatialize: p10k)
-# export path=(
-# 	"$HOME/.local/bin"
-# 	"$HOME/$CARGO_HOME/bin"
-# 	"$PATH"
-# )
+paths=(
+    "$HOME/.local/bin"
+    "$CARGO_HOME/bin"
+)
+
+for dir in "${paths[@]}"; do
+    path+=$dir
+done
+
