@@ -106,13 +106,6 @@ source /usr/share/zsh/site-functions/fzf
 zstyle ':autocomplete:tab:*' fzf-completion yes
 zstyle ':autocomplete:*' min-input 1
 
-HISTSIZE=10000000
-SAVEHIST=10000000
-setopt BANG_HIST
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
