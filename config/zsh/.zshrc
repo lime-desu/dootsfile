@@ -135,15 +135,6 @@ zstyle ':autocomplete:*' min-input 1
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-eval "$(atuin init zsh)"
-# (up-arrow-key) depends on terminal mode
-bindkey '^[[A' _atuin_search_widget
-bindkey '^[OA' _atuin_search_widget
-
-# Alt-{Left,Right}
-bindkey '^[[1;3D'	insert-cycledleft
-bindkey '^[[1;3C'	insert-cycledright
-
 # File directory that are needed to source
 files=(
  # broot
