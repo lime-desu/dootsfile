@@ -4,7 +4,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 # doots directory
-export DOOTS="$HOME/Git/Local/dootfiles"
+export DOOTS="$HOME/Git/Local/dootsfile"
 # default editor
 export {EDITOR,VISUAL}="nvim"
 
