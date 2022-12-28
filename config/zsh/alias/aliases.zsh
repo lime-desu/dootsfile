@@ -4,7 +4,8 @@ alias \
     l='ll --all --icons' \
     l.='ls -d .* --icons' \
     ip="ip -human -color addr" \
-    myip="ip | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' && curl ifconfig.me; echo"
+    myip="ip | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' && curl ifconfig.me; echo" \
+    lsbl='cd > /dev/null ;fd --hidden --follow --type=l' # list broken links
 
 alias \
     off='poweroff' \
