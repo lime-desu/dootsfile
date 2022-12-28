@@ -48,7 +48,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  use { "catppuccin/nvim", as = "catppuccin" }
+  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
@@ -95,17 +95,11 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
--- Redefine Tab as 4 Spaces
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
-vim.o.expandtab = true
-
 -- Set highlight on search
 vim.o.hlsearch = false
 
 -- Make line numbers default
-vim.wo.relativenumber = true
+vim.wo.number = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -126,7 +120,7 @@ vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme catppuccin-mocha]]
+vim.cmd [[colorscheme onedark]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -161,8 +155,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help lualine.txt`
 require('lualine').setup {
   options = {
-    icons_enabled = true,
-    theme = 'catppuccin',
+    icons_enabled = false,
+    theme = 'onedark',
     component_separators = '|',
     section_separators = '',
   },
@@ -432,47 +426,3 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-
--- Catppuccin Configuration
--- require("catppuccin").setup({
---     flavour = "mocha", -- latte, frappe, macchiato, mocha
---     background = { -- :h background
---         light = "latte",
---         dark = "mocha",
---     },
---     transparent_background = false,
---     term_colors = false,
---     dim_inactive = {
---         enabled = false,
---         shade = "dark",
---         percentage = 0.15,
---     },
---     no_italic = false, -- Force no italic
---     no_bold = false, -- Force no bold
---     styles = {
---         comments = { "italic" },
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = {},
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---     },
---     color_overrides = {},
---     custom_highlights = {},
---     integrations = {
---         cmp = true,
---         gitsigns = true,
---         nvimtree = true,
---         telescope = true,
---         notify = false,
---         mini = false,
---         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
---     },
--- })
--- 
