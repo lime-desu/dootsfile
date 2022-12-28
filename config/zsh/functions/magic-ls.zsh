@@ -13,8 +13,8 @@ zle -N magic-ls
 bindkey '\el' magic-ls
 
 # ls automatically after cd
-function cd-ls() {
-    emulate -L zsh
+function cd () {
+    builtin cd "$@" 
     exa --all --icons --group-directories-first
 }
-chpwd_functions=(${chpwd_functions[@]} "cd-ls")
+
