@@ -45,7 +45,7 @@ export FZF_PREVIEW_KEYBIND_OPTS="
 --bind 'ctrl-u:preview-page-up'
 --bind 'ctrl-t:preview-top'
 --bind 'ctrl-b:preview-bottom'
---bind 'ctrl-l:clear-screen+clear-selection+clear-query'
+--bind 'ctrl-l:clear-screen+clear-query'
 --bind 'ctrl-space:change-preview-window(right,80%,nohidden|down,80%,border-top,nohidden|down,50%,nohidden|up,80%,border-down,nohidden|up,50%,nohidden|left,80%,nohidden|left,50%,nohidden|down:3:nohidden:wrap|up:3,nohidden:wrap|right,50%,nohidden)'
 "
 export FZF_KEYBIND_SHORTCUTS="
@@ -133,7 +133,7 @@ fzf-atuin-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
   selected=( $(atuin history list --cmd-only | tac | awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' | bat --color=always --wrap never --language=sh --style=plain | 
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} ${FZF_DEFAULT_OPTS-} -n2..,.. --scheme=history --bind=ctrl-r:toggle-sort,ctrl-z:ignore ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} ${FZF_DEFAULT_OPTS-} --scheme=history --bind=ctrl-r:toggle-sort,ctrl-z:ignore ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]
