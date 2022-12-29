@@ -102,7 +102,8 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-$XDG_DATA_HOME/oh-my-zsh}/custom}/plugins/zsh-comple
 
 source $ZSH/oh-my-zsh.sh
 
-source /usr/share/zsh/site-functions/fzf
+[[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
+
 zstyle ':autocomplete:tab:*' fzf-completion yes
 zstyle ':autocomplete:*' min-input 1
 
