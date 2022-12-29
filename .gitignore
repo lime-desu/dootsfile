@@ -4,3 +4,4 @@
 *.txt
 *zcompdump*
 *.luarc.*
+**compiled.lua
