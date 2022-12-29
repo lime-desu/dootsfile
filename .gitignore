@@ -1,8 +1,10 @@
 #"^{install,todo}-*.txt"
+*.bak
+bookmarks
 *.cava
+**compiled.lua
+*.luarc.*
 *.log
 *.txt
 *zcompdump*
-*.luarc.*
-**compiled.lua
 installed-**
