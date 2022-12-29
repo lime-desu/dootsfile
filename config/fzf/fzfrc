@@ -113,7 +113,7 @@ export FZF_CTRL_T_OPTS="
 "
 
 export FZF_CTRL_R_OPTS="
---preview 'echo {+} | bat --color=always --wrap never --language=sh --style=plain'
+--preview 'echo {1,5..} | bat --color=always --wrap never --language=sh --style=plain'
 --preview-window 'down:3:nohidden:wrap'"
 
 # export FZF_TMUX_OPTS='-p80% --color=border:blue'
@@ -132,16 +132,17 @@ _fzf_compgen_dir() {
 fzf-atuin-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
-  selected=( $(atuin history list --cmd-only | tac | awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' | bat --color=always --wrap never --language=sh --style=plain | 
-    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} ${FZF_DEFAULT_OPTS-} --scheme=history --bind=ctrl-r:toggle-sort,ctrl-z:ignore ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+  selected=( $(atuin history list --human | tac | awk '{ cmd=$0; sub(/^[ \t]*[0-9]+\**[ \t]+/, "", cmd); if (!seen[cmd]++) print $0 }' | bat --color=always --wrap never --language=sh --style=plain | 
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} ${FZF_DEFAULT_OPTS-} --with-nth=5.. --scheme=history --bind=ctrl-r:toggle-sort,ctrl-z:ignore ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
   local ret=$?
   if [ -n "$selected" ]; then
-    num=$selected[1]
-    if [ -n "$num" ]; then
-      zle vi-fetch-history -n $num
+    cmd=$selected[5,-1]
+    if [ -n "$cmd" ]; then
+      zle vi-fetch-history -n $cmd
     fi
   fi
-  zle -U "$selected"
+  zle -U "$cmd"
+  zle kill-buffer
   zle reset-prompt
   return $ret
 }
