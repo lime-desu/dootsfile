@@ -125,7 +125,7 @@ __fzf_git=$(readlink -f "$__fzf_git" 2> /dev/null || /usr/bin/ruby --disable-gem
 if [[ -z $_fzf_git_cat ]]; then
   # Sometimes bat is installed as batcat
   export _fzf_git_cat="cat"
-  _fzf_git_bat_options="--style='${BAT_STYLE:-full}' --color=always --theme=${BAT_THEME}"
+  _fzf_git_bat_options="--style='${BAT_STYLE:-full}' --force-colorization"
   if command -v batcat > /dev/null; then
     _fzf_git_cat="batcat $_fzf_git_bat_options"
   elif command -v bat > /dev/null; then
@@ -143,8 +143,8 @@ _fzf_git_files() {
     --header $'CTRL-O (open in browser) ╱ CTRL-E (open in editor) / CTRL-/ (open in pager)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git file {-1}" \
     --bind "ctrl-e:execute:${EDITOR:-vim} {-1} > /dev/tty" \
-    --bind "ctrl-/:execute($_fzf_git_cat --paging=always {-1} > /dev/tty)" \
-    --preview "git diff --no-ext-diff --color=always -- {-1} | sed 1,4d; $_fzf_git_cat --pager=never {-1}" "$@" |
+    --bind "ctrl-/:execute($_fzf_git_cat {-1} > /dev/tty)" \
+    --preview "git diff --no-ext-diff --color=always -- {-1} | sed 1,4d; $_fzf_git_cat {-1}" "$@" |
   cut -c4- | sed 's/.* -> //'
 }
 
@@ -179,9 +179,9 @@ _fzf_git_hashes() {
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   _fzf_git_fzf --ansi --no-sort --bind 'alt-s:toggle-sort' \
     --prompt '🍡 Hashes> ' \
-    --header $'CTRL-O (open in browser) ╱ ALT-D (diff) ╱ ALT-S (toggle sort)\n\n' \
+    --header $'CTRL-O (open in browser) ╱ CTRL-/ (view diff in pager) ╱ ALT-S (toggle sort)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git commit {}" \
-    --bind 'alt-d:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
+    --bind 'ctrl-/:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
     --color hl:underline,hl+:underline \
     --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git show --color=always' "$@" |
   awk 'match($0, /[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]*/) { print substr($0, RSTART, RLENGTH) }'
