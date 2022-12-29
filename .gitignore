@@ -4,23 +4,5 @@
 *.txt
 *zcompdump*
 *.luarc.*
-<<<<<<< HEAD
-||||||| merged common ancestors
-<<<<<<<<< Temporary merge branch 1
-**compiled.lua
-||||||||| 89ada6d
-=========
-=======
-<<<<<<< HEAD
->>>>>>> 6e1d3db2f8d9bf827e7464f345791209a870f041
 **compiled.lua
 installed-**
-<<<<<<< HEAD
-||||||| merged common ancestors
->>>>>>>>> Temporary merge branch 2
-=======
-||||||| 89ada6d
-=======
-**compiled.lua
->>>>>>> a32e0c0204fd15256f0b4c663148d8e17601b470
->>>>>>> 6e1d3db2f8d9bf827e7464f345791209a870f041
