@@ -4,5 +4,10 @@
 *.txt
 *zcompdump*
 *.luarc.*
+<<<<<<< HEAD
 **compiled.lua
 installed-**
+||||||| 89ada6d
+=======
+**compiled.lua
+>>>>>>> a32e0c0204fd15256f0b4c663148d8e17601b470
