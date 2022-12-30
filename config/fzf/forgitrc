@@ -1,6 +1,33 @@
+export FORGIT_FZF_SHOW_HELP_OPTS="$(
+cat <<-EOF
+
+        Forgit Commands (Aliases)
+
+        ga          add
+        gbd         branch delete
+        gbl         blame
+        gcb         checkout branch
+        gcf         checkout file 
+        gclean      clean
+        gco         checkout commit
+        gcp         cherry pick from branch
+        gct         checkout tag
+        gd          diff
+        gfu         fixup
+        gi          ignore
+        glo         log
+        grb         rebase
+        grc         revert commit
+        grh         reset head
+        gsp         stash push
+        gss         stash show
+EOF
+)"
+
 export FORGIT_FZF_DEFAULT_OPTS="
 --cycle
 --reverse
 --height '80%'
 --preview-window=nohidden
+--bind 'alt-?:preview(printf \"${FORGIT_FZF_SHOW_HELP_OPTS}\")'
 "
