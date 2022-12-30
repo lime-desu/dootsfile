@@ -140,10 +140,11 @@ _fzf_git_files() {
    git ls-files | grep -vxFf <(git status -s | grep '^[^?]' | cut -c4-; echo :) | sed 's/^/   /') |
   _fzf_git_fzf -m --ansi --nth 2..,.. \
     --prompt '📁 Files> ' \
-    --header $'CTRL-O (open in browser) ╱ CTRL-E (open in editor) / CTRL-/ (open in pager)\n\n' \
+    --header $'CTRL-O (open in browser) ╱ CTRL-E (open in editor) /\nCTRL-/ (open in pager) / CTRL-H (view history)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git file {-1}" \
     --bind "ctrl-e:execute:${EDITOR:-vim} {-1} > /dev/tty" \
     --bind "ctrl-/:execute($_fzf_git_cat {-1} > /dev/tty)" \
+    --bind "ctrl-h:execute(git log {-1} | $_fzf_git_cat --style=grid,numbers > /dev/tty; read -rsk1)" \
     --preview "git diff --no-ext-diff --color=always -- {-1} | sed 1,4d; $_fzf_git_cat {-1}" "$@" |
   cut -c4- | sed 's/.* -> //'
 }
@@ -179,9 +180,10 @@ _fzf_git_hashes() {
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   _fzf_git_fzf --ansi --no-sort --bind 'alt-s:toggle-sort' \
     --prompt '🍡 Hashes> ' \
-    --header $'CTRL-O (open in browser) ╱ CTRL-/ (view diff in pager) ╱ ALT-S (toggle sort)\n\n' \
+    --header $'CTRL-O (open in browser) ╱ ALT-S (toggle sort) /\nCTRL-/ (view commit in pager) / ALT-D (show diff) \n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git commit {}" \
-    --bind 'ctrl-/:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
+    --bind 'alt-d:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
+    --bind 'ctrl-/:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git show > /dev/tty' \
     --color hl:underline,hl+:underline \
     --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git show --color=always' "$@" |
   awk 'match($0, /[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]*/) { print substr($0, RSTART, RLENGTH) }'
@@ -203,8 +205,9 @@ _fzf_git_stashes() {
   _fzf_git_check || return
   git stash list | _fzf_git_fzf \
     --prompt '🥡 Stashes> ' \
-    --header $'CTRL-X (drop stash)\n\n' \
+    --header $'CTRL-X (drop stash) / CTRL-/ (view in stash in pager)\n\n' \
     --bind 'ctrl-x:execute-silent(git stash drop {1})+reload(git stash list)' \
+    --bind "ctrl-/:execute(git stash show --text {1} > /dev/tty)" \
     -d: --preview 'git show --color=always {1}' "$@" |
   cut -d: -f1
 }
