@@ -1,0 +1,6 @@
+export FORGIT_FZF_DEFAULT_OPTS="
+--cycle
+--reverse
+--height '80%'
+--preview-window=nohidden
+"

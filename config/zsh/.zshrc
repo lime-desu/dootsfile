@@ -88,6 +88,7 @@ plugins=(
 	extract
 	fzf
 	fd
+	forgit
 	ripgrep
 	tmux
 	thefuck
@@ -141,7 +142,7 @@ files=(
  # broot
  $XDG_CONFIG_HOME/broot/launcher/bash/br
  # fzf config file
- $XDG_CONFIG_HOME/fzf/fzfrc
+ $XDG_CONFIG_HOME/fzf/{fzf,forgit}rc
  # fzf-sripts
  $DOOTS/scripts/fzf-{flatpak,git}.sh
  # zsh
