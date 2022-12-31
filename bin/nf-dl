@@ -2,16 +2,16 @@
 
 if [ "$(uname -s)" == "Linux" ]; then
     FONT_DIR="$HOME/.local/share/fonts"
-fi
-
-if [ "$(uname -s)" == "Darwin" ]; then
+    NF_DL_DIR="$HOME/.cache/nf-dl"
+elif [ "$(uname -s)" == "Darwin" ]; then
     FONT_DIR="/Applications/Fonts"
+    NF_DL_DIR="/Library/Caches/nf-dl"
 fi
 
 blu=$(tput setaf 4) cyn=$(tput setaf 6) bld=$(tput bold) rst=$(tput sgr0)
 
 get_nf_links() {
-    curl --silent https://www.nerdfonts.com/font-downloads | grep '/download/' | cut -d'"' -f 2 | sort -u 
+    curl --silent https://www.nerdfonts.com/font-downloads | grep '/download/' | cut -d'"' -f 2 | sort -u
 }
 
 set_nf_name() {
@@ -21,10 +21,16 @@ set_nf_name() {
         {
             print blu bld $9 rst "&& - " cyn $0
         }' \
-        | sed 's/\.zip//' | column -ts '&&'
+        | sed 's/\.zip//' | column -ts '&&' > "$NF_DL_DIR/nf-dl_url"
 }
 
-set_nf_name | \
+if [ ! -d "$NF_DL_DIR" ]; then
+    mkdir -p "$NF_DL_DIR" && touch "$_/nf-dl_url"
+    set_nf_name
+fi
+
+
+cat < "$NF_DL_DIR/nf-dl_url"  | \
     fzf --ansi +x \
     --tiebreak=begin \
     --layout=reverse \
