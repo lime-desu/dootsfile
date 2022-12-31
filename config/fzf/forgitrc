@@ -1,3 +1,17 @@
+forgit-list-command-widget() {
+    local cmd=$(alias | grep 'forgit' | sed -E 's/::/ /g; s/=/ :- /g; s/for//g' | column -ts":" )
+    LBUFFER="$LBUFFER$( \
+    fzf-tmux -p -w 30% -h 55% --preview-window=hidden --prompt=' List > ' \
+        --header=$'Alias\t Description' <<< "$cmd" | awk '{print $1}')"
+    if [[ -n $LBUFFER ]]; then
+        zle accept-line
+    fi
+    zle reset-prompt
+}
+
+zle     -N          forgit-list-command-widget
+bindkey '^[g^[l'    forgit-list-command-widget  #<Alt-G+Alt-L>
+
 export FORGIT_FZF_SHOW_HELP_OPTS="$(
 cat <<-EOF
 
