@@ -173,14 +173,16 @@ fzf-man-widget() {
 zle     -N          fzf-man-widget
 bindkey '^[h'       fzf-man-widget
 
-#todo: add colors and preview long list
 fzf-cd-recent-dir-widget () {
   local dir
   print -rNC1 -- $dirstack |
-    fzf --read0 --print0 |
+    fzf --color=fg:bold:blue --read0 --print0 --preview-window 'nohidden,<50(down,75%,border-top)' |
     IFS= read -rd '' dir &&
-    builtin cd -- $dir && zle accept-line
-  zle clear-screen
+    BUFFER="builtin cd -- $dir"
+    if [[ -n $BUFFER ]]; then
+        zle accept-line
+    fi
+  zle reset-prompt
 }
 
 zle -N fzf-cd-recent-dir-widget
