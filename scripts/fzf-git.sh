@@ -107,7 +107,7 @@ _fzf_git_fzf() {
   fzf-tmux -p80% -- \
     --layout=reverse --multi --height=50% --min-height=20 --border \
     --color='header:italic:underline' \
-    --color='fg:blue,fg+:blue,border:blue' \
+    --color='fg+:blue,border:blue' \
 	  --preview-window='right,50%,nohidden,<50(down,70%,nohidden)' \
     --bind="alt-?:preview(printf \"${FZF_GIT_HELP}\")"  "$@"
 }

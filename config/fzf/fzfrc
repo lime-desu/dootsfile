@@ -26,7 +26,7 @@ EOF
 export FZF_THEME_CATPPUCCIN_MOCHA="
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+--color=marker:#f5e0dc,fg+:blue,border:blue,prompt:#cba6f7,hl+:#f38ba8"
 
 export FZF_PREVIEW_OPTS="--preview
 '([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]] && (chafa {} && exiftool {})) || 
@@ -63,7 +63,8 @@ fi)'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-alt-d:deselect-all'
 --bind 'ctrl-o:execute(flatpak run re.sonny.Junction {+})'
---bind 'ctrl-y:execute-silent(echo {+} | wl-copy)'
+--bind 'ctrl-y:execute-silent(wl-copy {+})'
+--bind 'ctrl-alt-y:execute-silent(readlink -f {+} | wl-copy)'
 --bind 'ctrl-e:execute(${EDITOR} {} > /dev/tty)'
 --bind 'ctrl-v:execute(code {+})'
 --bind 'del:execute(rm -iv {};)+reload($FZF_DEFAULT_COMMAND)+clear-screen'
