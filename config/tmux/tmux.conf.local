@@ -432,26 +432,25 @@ tmux_conf_uninstall_plugins_on_reload=true
 
 #-------------------------------------------------------------------------------
 # Plugins
-set -g @plugin 'tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @resurrect-capture-pane-contents 'on'
 set -g @plugin 'tmux-plugins/tmux-continuum'
-# set -g @continuum-restore 'on'
+set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 set -g @continuum-boot-options 'alacritty'
 
 set -g @plugin 'catppuccin/tmux'
-set -g @catppuccin_flavour 'mocha' # macchiato, latte, frappe
+set -g @catppuccin_flavour 'mocha'
 
 set -g @plugin 'sainnhe/tmux-fzf'
 TMUX_FZF_LAUNCH_KEY="C-f"
-# variable doesnt work :/
-# TMUX_FZF_OPTIONS="$FZF_THEME_CATPPUCCIN_MOCHA -p --color=fg:blue,fg+:blue,border:blue"
- 
-TMUX_FZF_OPTIONS="--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+TMUX_FZF_THEME=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
--p --color=fg:blue,fg+:blue,border:blue"
+--color=fg+:blue,border:blue"
+TMUX_FZF_OPTIONS="-p $TMUX_FZF_THEME" 
 
 # Options
 set -g default-terminal "xterm-256color"
