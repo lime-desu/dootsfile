@@ -1,11 +1,4 @@
 #!/usr/bin/env bash
-basename="$(basename "$0")"
-
-if ! hash fzf &> /dev/null; then
-    printf 'Error: Missing dep: fzf is required to use %s.\n' "${basename}" >&2
-    exit 64
-fi
-
 # Colors                                 # Base Commands
 declare blu red grn ylw cyn rst bld mgn QRY PRVW QRY_PRFX QRY_SFFX AWK_VAR QRY_READ                   
 blu="$(tput setaf 4)";                  QRY="dnf --cacheonly --quiet repoquery ";                       
@@ -13,9 +6,15 @@ red="$(tput setaf 1)";                  PRVW="dnf --cacheonly --quiet --color=al
 grn="$(tput setaf 2)";                  QRY_PRFX='  ';
 ylw="$(tput setaf 3)";                  QRY_SFFX=' > ';
 cyn="$(tput setaf 6)";                  QRY_READ="read -rs -p $'\n${blu}$(tput bold)Press any key to continue...${rst}' && printf '\n'"; #bold text isnt working so i didn't use variable
-mgn="$(tput setaf 5)";                  AWK_VAR="awk -v blk=\${blk} -v red=\${red} -v grn=\${grn} -v ylw=\${ylw} -v blu=\${blu} -v mgn=\${mgn} -v cyn=\${cyn} -v wht=\${wht} -v bld=\${bld} -v rst=\${rst}"
+mgn="$(tput setaf 5)";                  AWK_VAR="awk -v red=$red -v grn=$grn -v ylw=$ylw -v blu=$blu -v mgn=$mgn -v cyn=$cyn -v rst=\$(tput sgr0) -v bld=\$(tput bold)"
 rst="$(tput sgr0)";
 bld="$(tput bold)";
+
+basename="$(basename "$0")"
+if ! hash fzf &> /dev/null; then
+    printf "${bld}${red}Error:${rst}${ylw} Missing dependency\n${bld}${cyn}Fzf${rst} is required to use %s.\n" "${bld}${blu}${basename}" >&2
+    exit 64
+fi
 
 # Install mode
 declare INS_QRYS INS_PRMPT INS_PRVW INS_CLR_PRVW
@@ -27,17 +26,25 @@ RMV_QRYS="${QRY} --installed --qf '${bld}${red}%{name}${rst} - ${grn}%{summary}'
 RMV_PRVW="${PRVW} --installed";                                                         RMV_CLR_PRVW="${AWK_VAR} -F\":\" '{print grn bld \$1 rst red \$2}'"
 # Remove-userinstalled mode
 declare RUI_QRYS RUI_PRMPT RUI_PRVW RUI_CLR_PRVW
-RUI_QRYS="${QRY} --userinstalled --qf '${bld}${ylw}%{name}${rst} - ${red}%{summary}'"   RUI_PRMPT="${ylw}${QRY_PRFX}User-Installed packages${QRY_SFFX}"
-RUI_PRVW="${PRVW} --installed";                                                         RUI_CLR_PRVW="${AWK_VAR} -F\":\" '{print red bld \$1 rst ylw \$2}'"
+RUI_QRYS="${QRY} --userinstalled --qf '${bld}${ylw}%{name}${rst} - ${mgn}%{summary}'"   RUI_PRMPT="${ylw}${QRY_PRFX}User-Installed packages${QRY_SFFX}"
+RUI_PRVW="${PRVW} --installed";                                                         RUI_CLR_PRVW="${AWK_VAR} -F\":\" '{print mgn bld \$1 rst ylw \$2}'"
 # Updates mode
 declare UPD_QRY UPD_QRYS UPD_PRVW UPD_PRMPT
 UPD_QRY="${QRY} --upgrades --qf '${grn}%{name}'"                                        UPD_PRMPT="${grn}${QRY_PRFX}Upgrade packages${QRY_SFFX}"
-UPD_QRYS="if [[ \$(${UPD_QRY} | wc -c) -ne 0 ]]; then ${UPD_QRY}; else echo -e ${grn}'No updates available'.; echo -e 'Try refreshing metadata cache...'; fi"
 UPD_PRVW="${PRVW}"; 
+UPD_QRYS="
+if [[ \$(${UPD_QRY} | wc -c) -ne 0 ]]; then 
+    ${UPD_QRY}; 
+else 
+    echo -e ${grn}'No updates available'.; 
+    echo -e 'Try refreshing metadata cache...'; 
+fi
+"
+# History Mode
+declare HISTORY HISTORY_PRVW
+HISTORY="dnf history | tail -n +3 | ${AWK_VAR} -F\"|\" '{print mgn \$1 cyn bld \$2 \"\t\" rst blu \$3}'"
+HISTORY_PRVW="dnf --color=always history info {1}" 
 
-declare HISTORY="dnf history | tail -n +8 | awk -v mgn=\$(tput setaf 5) -v cyn=\$(tput setaf 6) -v bld=\$(tput bold) -v rst=\$(tput sgr0) -v blu=\$(tput setaf 4) -F\"|\" '{print mgn \$1 cyn bld \$2 rst blu \$3}'"
-# colors didn't work on this one
-# declare HISTORY="dnf history | tail -n +3 | ${AWK_VAR} -F\"|\" '{print mgn \$1 cyn bld \$2 \"\t\" rst blu \$3}'"
 
 SHOW_HELP=$(
 cat <<-EOF
@@ -45,12 +52,13 @@ cat <<-EOF
     ${blu}${bld}${basename}${rst}
     ${blu}Interactive package manager for Fedora
 
-    ${blu}${bld}Alt-i       ${rst}Install packages (default)
-    ${blu}${bld}Alt-r       ${rst}Remove packages
-    ${blu}${bld}Alt-e       ${rst}Erase/Remove User-Installed packages
+    ${blu}${bld}Alt-i       ${rst}Install package/s (default)
+    ${blu}${bld}Alt-r       ${rst}Remove package/s
+    ${blu}${bld}Alt-e       ${rst}Erase/Remove User-Installed package/s
     ${blu}${bld}Alt-u       ${rst}Updates mode
     ${blu}${bld}Alt-m       ${rst}Update package metadata cache
     ${blu}${bld}Alt-a       ${rst}Auto remove packages/dependencies
+    ${blu}${bld}Alt-d       ${rst}Distro Sync (synchronize package/s)
 
     ${blu}${bld}Ctrl-h      ${rst}History mode
     ${blu}${bld}Ctrl-z      ${rst}Undo History 
@@ -92,7 +100,7 @@ FZF_DEFAULT_COMMAND="${INS_QRYS}" \
 	--bind "alt-r:reload(${RMV_QRYS})+change-preview(${RMV_PRVW} {1} | ${RMV_CLR_PRVW})+change-prompt(${RMV_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
 	--bind "alt-e:reload(${RUI_QRYS})+change-preview(${RUI_PRVW} {1} | ${RUI_CLR_PRVW})+change-prompt(${RUI_PRMPT})+execute-silent(printf 'rm' > \"${tmp_file}\")+first" \
 	--bind "alt-u:reload(${UPD_QRYS})+change-preview(${UPD_PRVW} {1})+change-prompt(${UPD_PRMPT})+execute-silent(printf 'up' > \"${tmp_file}\")+first" \
-	--bind "ctrl-h:reload($HISTORY)+change-prompt(  History > )+change-preview-window(hidden)" \
+	--bind "ctrl-h:reload($HISTORY)+change-prompt(  History > )+change-preview($HISTORY_PRVW)" \
 	--bind "ctrl-z:execute(sudo dnf history undo {1}; ${QRY_READ})" \
 	--bind "ctrl-y:execute(sudo dnf history redo {1}; ${QRY_READ})" \
 	--bind "alt-t:execute(sudo dnf makecache;topgrade; ${QRY_READ})" \
@@ -102,6 +110,8 @@ FZF_DEFAULT_COMMAND="${INS_QRYS}" \
 	--bind "del:execute(sudo dnf clean packages expire-cache; ${QRY_READ})" \
 	--bind "alt-d:execute(sudo dnf distrosync;${QRY_READ})" \
 	--bind "alt-?:preview(printf '${SHOW_HELP}')" \
+	--bind "alt-/:toggle-preview-wrap" \
+	--bind "ctrl-/:execute(${PRVW} {+1} | less )" \
 	--bind "ctrl-a:select-all" 
 rm -f "${tmp_file}" &> /dev/null
 else
