@@ -1,20 +1,27 @@
 #!/usr/bin/env bash
-
-dir="cd $(dirname $0)"
+if [ "$(uname -s)" == "Linux" ]; then
+    NF_LS_DIR="$HOME/.cache/fzf/nf-ls"
+elif [ "$(uname -s)" == "Darwin" ]; then
+    NF_LS_DIR="/Library/Caches/fzf/nf-ls"
+fi
 
 get_nf_cheat_sheets() {
-	$dir
-	echo -ne "$(curl -s https://www.nerdfonts.com/cheat-sheet \
-        | grep 'class="class-name">' \
-        | sed 's/ *<div class="class-name">//; s/<\/div><div class="codepoint">/ \\u/; s/<\/div>//; s/\(.* \)\(.*\)/\2 \1/; s/nf-/\ /' \
-        )" > nf-cht.sh
+    echo -ne "$(curl -s https://www.nerdfonts.com/cheat-sheet \
+    | grep 'class="class-name">' \
+    | sed 's/ *<div class="class-name">//; s/<\/div><div class="codepoint">/ \\u/; s/<\/div>//; s/\(.* \)\(.*\)/\2 \1/; s/nf-/\ /')"
 }
 
+# fix
 # calling a functions on fzf isn't working hmm...
-export -f get_nf_cheat_sheets
+# export -f get_nf_cheat_sheets
+# --bind "alt-u:execute:bash$(get_nf_cheat_sheets)" 
 
-$dir;
-awk '{print $1 "    -- " $2}' nf-cht.sh | \
-        fzf -m \
-        --header "Nerd Font Cheat.sh" \
-        --bind "alt-u:execute:bash(get_nf_cheat_sheets)"
+if [ ! -d "$NF_LS_DIR" ]; then
+    mkdir -p "$NF_LS_DIR"
+    get_nf_cheat_sheets > "$NF_LS_DIR"/nf-ls-cheat.sh
+fi
+
+awk '{print $1 "    -- " $2}' "$NF_LS_DIR"/nf-ls-cheat.sh | \
+    fzf -m \
+    --header "Nerd Font Cheat.sh" \
+    --bind "enter:execute(wl-copy {+1}; notify-send 'Nerd Font Cheat.sh' '{+1} {+3} - has been copied')" \

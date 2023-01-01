@@ -2,10 +2,10 @@
 
 if [ "$(uname -s)" == "Linux" ]; then
     FONT_DIR="$HOME/.local/share/fonts"
-    NF_DL_DIR="$HOME/.cache/nf-dl"
+    NF_DL_DIR="$HOME/.cache/fzf/nf-dl"
 elif [ "$(uname -s)" == "Darwin" ]; then
     FONT_DIR="/Applications/Fonts"
-    NF_DL_DIR="/Library/Caches/nf-dl"
+    NF_DL_DIR="/Library/Caches/fzf/nf-dl"
 fi
 
 blu=$(tput setaf 4) cyn=$(tput setaf 6) bld=$(tput bold) rst=$(tput sgr0)
@@ -21,12 +21,12 @@ set_nf_name() {
         {
             print blu bld $9 rst "&& - " cyn $0
         }' \
-        | sed 's/\.zip//' | column -ts '&&' > "$NF_DL_DIR/nf-dl_url"
+        | sed 's/\.zip//' | column -ts '&&'
 }
 
 if [ ! -d "$NF_DL_DIR" ]; then
-    mkdir -p "$NF_DL_DIR" && touch "$_/nf-dl_url"
-    set_nf_name
+    mkdir -p "$NF_DL_DIR"
+    set_nf_name > "$NF_DL_DIR"/nf-dl_url
 fi
 
 
