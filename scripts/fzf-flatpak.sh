@@ -26,9 +26,10 @@ _fzf_flatpak_fzf() {
     --tiebreak=begin \
     -m --ansi --nth=1.. \
     --color='header:italic:underline' \
-    --color='fg:blue,fg+:blue,border:blue' \
+    --color='fg+:blue,border:blue' \
     --layout=reverse --height=50% --border \
     --preview-window "nohidden,50%,<50(down,60%,border-rounded)" \
+    --bind "del:execute(flatpak remove --unused > /dev/tty; read -r)" \
     --bind="alt-?:preview(printf \"${FZF_FLATPAK_HELP}\")"  "$@"
 }
 
@@ -53,8 +54,8 @@ _fzf_flatpak_install() {
     }; print blu bld $2" -" res cyn app_info "|" $1}' \
   | column -t -s "|" -R 3 \
   | _fzf_flatpak_fzf  \
-    --prompt="  Install > " \
-    --header="M-u: Update" \
+    --prompt=" Install > " \
+    --header=$'M-u: Update / Del: Remove Unused \n\n' \
     --preview "flatpak --system remote-info flathub {-1} | awk $AWK_COLOR_VAR -F\":\" '{print YLW BLD \$1 RST MGN \$2}'" \
     --bind="alt-u:execute(flatpak update > /dev/tty; read -r)" \
     --bind="alt-m:change-preview(flatpak metadata {-1})" \
@@ -63,6 +64,21 @@ _fzf_flatpak_install() {
 
 # _fzf_flatpak_remotes?() {
 # flatpak remotes --columns=name | tail -n +1 
+# }
+
+# _fzf_flatpak_format_installed_lists() {
+#   local color1 color2 bold reset
+#   color1="$1"
+#   color2="$2"
+#   bold="$(tput bold)"
+#   reset="$(tput sgr0)"
+#   awk -v c1="$color1" -v c2="$color2" -v bld="$bold" -v res="$reset" \
+#   '{
+#     app_id=""; 
+#     for(i=2;i<=NF;i++){
+#       app_id=app_id" "$i
+#     }; print bld c1 app_id " && - " res c2 $1}' \
+#   | column -t -s "&&" 
 # }
 
 _fzf_flatpak_installed_lists() {
@@ -75,22 +91,31 @@ _fzf_flatpak_installed_lists() {
   | column -t -s "&&" 
 }
 
-_fzf_flatpak_installed_lists-applications() {
-    flatpak list --columns=application,name | _fzf_flatpak_installed_lists
+_fzf_flatpak_uninstall_lists() {
+  awk -v mgn=$(tput setaf 5) -v red=$(tput setaf 1) -v bld=$(tput bold) -v res=$(tput sgr0)  \
+  '{
+    app_id=""; 
+    for(i=2;i<=NF;i++){
+      app_id=app_id" "$i
+    }; print bld mgn app_id " && - " res red $1}' \
+  | column -t -s "&&" 
 }
 
-_fzf_flatpak_installed_lists-no_runtimes() {
+_fzf_flatpak_installed_lists-applications() {
     flatpak list --app --columns=application,name | _fzf_flatpak_installed_lists
+}
+
+_fzf_flatpak_uninstall_lists_with_runtimes() {
+    flatpak list --columns=application,name | _fzf_flatpak_uninstall_lists
 }
 
 # `flatpak run` only accepts one argument so it isn't possible to run multiple apps
 _fzf_flatpak_fzf_installed_lists() {
   _fzf_flatpak_fzf \
-    --header="M-u: Uninstall | Del: Remove Unused | F4: Kill |M-r: Run" \
+    --header=$'M-u: Uninstall / Del: Remove Unused / F4: Kill / M-r: Run\n\n' \
     --bind "f4:execute(flatpak kill {+-1})" \
-    --bind "del:execute(flatpak remove --unused > /dev/tty; read -r)" \
-    --bind "alt-r:change-prompt(  Run > )+execute-silent(touch /tmp/run && rm -r /tmp/uns)" \
-    --bind "alt-u:change-prompt(  Uninstall > )+execute-silent(touch /tmp/uns && rm -r /tmp/run)" \
+    --bind "alt-r:change-prompt( Run > )+execute-silent(touch /tmp/run && rm -r /tmp/uns)" \
+    --bind "alt-u:change-prompt( Uninstall > )+execute-silent(touch /tmp/uns && rm -r /tmp/run)" \
     --bind "enter:execute(
     if [ -f /tmp/uns ]; then 
       flatpak uninstall {+-1} > /dev/tty; 
@@ -104,8 +129,8 @@ _fzf_flatpak_fzf_installed_lists() {
 _fzf_flatpak_uninstall() {
   _fzf_flatpak_check || return
   touch /tmp/uns
-  _fzf_flatpak_installed_lists-no_runtimes | _fzf_flatpak_fzf_installed_lists \
-    --prompt="  Uninstall > " \
+  _fzf_flatpak_uninstall_lists_with_runtimes | _fzf_flatpak_fzf_installed_lists \
+    --prompt=" Uninstall > " \
     --preview  "flatpak info {-1} | awk $AWK_COLOR_VAR -F\":\" '{print RED BLD  \$1 RST MGN \$2}'" \
 }
 
@@ -113,8 +138,8 @@ _fzf_flatpak_run_apps() {
   _fzf_flatpak_check || return
   touch /tmp/run
   _fzf_flatpak_installed_lists-applications | _fzf_flatpak_fzf_installed_lists \
-    --prompt="  Run > " \
-    --preview  "flatpak info {-1} | awk $AWK_COLOR_VAR -F\":\" '{print CYN BLD  \$1 RST \$2}'" \
+    --prompt=" Run > " \
+    --preview  "flatpak info {-1} | awk $AWK_COLOR_VAR -F\":\" '{print CYN BLD  \$1 RST BLU \$2}'" \
 }
 
 if [[ -n "${BASH_VERSION:-}" ]]; then
