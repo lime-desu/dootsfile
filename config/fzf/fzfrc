@@ -14,6 +14,7 @@ cat <<-EOF
 
         M-s         Toggle Sort
         C-y         Copy/Yank
+        C-M-y       Copy/Yank Working Directory
         C-a         Select all
         C-M-d       Deselect All
         Del         Delete/Remove file
@@ -29,7 +30,7 @@ export FZF_THEME_CATPPUCCIN_MOCHA="
 --color=marker:#f5e0dc,fg+:blue,border:blue,prompt:#cba6f7,hl+:#f38ba8"
 
 export FZF_PREVIEW_OPTS="--preview
-'([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]] && (chafa {} && exiftool {})) || 
+'([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]] && (chafa --center=on {} && exiftool {})) || 
 ([[ -f {} ]] && (bat --style=header,numbers,changes,plain --color=always --language=sh --line-range :500 {} || cat {})) || 
 ([[ -d {} ]] && (lsd  -all --long --tree --depth=5 --group-dirs=first -I=.git {} )) || echo {} 3>/dev/null | head -n 500'
 "
@@ -45,7 +46,7 @@ export FZF_PREVIEW_KEYBIND_OPTS="
 --bind 'ctrl-u:preview-page-up'
 --bind 'ctrl-t:preview-top'
 --bind 'ctrl-b:preview-bottom'
---bind 'ctrl-l:clear-screen+clear-query'
+--bind 'ctrl-l:clear-screen+clear-query+first'
 --bind 'ctrl-space:change-preview-window(right,80%,nohidden|down,80%,border-top,nohidden|down,50%,nohidden|up,80%,border-down,nohidden|up,50%,nohidden|left,80%,nohidden|left,50%,nohidden|down:3:nohidden:wrap|up:3,nohidden:wrap|right,50%,nohidden)'
 "
 export FZF_KEYBIND_SHORTCUTS="
@@ -55,8 +56,8 @@ $FZF_PREVIEW_KEYBIND_OPTS
 --bind 'ctrl-/:execute(
 if [[ -d {} ]]; then
   broot {} < /dev/tty > /dev/tty 2>&1
-elif [[ \$(file --mime {}) =~ image/ ]]; then
-  chafa {} | less > /dev/tty
+elif [[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]]; then 
+  chafa --center {} | less > /dev/tty
 else
   bat --paging=always --style=plain --color=always --language=sh {} > /dev/tty
 fi)'
@@ -69,7 +70,6 @@ fi)'
 --bind 'ctrl-v:execute(code {+})'
 --bind 'del:execute(rm -iv {};)+reload($FZF_DEFAULT_COMMAND)+clear-screen'
 "
-# --bind 'ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline'
 # --bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --style=\"header,numbers,changes\" --language=sh {}  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
 # ; fi)'
 
