@@ -21,3 +21,9 @@ omz_update_custom_plugins() {
         popd -q
     done
 }
+
+cheat() {
+  [ -z "$*" ] && printf "Enter a command: " && read -r cmd || cmd=$*
+  curl -s cheat.sh/$cmd | bat --plain -l=md || less
+}
+wtfis() { curl "cheat.sh/$@" }
