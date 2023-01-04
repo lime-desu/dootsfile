@@ -45,12 +45,12 @@ colors=(
 normal="\033[0m"
 
 # generate a random index into array colors
-index=$(( $RANDOM % ${#colors[@]} ))
-random_color=${colors[$index]}
+index=$((RANDOM % ${#colors[@]}))
+random_color=${colors[${index}]}
 
-exit_status=$?
+status=$?
 # Check the exit status of the command
-if [ $exit_status -eq 0 ]; then
+if [ $status -eq 0 ]; then
 	selected_message=${random_messages[$RANDOM % ${#random_messages[@]}]}
 else
 	selected_message=${error_messages[$RANDOM % ${#error_messages[@]}]}
@@ -59,4 +59,4 @@ fi
 echo -e "${random_color}$selected_message${normal}\n"
 "$@"
 
-exit $exit_status
+exit $status
