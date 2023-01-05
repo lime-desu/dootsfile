@@ -35,6 +35,20 @@ cdtmp() {
   echo "Changed to temp directory: $(pwd)"
 }
 
+up(){
+  local dir=""
+  limit=$1
+  for ((i=1 ; i <= limit ; i++))
+  do
+    dir=$dir/..
+  done
+  dir=$(echo $dir | sed 's/^\///')
+  if [ -z "$dir" ]; then
+    dir=..
+  fi
+  cd "$dir"
+}
+
 cheat() {
   [ -z "$*" ] && printf "Enter a command: " && read -r cmd || cmd=$*
   curl -s cheat.sh/$cmd | bat --plain -l=md || less
