@@ -6,8 +6,9 @@ omz_update_custom_plugins() {
     rst=$(tput sgr0)
     bld=$(tput bold)
 
+    omz update
     echo ""
-    printf "${blu}${bld}%s${rst}\n" "Updating custom plugins..."
+    printf "${blu}%s${rst}\n\n" "Updating custom plugins..."
 
     find "${ZSH_CUSTOM:-$ZSH/custom}" -type d -name ".git" | while read LINE; do
         plugin=${LINE:h}
@@ -20,6 +21,18 @@ omz_update_custom_plugins() {
         fi
         popd -q
     done
+}
+
+cdtmp() {
+  if [[ -z "$1" ]]; then
+    tmpdir="$(mktemp -d -t tempdir.XXXXXX)"
+  else
+    tmpdir="/tmp/$1"
+  fi
+
+  [[ ! -d "$tmpdir" ]] && mkdir "$tmpdir"
+  cd "$tmpdir" || exit 1
+  echo "Changed to temp directory: $(pwd)"
 }
 
 cheat() {
