@@ -10,7 +10,10 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$ZSH" 
-source $ZSH/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+if [[ -d $ZSH/custom/plugins/zsh-autocomplete ]]; then
+  source $ZSH/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -101,7 +104,8 @@ plugins=(
 # this should before placed before `"$ZSH/oh-my-zsh.sh"`
 fpath+=${ZSH_CUSTOM:-${ZSH:-$XDG_DATA_HOME/oh-my-zsh}/custom}/plugins/zsh-completions/src
 
-source $ZSH/oh-my-zsh.sh
+
+[[ -f "$ZSH/oh-my-zsh.sh" ]] && source $ZSH/oh-my-zsh.sh
 
 [[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
 
@@ -150,6 +154,8 @@ files=(
   )
 
 for file in $files; do
-  emulate -L zsh
-  source $file
+  if [[ ! -f $files ]]; then
+    emulate -L zsh
+    source $file
+  fi
 done
