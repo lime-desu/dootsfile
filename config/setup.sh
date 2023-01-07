@@ -28,12 +28,12 @@ echo "Stowing apps for user: $(whoami)"
 
 # install apps available to local users and root
 for app in "${base[@]}"; do
-    stowit "${XDG_CONFIG_HOME}/" "$app" 
+    stowit "${HOME}/.config" "$app" 
 done
 
 if [[ ! "$(whoami)" = *"root"* ]]; then
     for app in "${useronly[@]}"; do
-        stowit "${XDG_CONFIG_HOME}/" "$app" 
+    	stowit "${HOME}/.config" "$app" 
     done;
 fi
 
