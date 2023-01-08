@@ -35,6 +35,24 @@ cdtmp() {
   echo "Changed to temp directory: $(pwd)"
 }
 
+colors() {
+  for color in {0..255}; do
+    print -Pn "%K{$color}  %k%F{$color}${(l:3::0:)color}%f " \
+      ${${(M)$((color%6)):#3}:+$'\n'}
+  done
+}
+
+cheat() {
+  [ -z "$*" ] && printf "Enter a command: " && read -r cmd || cmd=$*
+  curl -s cheat.sh/$cmd | bat --plain -l=md || less
+}
+wtfis() { curl "cheat.sh/$@" }
+
+alias bathelp='bat --plain --language=help'
+help() {
+    "$@" --help 2>&1 | bathelp
+}
+
 up(){
   local dir=""
   limit=$1
@@ -43,14 +61,9 @@ up(){
     dir=$dir/..
   done
   dir=$(echo $dir | sed 's/^\///')
-  if [ -z "$dir" ]; then
-    dir=..
-  fi
-  cd "$dir"
+  cd "${dir:-..}"
 }
 
-cheat() {
-  [ -z "$*" ] && printf "Enter a command: " && read -r cmd || cmd=$*
-  curl -s cheat.sh/$cmd | bat --plain -l=md || less
-}
-wtfis() { curl "cheat.sh/$@" }
+unique() { awk '!seen[$0]++' "$1"; }
+silent() { "$@" > /dev/null 2>&1; }
+
