@@ -8,3 +8,4 @@ bookmarks
 *.txt
 *zcompdump*
 installed-**
+**/alias/flatpak-**.zsh
