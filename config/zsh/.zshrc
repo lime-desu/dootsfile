@@ -98,6 +98,7 @@ plugins=(
 	zsh-autocomplete
 	zsh-autopair
 	zsh-autosuggestions
+	zsh-completions
 	zsh-syntax-highlighting
 )
 
