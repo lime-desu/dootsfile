@@ -51,6 +51,6 @@ paths=(
 )
 
 for dir in "${paths[@]}"; do
-    path+=$dir
+    [[ -d $dir ]] && path+=$dir
 done
 

@@ -47,6 +47,7 @@ up(){
   cd "${dir:-..}"
 }
 
-unique() { awk '!seen[$0]++' "$1"; }
+path() { echo ${PATH//:/\\n} }
 silent() { "$@" > /dev/null 2>&1; }
+unique() { awk '!seen[$0]++' "$1"; }
 

@@ -7,6 +7,8 @@ alias \
     off='poweroff' \
     sus='systemctl suspend' \
     open='xdg-open' \
+    reload='exec $SHELL -l' \
+    r='reload' \
     rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash' \
     lofi='mpv --no-video https://youtu.be/jfKfPfyJRdk'
 
