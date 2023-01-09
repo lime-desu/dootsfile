@@ -1,3 +1,13 @@
+install_omz() {
+  local oh_my_zsh_dir="${ZSH:-$HOME/.local/share/oh-my-zsh}"
+  if [[ ! -d "$oh_my_zsh_dir" ]]; then
+    echo "Installing ${BLD}${BLU}[Oh My Zsh]${RST} ..."
+    git clone https://github.com/ohmyzsh/ohmyzsh.git $oh_my_zsh_dir
+  fi
+}
+
+install_omz
+
 omz_install_custom_plugins() {
   local plugin_dir="${ZSH_CUSTOM:-$ZSH/custom}/plugins"
   for plugin in "$@"; do
