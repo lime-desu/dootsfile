@@ -23,9 +23,17 @@ cheat() {
 }
 wtfis() { curl "cheat.sh/$@" }
 
-alias bathelp='bat --plain --language=help'
+bak() {
+    if [ -d "$1" ]; then
+        echo "Error: $1 is a directory"
+    else
+        backup_file=${2:-$1.bak}
+        cp -T "$1" "$backup_file"
+    fi
+}
+
 help() {
-    "$@" --help 2>&1 | bathelp
+    "$@" --help 2>&1 | bat --plain --language=help
 }
 
 up(){
