@@ -14,8 +14,8 @@ generate_flatpak_alias() {
     done < <(find "$flatpak_binaries_dir" -maxdepth 1 -mindepth 1)
 
     echo "Done generating Flatpak aliases"
-    echo "Check $FLATPAK_ALIAS_FILE_DIR to modify auto-generated alias"
+    echo "Check ${BLD}${BLU}$FLATPAK_ALIAS_FILE_DIR${RST} to modify auto-generated alias"
   else
-    echo "Error: $flatpak_binaries_dir directory does not exist"
+    echo "${RED}${BLD}Error: ${YLW}$flatpak_binaries_dir${RST} directory does not exist"
   fi
 }

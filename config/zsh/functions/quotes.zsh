@@ -1,7 +1,7 @@
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/rand-quote/rand-quote.plugin.zsh
 
 if ! (( $+commands[curl] )); then
-  echo "Error: quote requires 'curl' to work." >&2
+  echo "${BLD}${RED}Error: ${BLU}quote${RST} requires ${YLW}'curl'${RST} to work." >&2
   return
 fi
 

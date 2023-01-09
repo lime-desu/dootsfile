@@ -7,7 +7,7 @@ cdtmp() {
 
   [[ ! -d "$tmpdir" ]] && mkdir "$tmpdir"
   cd "$tmpdir" || exit 1
-  echo "Changed to temp directory: $(pwd)"
+  echo "${CYN}Changed to temp directory: ${BLU}$(pwd)${RST}"
 }
 
 colors() {
@@ -25,7 +25,7 @@ wtfis() { curl "cheat.sh/$@" }
 
 bak() {
     if [ -d "$1" ]; then
-        echo "Error: $1 is a directory"
+        echo "${BLD}${RED}Error: ${YLW}$1${RST} is a directory"
     else
         backup_file=${2:-$1.bak}
         cp -T "$1" "$backup_file"
