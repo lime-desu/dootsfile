@@ -3,7 +3,7 @@ omz_install_custom_plugins() {
   for plugin in "$@"; do
     local plugin_name="${plugin##*/}"
     if [[ ! -d "$plugin_dir/$plugin_name" ]]; then
-      echo "Installing $plugin_name plugin...";
+      echo "Installing ${YLW}${BLD}$plugin_name${RST} plugin...";
       git clone --depth=1 "https://github.com/$plugin" "$plugin_dir/$plugin_name"
     fi
   done
@@ -13,6 +13,7 @@ omz_install_custom_plugins() {
 omz_install_custom_plugins \
   djui/alias-tips \
   wfxr/forgit \
+  Bhupesh-V/ugit \
   marlonrichert/zsh-autocomplete \
   hlissner/zsh-autopair \
   zsh-users/zsh-autosuggestions \
@@ -20,21 +21,15 @@ omz_install_custom_plugins \
   zsh-users/zsh-syntax-highlighting
 
 omz_update_custom_plugins() {
-    red=$(tput setaf 1)
-    grn=$(tput setaf 2)
-    ylw=$(tput setaf 3)
-    blu=$(tput setaf 4)
-    rst=$(tput sgr0)
-    bld=$(tput bold)
     omz update && echo ""
-    printf "${blu}%s${rst}\n\n" "Updating custom plugins..."
+    printf "${BLU}%s${RST}\n\n" "Updating custom plugins..."
     find "${ZSH_CUSTOM:-$ZSH/custom}" -type d -name ".git" | while read LINE; do
         plugin=${LINE:h}
         pushd -q "${plugin}"
         if git pull --rebase; then
-            printf "%s${rst}\n" ${ylw}${bld}"${plugin:t}${rst} ${grn}has been updated and/or is at the current version.${rst}"
+            printf "%s${RST}\n" ${YLW}${BLD}"${plugin:t}${RST} ${GRN}has been updated and/or is at the current version.${RST}"
         else
-            printf "%s${rst}\n" "${red}There was an error updating ${rst}${ylw}${bld}${plugin:t}.${rst}${red} Try again later or figure out what went wrong..."
+            printf "%s${RST}\n" "${RED}There was an error updating ${RST}${YLW}${BLD}${plugin:t}.${RST}${RED} Try again later or figure out what went wrong..."
         fi
         popd -q
     done

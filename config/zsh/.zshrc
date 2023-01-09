@@ -95,6 +95,7 @@ plugins=(
 	ripgrep
 	tmux
 	thefuck
+	ugit
 	zsh-autocomplete
 	zsh-autopair
 	zsh-autosuggestions
