@@ -12,9 +12,14 @@ zle -N magic-ls
 
 bindkey '\el' magic-ls
 
-# ls automatically after cd
+# ls automatically after cd and git status if on a git repo
 function cd () {
     builtin cd "$@" 
-    exa --all --icons --group-directories-first
+    if [ -d .git ]; then
+        git status; echo ""
+        exa --all --icons --group-directories-first
+    else
+        exa --all --icons --group-directories-first
+    fi
 }
 
