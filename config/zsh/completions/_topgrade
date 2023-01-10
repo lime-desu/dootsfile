@@ -1,0 +1,58 @@
+#compdef topgrade
+
+autoload -U is-at-least
+
+_topgrade() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'*--disable=[Do not perform upgrades for the given steps]:STEP:(asdf atom bin brew_cask brew_formula bun cargo chezmoi chocolatey choosenim composer conda config_update containers custom_commands deb_get deno distrobox dotnet emacs firmware flatpak flutter fossil gcloud gem ghcup github_cli_extensions git_repos gnome_shell_extensions go guix haxelib helm home_manager jetpack julia juliaup kakoune helix krew macports mas micro myrepos nix node opam pacdef pacstall pearl pip3 pipx pkg pkgin pnpm powershell protonup raco rcm remotes restarts rtcl ruby_gems rustup scoop sdkman sheldon shell snap sparkle spicetify stack system tldr tlmgr tmux toolbx vagrant vcpkg vim winget wsl yadm yarn)' \
+'*--only=[Perform only the specified steps (experimental)]:STEP:(asdf atom bin brew_cask brew_formula bun cargo chezmoi chocolatey choosenim composer conda config_update containers custom_commands deb_get deno distrobox dotnet emacs firmware flatpak flutter fossil gcloud gem ghcup github_cli_extensions git_repos gnome_shell_extensions go guix haxelib helm home_manager jetpack julia juliaup kakoune helix krew macports mas micro myrepos nix node opam pacdef pacstall pearl pip3 pipx pkg pkgin pnpm powershell protonup raco rcm remotes restarts rtcl ruby_gems rustup scoop sdkman sheldon shell snap sparkle spicetify stack system tldr tlmgr tmux toolbx vagrant vcpkg vim winget wsl yadm yarn)' \
+'*--custom-commands=[Run only specific custom commands]:NAME: ' \
+'*--env=[Set environment variables]:NAME=VALUE: ' \
+'*-y+[Say yes to package manager'\''s prompt]:STEP:(asdf atom bin brew_cask brew_formula bun cargo chezmoi chocolatey choosenim composer conda config_update containers custom_commands deb_get deno distrobox dotnet emacs firmware flatpak flutter fossil gcloud gem ghcup github_cli_extensions git_repos gnome_shell_extensions go guix haxelib helm home_manager jetpack julia juliaup kakoune helix krew macports mas micro myrepos nix node opam pacdef pacstall pearl pip3 pipx pkg pkgin pnpm powershell protonup raco rcm remotes restarts rtcl ruby_gems rustup scoop sdkman sheldon shell snap sparkle spicetify stack system tldr tlmgr tmux toolbx vagrant vcpkg vim winget wsl yadm yarn)' \
+'*--yes=[Say yes to package manager'\''s prompt]:STEP:(asdf atom bin brew_cask brew_formula bun cargo chezmoi chocolatey choosenim composer conda config_update containers custom_commands deb_get deno distrobox dotnet emacs firmware flatpak flutter fossil gcloud gem ghcup github_cli_extensions git_repos gnome_shell_extensions go guix haxelib helm home_manager jetpack julia juliaup kakoune helix krew macports mas micro myrepos nix node opam pacdef pacstall pearl pip3 pipx pkg pkgin pnpm powershell protonup raco rcm remotes restarts rtcl ruby_gems rustup scoop sdkman sheldon shell snap sparkle spicetify stack system tldr tlmgr tmux toolbx vagrant vcpkg vim winget wsl yadm yarn)' \
+'--config=[Alternative configuration file]:PATH: ' \
+'--remote-host-limit=[A regular expression for restricting remote host execution]:REGEX: ' \
+'--log-filter=[Tracing filter directives]:LOG_FILTER: ' \
+'--gen-completion=[Print completion script for the given shell and exit]:GEN_COMPLETION:(bash elvish fish powershell zsh)' \
+'-h[Print help information]' \
+'--help[Print help information]' \
+'-V[Print version information]' \
+'--version[Print version information]' \
+'--edit-config[Edit the configuration file]' \
+'--config-reference[Show config reference]' \
+'-t[Run inside tmux]' \
+'--tmux[Run inside tmux]' \
+'-c[Cleanup temporary or old files]' \
+'--cleanup[Cleanup temporary or old files]' \
+'-n[Print what would be done]' \
+'--dry-run[Print what would be done]' \
+'--no-retry[Do not ask to retry failed steps]' \
+'-v[Output debug logs. Alias for `--log-filter debug`]' \
+'--verbose[Output debug logs. Alias for `--log-filter debug`]' \
+'-k[Prompt for a key before exiting]' \
+'--keep[Prompt for a key before exiting]' \
+'--skip-notify[Skip sending a notification at the end of a run]' \
+'--disable-predefined-git-repos[Don'\''t pull the predefined git repos]' \
+'--show-skipped[Show the reason for skipped steps]' \
+'--gen-manpage[Print roff manpage and exit]' \
+&& ret=0
+}
+
+(( $+functions[_topgrade_commands] )) ||
+_topgrade_commands() {
+    local commands; commands=()
+    _describe -t commands 'topgrade commands' commands "$@"
+}
+
+_topgrade "$@"
