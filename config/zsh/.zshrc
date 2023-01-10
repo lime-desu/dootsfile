@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$ZSH" 
+export ZSH="${ZSH:-$HOME/.local/share/oh-my-zsh}" 
 
 if [[ -d $ZSH/custom/plugins/zsh-autocomplete ]]; then
   source $ZSH/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
@@ -146,13 +146,14 @@ zstyle ':autocomplete:*' min-input 1
 # File directory that are needed to source
 files=(
  # broot
- $XDG_CONFIG_HOME/broot/launcher/bash/br
+ $DOOTS/config/broot/launcher/bash/br
  # fzf config file
- $XDG_CONFIG_HOME/fzf/{fzf,forgit}rc
+ $DOOTS/config/fzf/{fzf,forgit}rc
+ $DOOTS/config/fzf/widgets/*.zsh
  # fzf-sripts
  $DOOTS/scripts/fzf-{flatpak,git}.sh
  # zsh
- $XDG_CONFIG_HOME/zsh/**/*.zsh
+ $DOOTS/config/zsh/**/*.zsh
   )
 
 for file in $files; do

@@ -151,28 +151,6 @@ zle      -N       fzf-atuin-history-widget
 bindkey '^R'      fzf-atuin-history-widget
 
 
-fzf-man-widget() {
-  batman="man {1} | col -bx | bat --language=man --plain --color always --theme=\"Monokai Extended\""
-   man -k . | sort \
-   | awk -v cyan=$(tput setaf 6) -v blue=$(tput setaf 4) -v res=$(tput sgr0) -v bld=$(tput bold) '{ $1=cyan bld $1; $2=res blue;} 1' \
-   | fzf  \
-      -q "$LBUFFER" \
-      --ansi \
-      --tiebreak=begin \
-      --prompt=' Man > '  \
-      --header="M-r: update mandb | M-t: tl;dr | M-c: cheat.sh | M:m manual " \
-      --preview-window '50%,rounded,<50(down,80%,border-up)' \
-      --preview "${batman}" \
-      --bind "enter:execute(man {1})" \
-      --bind "alt-u:execute(sudo mandb && tldr --update)" \
-      --bind "alt-c:+change-preview(cht.sh {1})+change-prompt(ﯽ Cheat > )" \
-      --bind "alt-m:+change-preview(${batman})+change-prompt( Man > )" \
-      --bind "alt-t:+change-preview(tldr --color=always {1})+change-prompt(ﳁ TLDR > )"
-  zle reset-prompt
-}
-zle     -N          fzf-man-widget
-bindkey '^[h'       fzf-man-widget
-
 fzf-cd-recent-dir-widget () {
   local dir
   print -rNC1 -- $dirstack |
