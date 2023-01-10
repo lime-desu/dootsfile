@@ -105,7 +105,7 @@ plugins=(
 
 # this should before placed before `"$ZSH/oh-my-zsh.sh"`
 fpath+=${ZSH_CUSTOM:-${ZSH:-$XDG_DATA_HOME/oh-my-zsh}/custom}/plugins/zsh-completions/src
-
+fpath+=${XDG_CONFIG_HOME:-$DOOTS/config}/zsh/completions
 
 [[ -f "$ZSH/oh-my-zsh.sh" ]] && source $ZSH/oh-my-zsh.sh
 
