@@ -1,34 +1,37 @@
-install_omz() {
-  local oh_my_zsh_dir="${ZSH:-$HOME/.local/share/oh-my-zsh}"
-  if [[ ! -d "$oh_my_zsh_dir" ]]; then
-    echo "Installing ${BLD}${BLU}[Oh My Zsh]${RST} ..."
-    git clone https://github.com/ohmyzsh/ohmyzsh.git $oh_my_zsh_dir
+omz_install_custom() {
+  set -e
+  local type=$1
+  local omz_dir="${ZSH:-$HOME/.local/share/oh-my-zsh}"
+  local custom_dir="${ZSH_CUSTOM:-$omz_dir/custom}/${type}s"
+  local repos=("${@:2}")
+
+  if [[ ! -d "$omz_dir" ]]; then
+    echo "${BLU}Installing ${BLD}[Oh My Zsh]${RST} ..."
+    git clone https://github.com/ohmyzsh/ohmyzsh.git $omz_dir
   fi
-}
 
-install_omz
-
-omz_install_custom_plugins() {
-  local plugin_dir="${ZSH_CUSTOM:-$ZSH/custom}/plugins"
-  for plugin in "$@"; do
-    local plugin_name="${plugin##*/}"
-    if [[ ! -d "$plugin_dir/$plugin_name" ]]; then
-      echo "Installing ${YLW}${BLD}$plugin_name${RST} plugin...";
-      git clone --depth=1 "https://github.com/$plugin" "$plugin_dir/$plugin_name"
+  for repo in "${repos[@]}"; do
+    local name=${repo##*/}
+    local dir="$custom_dir/$name"
+    if [[ ! -d "$dir" ]]; then
+      echo "${GRN}Installing ${BLD}${YLW}$name${RST} ${BLU}${type}...${RST}"
+      git clone --depth=1 "https://github.com/$repo" "$dir"
     fi
   done
 }
 
-# automatically install omz custom plugin if it doesn't exist
-omz_install_custom_plugins \
-  djui/alias-tips \
-  wfxr/forgit \
-  Bhupesh-V/ugit \
-  marlonrichert/zsh-autocomplete \
-  hlissner/zsh-autopair \
-  zsh-users/zsh-autosuggestions \
-  zsh-users/zsh-completions \
-  zsh-users/zsh-syntax-highlighting
+# Usage install_omz_cutom <type> <reponame>
+omz_install_custom plugin \
+    "djui/alias-tips" \
+    "wfxr/forgit" \
+    "Bhupesh-V/ugit" \
+    "marlonrichert/zsh-autocomplete" \
+    "hlissner/zsh-autopair" \
+    "zsh-users/zsh-autosuggestions" \
+    "zsh-users/zsh-completions" \
+    "zsh-users/zsh-syntax-highlighting"
+
+omz_install_custom theme "romkatv/powerlevel10k"
 
 omz_update_custom_plugins() {
     omz update && echo ""
