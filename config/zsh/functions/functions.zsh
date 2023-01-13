@@ -51,3 +51,8 @@ path() { echo ${PATH//:/\\n} }
 silent() { "$@" > /dev/null 2>&1; }
 unique() { awk '!seen[$0]++' "$1"; }
 
+update() {
+  sudo dnf makecache
+  topgrade
+  omz_update_custom_plugins
+}
