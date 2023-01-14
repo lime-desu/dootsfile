@@ -53,9 +53,15 @@ cat < "$NF_DL_DIR/nf-dl_url"  | \
         echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
     else 
         [ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1}
-        fc-cache
+        fc-cache -f -v
+        echo 'remove' > $tmp_file
+        echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
     fi
-    )" 
+    )+reload(
+    if grep -q 'remove' $tmp_file; then
+        $ls_installed_font
+    else cat < \"$NF_DL_DIR/nf-dl_url\"
+    fi)" 
 # to add if possible or if i can
 # - preview? 
 # - indicator ([x] [ ] installed or not) #maybe not
