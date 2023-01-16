@@ -34,3 +34,12 @@ alias \
 alias \
     update-grub="sudo grub2-mkconfig -o /etc/grub2.cfg && sudo grub2-mkconfig -o /etc/grub2-efi.cfg && sudo grub2-mkconfig -o /boot/grub2/grub.cfg" \
     reinstall-grub="sudo rm -iv /boot/efi/EFI/fedora/grub.cfg && sudo rm -iv /boot/grub2/grub.cfg; sudo dnf reinstall 'shim-*' 'grub2-efi-*' grub2-common"
+
+autoload -Uz tetriscurses
+alias tetris=tetriscurses
+
+function create_dust_alias() {
+    if ! command -v dust > /dev/null; then
+        alias dust='du --summarize -h * | sort --reverse -h'
+    fi
+}; create_dust_alias
