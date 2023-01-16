@@ -28,3 +28,5 @@ setopt MENU_COMPLETE        # Automatically highlight first element of completio
 
 zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
 zstyle ':completion:*:warnings' format '%F{cyan}%BSorry, no matches for: %d%b%f'
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' use-cache on
