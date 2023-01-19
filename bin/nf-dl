@@ -31,7 +31,7 @@ fi
 
 declare tmp_file ls_installed_font
 tmp_file="$(mktemp)";   echo 'install' > "$tmp_file";   trap 'rm -f $tmp_file' EXIT
-ls_installed_font="find \"${FONT_DIR}\" -mindepth 1 -type d -printf \"$bld$blu%f\n\""
+ls_installed_font="find \"${FONT_DIR}\" -mindepth 1 -type d -printf \"${bld}${blu}%f\n\""
 
 cat < "$NF_DL_DIR/nf-dl_url"  | \
     fzf --ansi +x \
@@ -45,16 +45,16 @@ cat < "$NF_DL_DIR/nf-dl_url"  | \
     --bind="del:execute(rm -rf $NF_DL_DIR;)" \
     --bind="enter:execute(
     if grep -q 'install' $tmp_file ; then
-        echo -e '${blu}Downloading ${cyn}${bld}{1} Nerd Font...${rst}\n';wget {3}
-        [ -d ${FONT_DIR} ] || mkdir -p ${FONT_DIR}; mkdir -p ${FONT_DIR}/{1}
+        echo -e '${bld}${blu}Downloading ${cyn}{1} Nerd Font...${rst}\n';wget {3}
+        [ -d ${FONT_DIR} ] || mkdir -p ${FONT_DIR}/{1}
         unzip {1} -d ${FONT_DIR}/{1}
-        fc-cache -f ${FONT_DIR} && [ -e ${FONT_DIR}/{1} ] && echo \"\n${cyn}Nerd Font: ${blu}${bld}{1} ${rst}${cyn}has been installed\n\"
-        echo -e \"${cyn}Would you like to delete or keep ${blu}${bld}{1}.zip${rst}${cyn}(y/n):\" && rm -i {1}.zip
+        fc-cache -f ${FONT_DIR} && [ -e ${FONT_DIR}/{1} ] && echo \"\n${bld}${cyn}Nerd Font: ${blu}{1} ${rst}has been installed\n\"
+        echo -e \"${bld}${cyn}Would you like to delete or keep ${blu}{1}.zip${rst} (y/n):\" && rm -i {1}.zip
         echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
     else 
-        [ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1}
-        fc-cache -f -v
-        echo 'remove' > $tmp_file
+        echo -e \"${bld}${blu}Uninstall/Remove ${cyn}Nerd Font: {1} ${rst}(y/n):\" 
+        [ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1}; echo 'remove' > $tmp_file
+        fc-cache -f -v && echo \"\n${bld}${cyn}Nerd Font: ${blu}{1} ${rst}has been uninstalled\"
         echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
     fi
     )+reload(
