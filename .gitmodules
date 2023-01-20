@@ -4,3 +4,6 @@
 [submodule "config/alacritty/catppuccin"]
 	path = config/alacritty/catppuccin
 	url = https://github.com/catppuccin/alacritty
+[submodule "config/bat/themes"]
+	path = config/bat/themes
+	url = https://github.com/catppuccin/bat
