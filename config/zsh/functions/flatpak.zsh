@@ -1,4 +1,4 @@
-FLATPAK_ALIAS_FILE_DIR="$XDG_CONFIG_HOME/zsh/alias/flatpak-aliases.zsh"
+FLATPAK_ALIAS_FILE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/alias/flatpak-aliases.zsh"
 
 generate_flatpak_alias() {
   set -e

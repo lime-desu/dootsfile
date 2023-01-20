@@ -19,16 +19,16 @@ alias \
     md='mkdir -pv';
 
 alias \
-    alacrittyrc="$EDITOR $XDG_CONFIG_HOME/alacritty/alacritty.yml" \
-    fzfrc="$EDITOR $XDG_CONFIG_HOME/fzf/fzfrc" \
-    gitrc="$EDITOR $XDG_CONFIG_HOME/git/config" \
-    gitignorerc="$EDITOR $XDG_CONFIG_HOME/git/gitignore" \
-    hyrlandrc="$EDITOR $XDG_CONFIG_HOME/hypr/hyprland.conf" \
-    kittyrc="$EDITOR $XDG_CONFIG_HOME/kitty/kitty.conf" \
-    nvimrc="$EDITOR $XDG_CONFIG_HOME/nvim/after/plugin/defaults.lua" \
+    alacrittyrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/alacritty.yml" \
+    fzfrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzfrc" \
+    gitrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/git/config" \
+    gitignorerc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/git/gitignore" \
+    hyrlandrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.conf" \
+    kittyrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/kitty/kitty.conf" \
+    nvimrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/after/plugin/defaults.lua" \
     tmuxrc="$EDITOR $HOME/.tmux.conf.local" \
-    zshrc="$EDITOR $ZDOTDIR/.zshrc" \
-    zshenv="$EDITOR $ZDOTDIR/.zshenv" \
+    zshrc="$EDITOR ${ZDOTDIR:-$HOME/.config/zsh}/.zshrc" \
+    zshenv="$EDITOR ${ZDOTDIR:-$HOME/.config/zsh}/.zshenv" \
     {v,vim}="$EDITOR" \
 
 alias \
