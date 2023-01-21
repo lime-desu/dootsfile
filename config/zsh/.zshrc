@@ -89,6 +89,7 @@ plugins=(
 	git
 	dircycle
 	extract
+	fancy-ctrl-z
 	fzf
 	fd
 	forgit

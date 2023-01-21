@@ -13,3 +13,26 @@ bindkey '^[OA'              _atuin_search_widget
 bindkey '^[[1;3D'           insert-cycledleft               # Alt+Left
 bindkey '^[[1;3C'           insert-cycledright              # Alt+Right
 
+# create command substitution `$()`
+function insert_cmd_sub {
+    RBUFFER='$()'"$RBUFFER"
+    ((CURSOR=CURSOR+2))
+}
+zle -N insert_cmd_sub
+bindkey '^J' insert_cmd_sub                                 # Ctrl+J
+
+function edit_clipboard(){
+    BUFFER="$(wl-paste)"
+    zle edit-command-line
+}
+zle -N edit_clipboard
+bindkey '^X^V' edit_clipboard                               # Ctrl+x + Ctrl+v
+
+function git-status {
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        git status
+        zle redisplay
+    fi
+}
+zle -N git-status
+bindkey '^[g' git-status                                    # Alt+g
