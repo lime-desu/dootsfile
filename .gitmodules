@@ -13,3 +13,6 @@
 [submodule "config/kitty/themes"]
 	path = config/kitty/themes
 	url = https://github.com/catppuccin/kitty
+[submodule "config/foot/themes"]
+	path = config/foot/themes
+	url = https://github.com/catppuccin/foot
