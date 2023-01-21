@@ -10,3 +10,6 @@
 [submodule "config/btop/themes"]
 	path = config/btop/themes
 	url = https://github.com/catppuccin/btop
+[submodule "config/kitty/themes"]
+	path = config/kitty/themes
+	url = https://github.com/catppuccin/kitty
