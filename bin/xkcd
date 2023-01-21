@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+URL="https://c.xkcd.com/random/comic"
+[ $# -gt 0 ] && [[ "$1" =~ ^(-n|--new)$ ]] && URL="https://xkcd.com/"
+
+img=$(curl -sL $URL | grep 'href= "https://imgs.xkcd.com/comics.*' | 
+cut -d'>' -f2 | 
+cut -d'<' -f1 | tr -d '\n')
+
+if [[ $TERM = "xterm-kitty" ]]; then
+    kitty +kitten icat "$img"
+else
+    chafa -C on "$img"
+fi
+
