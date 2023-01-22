@@ -18,10 +18,15 @@ colors() {
 }
 
 cheat() {
-  [ -z "$*" ] && printf "Enter a command: " && read -r cmd || cmd=$*
-  curl -s cheat.sh/$cmd | bat --plain -l=md || less
+  if ! command -v cht.sh > /dev/null; then
+    echo "installing cheat.sh and it's dependencies..."
+    curl -s https://cht.sh/:cht.sh | tee ~/.local/bin/cht.sh && chmod +x ~/.local/bin/cht.sh
+    sudo dnf install rlwrap virtualenv
+    cht.sh --standalone-install ${XDG_DATA_HOME:-$HOME/.local/share}/cheat.sh
+  fi
+  ~/.local/bin/cht.sh --shell
 }
-wtfis() { curl "cheat.sh/$@" }
+wtfis() { curl -s "cheat.sh/${@:-cheat}" | sed -e 's/cheat/wtfis/g' | bat --plain -l=md || less -R } > /dev/tty
 
 bak() {
     if [ -d "$1" ]; then

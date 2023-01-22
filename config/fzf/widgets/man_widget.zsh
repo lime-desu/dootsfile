@@ -11,7 +11,7 @@ fzf-man-widget() {
       --preview-window '50%,rounded,<50(down,80%,border-up)' \
       --preview "${batman}" \
       --bind "enter:execute(man {1})" \
-      --bind "alt-c:+change-preview(cht.sh {1})+change-prompt(ﯽ Cheat > )" \
+      --bind "alt-c:+change-preview(curl -s cht.sh/{1})+change-prompt(ﯽ Cheat > )" \
       --bind "alt-m:+change-preview(${batman})+change-prompt( Man > )" \
       --bind "alt-u:execute(sudo mandb && echo -e '\nUpdating tl;dr cache...';tldr --update)" \
       --bind "alt-t:+change-preview(tldr --color=always {1})+change-prompt(ﳁ TLDR > )"
