@@ -1,6 +1,6 @@
-@define-color accent_color rgb(88, 91, 112);
-@define-color accent_bg_color rgb(69, 71, 90);
-@define-color accent_fg_color rgb(205, 214, 244);
+@define-color accent_color rgb(180, 190, 254);
+@define-color accent_bg_color rgb(180, 190, 254);
+@define-color accent_fg_color rgb(30,30,46);
 @define-color destructive_color rgb(238, 153, 160);
 @define-color destructive_bg_color rgb(237, 135, 150);
 @define-color destructive_fg_color rgb(205, 214, 244);
