@@ -29,3 +29,5 @@ omt_install
 # to uninstall/remove
 # rm -r $0MT_DIR
 # rm ~/.tmux.conf*
+# to update 
+# git -C $OMT_DIR pull
