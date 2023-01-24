@@ -5,7 +5,12 @@
 
 # Begone, silly errors! Lazy copy + paste forever!! ETCETERA!!!!
 
-random_messages=(
+scss_mssgs=(
+  "Wow, you did it! You're a command line wizard!"
+  "Good job! You must have a PhD in typing."
+  "Impressive! You're one command away from world domination."
+  "You realize you can't just copy and paste your way through life, right?"
+  "Command executed successfully! Looks like you're ready to take on the world (or at least your computer)."
   "Quit pasting in commands from the internet, you lazy bum."
   "What do you think this is, a magic terminal that can execute any random command you throw at it?"
   "Are you trying to break the terminal with your ridiculous command-pasting habits?"
@@ -20,7 +25,13 @@ random_messages=(
   "Seriously? You expect me to run that command? I'm not that gullible."
   )
 
-error_messages=(
+errr_mssgs=(
+  "Command failed to execute." "An error occurred." "Try again."
+  "An error occurred. Please check the command and try again."
+  "The command failed to execute. Please check your input and try again."
+  "Command execution failed. Please check the command and try again."
+  "Error: Command was not able to execute successfully. Please try again."
+  "Command execution failed. Looks like you're not quite ready to take over the world yet."
   "I'm not sure what you were trying to do with that command, but it's not going to work."
   "I'm not sure what kind of sorcery you were trying to perform with that command, but it's not going to work."
   "I'm sorry, but I refuse to execute your ridiculous command."
@@ -48,15 +59,13 @@ normal="\033[0m"
 index=$((RANDOM % ${#colors[@]}))
 random_color=${colors[${index}]}
 
+command "$@"
+
 status=$?
-# Check the exit status of the command
 if [ $status -eq 0 ]; then
-	selected_message=${random_messages[$RANDOM % ${#random_messages[@]}]}
+	selected_message=${scss_mssgs[$RANDOM % ${#scss_mssgs[@]}]}
 else
-	selected_message=${error_messages[$RANDOM % ${#error_messages[@]}]}
+	selected_message=${errr_mssgs[$RANDOM % ${#errr_mssgs[@]}]}
 fi
 
-echo -e "${random_color}$selected_message${normal}\n"
-"$@"
-
-exit $status
+echo -e "\n${random_color}$selected_message${normal}\n"
