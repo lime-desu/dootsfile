@@ -1,8 +1,10 @@
 forgit-list-command-widget() {
-    local cmd=$(alias | grep 'forgit' | sed -E 's/::/ /g; s/=/ :- /g; s/for//g' | column -ts":" )
+    local cmd=$(alias | grep 'forgit' | sed -E 's/::/ /g; s/=/ :- /g; s/for//g' | \
+    awk -v BLD=${BLD} -v RST=${RST} -v BLU=${BLU} -v CYN=${CYN} -F":" '{print BLU BLD $1 RST ":" CYN $2 RST }' | \
+    column -ts":")
     LBUFFER="$LBUFFER$( \
     fzf-tmux -p -w 30% -h 55% --preview-window=hidden --prompt=' List > ' \
-        --header=$'Alias\t Description' <<< "$cmd" | awk '{print $1}')"
+        --header=$'Alias\t  Description' <<< "$cmd" | awk '{print $1}')"
     if [[ -n $LBUFFER ]]; then
         zle accept-line
     fi
