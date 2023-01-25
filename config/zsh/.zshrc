@@ -86,13 +86,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	alias-tips
-	git
 	dircycle
 	extract
 	fancy-ctrl-z
 	fzf
 	fd
 	forgit
+	git
 	ripgrep
 	tmux
 	thefuck

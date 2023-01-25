@@ -15,6 +15,8 @@ export ATUIN_NOBIND="true"
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
 # bat
 export BAT_THEME="Catppuccin-mocha"
+# forgit (plugin)
+export FORGIT_NO_ALIASES="true"
 # less (pager) 
 export LESS_TERMCAP_mb=$'\E[1;32m'
 export LESS_TERMCAP_md=$'\E[01;34m' LESS_TERMCAP_me=$'\E[1m' GROFF_NO_SGR=1
