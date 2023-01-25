@@ -3,7 +3,7 @@ forgit-list-command-widget() {
     awk -v BLD=${BLD} -v RST=${RST} -v BLU=${BLU} -v CYN=${CYN} -F":" '{print BLU BLD $1 RST ":" CYN $2 RST }' | \
     column -ts":")
     LBUFFER="$LBUFFER$( \
-    fzf-tmux -p -w 30% -h 55% --preview-window=hidden --prompt=' List > ' \
+    fzf-tmux -p -w 30% -h 53% --preview-window=hidden --prompt=' List > ' \
         --header=$'Alias\t  Description' <<< "$cmd" | awk '{print $1}')"
     if [[ -n $LBUFFER ]]; then
         zle accept-line
@@ -19,24 +19,24 @@ cat <<-EOF
 
         Forgit Commands (Aliases)
 
-        ga          add
-        gbd         branch delete
-        gbl         blame
-        gcb         checkout branch
-        gcf         checkout file 
-        gclean      clean
-        gco         checkout commit
-        gcp         cherry pick from branch
-        gct         checkout tag
-        gd          diff
-        gfu         fixup
-        gi          ignore
-        glo         log
-        grb         rebase
-        grc         revert commit
-        grh         reset head
-        gsp         stash push
-        gss         stash show
+        fga          add
+        fgbl         blame
+        fgbd         branch delete
+        fgcb         checkout branch
+        fgco         checkout commit
+        fgcf         checkout file 
+        fgct         checkout tag
+        fgcp         cherry pick
+        fgclean      clean
+        fgd          diff
+        fgfu         fixup
+        fgi          ignore
+        fglo         log
+        fgrb         rebase
+        fgrh         reset head
+        fgrev        revert commit
+        fgsta        stash push
+        fgsts        stash show
 EOF
 )"
 

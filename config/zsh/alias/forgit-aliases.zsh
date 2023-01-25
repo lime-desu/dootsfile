@@ -3,11 +3,10 @@ alias \
  fgbl="forgit::blame" \
  fgbd="forgit::branch::delete" \
  fgcb="forgit::checkout::branch" \
- fgcc="forgit::checkout::commit" \
+ fgco="forgit::checkout::commit" \
  fgcf="forgit::checkout::file" \
  fgct="forgit::checkout::tag" \
  fgcp="forgit::cherry::pick" \
- fgcpb="forgit::cherry::pick::from::branch" \
  fgclean="forgit::clean" \
  fgd="forgit::diff" \
  fgfu="forgit::fixup" \
