@@ -1,11 +1,9 @@
 #"^{install,todo}-*.txt"
 *.bak
 bookmarks
-*.cava
-**compiled.lua
-*.luarc.*
 *.log
 *.txt
 *zcompdump*
 installed-**
-**/alias/flatpak-**.zsh
+flatpak-**.zsh
+*-lock.json
