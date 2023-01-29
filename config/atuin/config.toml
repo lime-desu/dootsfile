@@ -13,7 +13,7 @@
 # dialect = "uk" 								
 
 ## enable or disable automatic sync
-# auto_sync = true
+auto_sync = true
 
 ## enable or disable automatic update checks
 # update_check = true
@@ -21,7 +21,7 @@
 ## how often to sync history. note that this is only triggered when a command 
 ## is ran, so sync intervals may well be longer
 ## set it to 0 to sync after every command
-# sync_frequency = "5m"
+sync_frequency = "0"
 
 ## address of the sync server
 # sync_address = "https://api.atuin.sh"
@@ -33,3 +33,7 @@ search_mode = "fuzzy"
 ## which style to use
 ## possible values: auto, full, compact
 style = "auto"
+
+## what to do when the escape key is pressed when searching
+## possible values: return-original, return-query
+# exit_mode = "return-original"
