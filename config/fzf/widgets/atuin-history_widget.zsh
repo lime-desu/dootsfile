@@ -1,4 +1,3 @@
-# use atuin history instead 
 fzf-atuin-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
@@ -16,5 +15,11 @@ fzf-atuin-history-widget() {
   zle reset-prompt
   return $ret
 }
-zle      -N       fzf-atuin-history-widget
-bindkey '^R'      fzf-atuin-history-widget
+
+if ! command -v atuin > /dev/null; then
+  zle      -N     fzf-history-widget
+  bindkey '^R'    fzf-history-widget
+else
+  zle      -N     fzf-atuin-history-widget
+  bindkey '^R'    fzf-atuin-history-widget
+fi
