@@ -7,5 +7,7 @@ function clear-screen-and-scrollback() {
     echoti cnorm >"$TTY"
 }
 
-zle -N clear-screen-and-scrollback
-bindkey '^L' clear-screen-and-scrollback
+if [ "$TERM" != "xterm-kitty" ]; then
+  zle -N clear-screen-and-scrollback
+  bindkey '^L' clear-screen-and-scrollback
+fi
