@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # wip add colors
 # make sure we have pulled in and updated any submodules
-git submodule update --init
 
 DOOTS="$HOME/Git/Local/dootsfile"
 CONFIG="$HOME/.config"
@@ -9,22 +8,48 @@ BINS="$HOME/.local/bin"
 THEMES="$HOME/.local/share/themes"
 ICONS="$HOME/.local/share/icons"
 
-stowit() {
-  dootsfile="$1"
-  target_dir="$2"
-  echo -e "\nStowing ${dootsfile} for user: $(whoami)";
-  stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir";
-}
-
 create() {
   local dir="$1"
-  [ -d "$dir" ] || mkdir -p "$dir"
+  [ ! -d "$dir" ] && mkdir -p "$dir" && echo "Creating directory for $dir..."
 }
 
-dirs=("$DOOTS" "$CONFIG" "$BINS" "$THEMES" "$ICONS")
+dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
 for dir in "${dirs[@]}"; do
   create "$dir"
 done
+
+backup() {
+  local file="$1"
+  if [ -e "$file" ]; then
+    backup_file=${2:-$1.bak}
+    if [ ! -e "$backup_file" ]; then
+      cp -r "$file" "$backup_file"
+      echo "Backing up $file to $backup_file..."
+    fi
+  fi
+}
+
+for file in "$DOOTS"/* ; do 
+  backup "$CONFIG"
+  create "$DOOTS"
+done
+
+# wip
+# install() {
+#   cd "$DOOTS" || return
+#   git clone https://github.com/lime-desu/dootsfile.git
+#   git submodule update --init
+# }
+#
+# uninstall() {
+#
+# }
+
+stowit() {
+  dootsfile="$1"
+  target_dir="$2"
+  stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir"
+}
 
 stowit config "${CONFIG}"
 stowit bin "${BINS}"
