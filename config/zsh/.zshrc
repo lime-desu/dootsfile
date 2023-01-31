@@ -147,7 +147,7 @@ zstyle ':autocomplete:*' min-input 1
 # File directory that are needed to source
 files=(
  # broot
- $DOOTS/config/broot/launcher/bash/br
+ ${XDG_DATA_HOME:-$HOME/.local/share}/broot/launcher/bash/1
  # fzf config file
  $DOOTS/config/fzf/{fzf,forgit}rc
  $DOOTS/config/fzf/widgets/*.zsh
@@ -158,7 +158,7 @@ files=(
   )
 
 for file in $files; do
-  if [[ ! -f $files ]]; then
+  if [[ -f $file ]]; then
     emulate -L zsh
     source $file
   fi

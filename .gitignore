@@ -7,3 +7,4 @@ bookmarks
 installed-**
 flatpak-**.zsh
 *-lock.json
+config/broot/**/**/br
