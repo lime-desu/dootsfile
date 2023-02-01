@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
-# wip add colors
 set -e
 
-check_dependency() {
-  if ! command -v "$1" > /dev/null; then
-    echo "Error: '$1' command not found. Please install it first and try again."
-    exit 1
-  fi
+dependencies=(bat broot chsh curl fd fzf git lsd nvim rg stow tmux wget wl-copy zsh)
+check_dependencies() {
+  for dependency in "${dependencies[@]}"; do
+    if ! command -v "$dependency" > /dev/null; then
+      echo "Error: '$dependency' command not found. Please install it first and try again."
+      exit 1
+    fi
+  done
 }
-
-check_dependency git 
-check_dependency stow
 
 DOOTS="$HOME/Git/Local/dootsfile"
 CONFIG="$HOME/.config"
@@ -20,18 +19,19 @@ ICONS="$HOME/.local/share/icons"
 
 create() {
   local dir="$1" 
-  dir_name="${dir/*\//}"
-  [ ! -d "$dir" ] && mkdir -p "$dir" && echo "Creating directory for '$dir_name'" 
+  local dir_name="${dir##*/}"
+  if [[ ! -d "$dir" ]]; then
+    mkdir -p "$dir" && echo "Creating directory for '$dir_name'" 
+  fi
 }
 
 backup() {
   local file="$1"
-  if [ -e "$file" ]; then
-    backup_file=${2:-$1.doots}
-    if [ ! -e "$backup_file" ]; then
-      cp -r "$file" "$backup_file"
-      echo "Backing up $file to $backup_file..."
-    fi
+  local backup_file=${2:-$1.doots}
+
+  if [[ -e "$file" ]] && [[ ! -e "$backup_file" ]]; then
+    cp -r "$file" "$backup_file"
+    echo "Backing up $file to $backup_file..."
   fi
 }
 
@@ -46,31 +46,45 @@ done
 # All operations aborted.
 # uncomment `--adopt` flag below
 # and then git reset --hard
-symlink() {
-  dootsfile="$1"
-  target_dir="$2"
+stow_this() {
+  local dootsfile="$1"
+  local target_dir="$2"
   stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir" #--adopt
   #git reset --hard
 }
 
-# wip
+setup_zsh() {
+  backup "$HOME/.zshenv"
+  create "$HOME/.local/state/zsh/"
+  echo "Symlinking .zshenv to $HOME..." && ln -sf "$DOOTS/config/zsh/.zshenv" "$HOME"
+  if [ "$SHELL" != "$(which zsh)" ]; then
+    chsh -s "$(which zsh)"
+  fi
+}
+
 setup() {
   if [ ! -d "$DOOTS" ]; then
     create "$DOOTS" && cd "$_" || return
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
     ./setup.sh
+    setup_zsh
+    bat cache --build
   fi
 
-  symlink config "${CONFIG}"
-  symlink bin "${BINS}"
-  symlink themes "${THEMES}"
-  symlink icons "${ICONS}"
+  stow_this config "${CONFIG}"
+  stow_this bin "${BINS}"
+  stow_this themes "${THEMES}"
+  stow_this icons "${ICONS}"
 }
 
+check_dependencies
 setup
 
-# For custom installation comment out stowit config from above, and
-# uncomment this line below add/remove config from the array
+# For custom installation comment out `stow_this config` from above, and
+# uncomment this line of array below then remove some you don't want to include
+# Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
+# TODO: create symlink function, add colors, make this interactive?
+
 # doots=(
 #   alacritty
 #   atuin
@@ -96,6 +110,6 @@ setup
 # )
 #
 # for dot in "${doots[@]}"; do
-#   cd "$DOOTS/config" || exit
-#   stowit "$dot" "${CONFIG}"
+#   cd "$DOOTS/config"
+#   ln -sf "$(pwd)/$dot" "${CONFIG}"
 # done
