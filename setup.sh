@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-dependencies=(bat broot chsh curl fd fzf git lsd nvim rg stow tmux wget wl-copy zsh)
+dependencies=(bat broot chsh curl fd fzf git lsd nvim rg stow tar tmux wget wl-copy zsh)
 check_dependencies() {
   for dependency in "${dependencies[@]}"; do
     if ! command -v "$dependency" > /dev/null; then
@@ -85,6 +85,31 @@ setup_firefox() {
   done
 }
 
+dl_cursor_icon() {
+  echo "Fetching phinger-cursors release_url..."
+  release_url=$(curl -s https://api.github.com/repos/phisch/phinger-cursors/releases | \
+    jq -r '.[].assets[] | select(.name | endswith(".tar.bz2")) | .browser_download_url' | \
+    grep -o "https.*" | head -n1)
+
+  while true; do
+    echo -n "Choose download method: (1) curl, (2) wget: "
+    read -r cmd
+    case "$cmd" in
+      1)
+        curl -L "$release_url" | tar xvfj - -C "$ICONS/test"
+        break
+        ;;
+      2)
+        wget -c -O- "$release_url" | tar xvfj - -C "$ICONS/test"
+        break
+        ;;
+      *)
+        echo "Invalid choice. Please try again."
+        ;;
+    esac
+  done
+}
+
 setup() {
   if [ ! -d "$DOOTS" ]; then
     create "$DOOTS" && cd "$_" || return
@@ -93,6 +118,7 @@ setup() {
     setup_zsh
     setup_firefox
     bat cache --build
+    dl_cursor_icon
   fi
 
   stow_this config "${CONFIG}"
@@ -107,7 +133,7 @@ setup
 # For custom installation comment out `stow_this config` from above, and
 # uncomment this line of array below then remove some you don't want to include
 # Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
-# TODO: add function to dl icon and theme and colors, make this interactive, and split into multiple file?
+# TODO: add function to dl theme and add colors, make this interactive, and split into multiple file?
 
 # doots=(
 #   alacritty
