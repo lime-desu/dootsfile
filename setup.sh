@@ -19,7 +19,8 @@ ICONS="$HOME/.local/share/icons"
 
 create() {
   local dir="$1" 
-  local dir_name="${dir##*/}"
+  local dir_name
+  dir_name="$(basename "$dir")"
   if [[ ! -d "$dir" ]]; then
     mkdir -p "$dir" && echo "Creating directory for '$dir_name'" 
   fi
@@ -47,19 +48,41 @@ done
 # uncomment `--adopt` flag below
 # and then git reset --hard
 stow_this() {
-  local dootsfile="$1"
-  local target_dir="$2"
+  local dootsfile="$1" target_dir="$2"
   stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir" #--adopt
   #git reset --hard
+}
+
+symlink() {
+  local dootsfile="$1" target_dir="$2"
+  ln -sf "$dootsfile" "$target_dir"
+  echo "Symlinking $dootsfile to $target_dir..."
 }
 
 setup_zsh() {
   backup "$HOME/.zshenv"
   create "$HOME/.local/state/zsh/"
-  echo "Symlinking .zshenv to $HOME..." && ln -sf "$DOOTS/config/zsh/.zshenv" "$HOME"
+  symlink "$DOOTS/config/zsh/.zshenv" "$HOME"
   if [ "$SHELL" != "$(which zsh)" ]; then
     chsh -s "$(which zsh)"
   fi
+}
+
+setup_firefox() {
+  mozilla_dirs=(
+    ~/.mozilla/firefox/**.default-**
+    ~/.var/app/org.mozilla.firefox/.mozilla/firefox/**.default-**
+    ~/.librewolf/**.default-**
+    ~/.var/app/io.gitlab.librewolf-community/.librewolf/**.default-**
+  )
+  
+  for dir in "${mozilla_dirs[@]}"; do
+    search_file="$dir/search.json.mozlz4"
+    if [[ -d $dir ]] && [[ ! -e $search_file.doots ]]; then
+      backup "$search_file"
+      symlink "$DOOTS/config/librewolf/search.json.mozlz4" "$search_file"
+    fi
+  done
 }
 
 setup() {
@@ -68,6 +91,7 @@ setup() {
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
     ./setup.sh
     setup_zsh
+    setup_firefox
     bat cache --build
   fi
 
@@ -83,7 +107,7 @@ setup
 # For custom installation comment out `stow_this config` from above, and
 # uncomment this line of array below then remove some you don't want to include
 # Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
-# TODO: create symlink function, add colors, make this interactive?
+# TODO: add function to dl icon and theme and colors, make this interactive, and split into multiple file?
 
 # doots=(
 #   alacritty
@@ -111,5 +135,5 @@ setup
 #
 # for dot in "${doots[@]}"; do
 #   cd "$DOOTS/config"
-#   ln -sf "$(pwd)/$dot" "${CONFIG}"
+#   symlink "$(pwd)/$dot" "${CONFIG}"
 # done
