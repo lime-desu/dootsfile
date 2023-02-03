@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-# wallpapers source im using
-# https://github.com/FrenzyExists/wallpapers
-# https://github.com/catppuccin/wallpapers
-# https://github.com/mut-ex/wallpapers
-# https://github.com/saint-13/Linux_Dynamic_Wallpapers
-
 WALLPAPER_DIR=${HOME}/Pictures/Wallpapers/Random_Wallpapers
 RANDOM_PICTURE=$(ls $WALLPAPER_DIR -1 | shuf -n 1)
 
