@@ -48,7 +48,8 @@ cleanup = true
 #max_concurrency = 5
 # Additional git repositories to pull
 repos = [
-    "~/Git/Clones/*"
+    "~/Git/Clones/*" ,
+    "~/Pictures/Wallpapers/*"
 ]
 
 # Don't pull the predefined git repos
