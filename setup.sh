@@ -85,22 +85,35 @@ setup_firefox() {
   done
 }
 
-dl_cursor_icon() {
-  echo "Fetching phinger-cursors release_url..."
-  release_url=$(curl -s https://api.github.com/repos/phisch/phinger-cursors/releases | \
-    jq -r '.[].assets[] | select(.name | endswith(".tar.bz2")) | .browser_download_url' | \
+get_download_url() {
+  local repo="$1"
+  local extension="$2"
+
+  local release_url
+  release_url=$(curl -s "https://api.github.com/repos/$repo/releases" | \
+    jq -r '.[].assets[] | select(.name | endswith("'"$extension"'")) | .browser_download_url' | \
     grep -o "https.*" | head -n1)
+  echo "$release_url"
+}
+
+dl_from_releases() {
+  echo "Fetching download links..."
+  # This will download phinger-cursors and adw-gtk3 theme from github releases
+  cursor_release_url=$(get_download_url phisch/phinger-cursors ".tar.bz2")
+  theme_release_url=$(get_download_url lassekongo83/adw-gtk3 ".tar.xz")
 
   while true; do
     echo -n "Choose download method: (1) curl, (2) wget: "
     read -r cmd
     case "$cmd" in
       1)
-        curl -L "$release_url" | tar xvfj - -C "$ICONS/test"
+        curl -L "$cursor_release_url" | tar xvfj - -C "$ICONS"
+        curl -L "$theme_release_url" | tar xvfJ - -C "$THEMES"
         break
         ;;
       2)
-        wget -c -O- "$release_url" | tar xvfj - -C "$ICONS/test"
+        wget -c -O- "$cursor_release_url" | tar xvfj - -C "$ICONS"
+        wget -c -O- "$theme_release_url" | tar xvfJ - -C "$THEMES"
         break
         ;;
       *)
@@ -118,7 +131,7 @@ setup() {
     setup_zsh
     setup_firefox
     bat cache --build
-    dl_cursor_icon
+    dl_from_releases
   fi
 
   stow_this config "${CONFIG}"
@@ -133,7 +146,9 @@ setup
 # For custom installation comment out `stow_this config` from above, and
 # uncomment this line of array below then remove some you don't want to include
 # Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
-# TODO: add function to dl theme and add colors, make this interactive, and split into multiple file?
+# TODO: add colors, make this interactive, and split into multiple file?
+# create another function to install themes on flatpak
+# flatpak install adw-gtk3 && flatpak override theme --gtk-{3,4}
 
 # doots=(
 #   alacritty
