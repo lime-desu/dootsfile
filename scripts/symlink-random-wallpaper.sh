@@ -6,10 +6,12 @@ define_colors
 source_dir="$HOME/Pictures/Wallpapers"
 dest_dir="$HOME/Pictures/Wallpapers/Random_Wallpapers"
 
-if [ ! -d "$dest_dir" ]; then
-  mkdir -p "$dest_dir"
-  echo -e "Creating ${BLD}${BLU}$dest_dir...${RST}"
-fi
+create_dir(){
+  if [ ! -d "$dest_dir" ]; then
+    mkdir -p "$dest_dir"
+    echo -e "Creating ${BLD}${BLU}$dest_dir...${RST}"
+  fi
+}
 
 image_extensions=( "jpg" "png" "jpeg" "svg" "webp" "icon" "bmp" )
 symlink_images() {
@@ -71,7 +73,7 @@ while true; do
     echo -en "\nAre you really sure you want to continue? (y/n): "
     read -r choice
     case "$choice" in
-      [Yy]) clone_repositories; symlink_images; break;;
+      [Yy]) clone_repositories; create_dir; symlink_images; break;;
       [Nn]) echo "Aborting..."; exit 1;;
       *) echo "Invalid input.";;
     esac
