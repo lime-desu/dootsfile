@@ -38,8 +38,6 @@ alias \
 autoload -Uz tetriscurses
 alias tetris=tetriscurses
 
-function create_dust_alias() {
-    if ! command -v dust > /dev/null; then
-        alias dust='du --summarize -h * | sort --reverse -h'
-    fi
-}; create_dust_alias
+(( ! $+commands[dust] )) && {
+  alias dust='du --summarize -h * | sort --reverse -h' # If there's no dust command set alias
+}
