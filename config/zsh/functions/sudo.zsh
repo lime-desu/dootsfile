@@ -1,15 +1,16 @@
-insert-sudo() {
-    zle beginning-of-line;
-    zle -U "sudo ";
+function insert_sudo() {
+    BUFFER="sudo $BUFFER"
+    zle end-of-line;
 }
+zle      -N     insert_sudo                                 # Insert sudo at the beggining of the line
+bindkey '^[s'   insert_sudo                                 # Alt-s
 
-zle -N          insert-sudo
-bindkey '^[s'   insert-sudo         # Alt+S
-
-sudo!!() {
+function execute_sudo!!() {
   [[ -z $BUFFER ]] &&
     zle .up-history
-  LBUFFER="sudo $LBUFFER"
+    zle accept-line
+  LBUFFER=" sudo $LBUFFER"
 }
-zle -N sudo!!
-bindkey '^[S'   sudo!!              # Alt+Shift+S
+zle     -N      execute_sudo!!                              # Execute the previous run command with sudo (similar to: insert-sudo + enter)
+bindkey '^[S'   execute_sudo!!                              # Alt-Shift-S
+

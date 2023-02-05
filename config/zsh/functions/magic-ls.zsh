@@ -8,18 +8,16 @@ function magic-ls () {
         zle down-case-word
     fi
 }
-zle -N magic-ls
-
-bindkey '\el' magic-ls
+zle -N magic-ls                                             # Ls if the BUFFER is empty if not transform to lowercase
+bindkey '^[l' magic-ls                                      # Alt-l
 
 # ls automatically after cd and git status if on a git repo
 function cd () {
     builtin cd "$@" 
-    if [ -d .git ]; then
+    if [[ -d .git ]]; then
         git status; echo ""
         exa --all --icons --group-directories-first
     else
         exa --all --icons --group-directories-first
     fi
 }
-
