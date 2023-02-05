@@ -110,8 +110,6 @@ fpath+=${XDG_CONFIG_HOME:-$DOOTS/config}/zsh/completions
 
 [[ -f "$ZSH/oh-my-zsh.sh" ]] && source $ZSH/oh-my-zsh.sh
 
-[[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
-
 zstyle ':autocomplete:tab:*' fzf-completion yes
 zstyle ':autocomplete:*' min-input 1
 
@@ -142,7 +140,7 @@ zstyle ':autocomplete:*' min-input 1
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+[[ ! -f ~/.config/zsh/rc/p10k.zsh ]] || source ~/.config/zsh/rc/p10k.zsh
 
 # File directory that are needed to source
 files=(

@@ -13,6 +13,11 @@ bindkey '^[OA'              _atuin_search_widget
 bindkey '^[[1;3D'           insert-cycledleft               # Alt+Left
 bindkey '^[[1;3C'           insert-cycledright              # Alt+Right
 
+# resource fzf completion `**` doesn't work when using on fedora + zsh-autocomplete
+[[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
+
+[[ -f "$DOOTS/config/zsh/functions/*.zsh" ]] && source "$DOOTS/config/zsh/functions/*.zsh"
+
 function insert_cmd_sub {
     RBUFFER='$()'"$RBUFFER"
     ((CURSOR=CURSOR+2))
