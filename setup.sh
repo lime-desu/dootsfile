@@ -61,6 +61,7 @@ setup() {
     source ./scripts/install/dl-from-github.sh
     source ./scripts/install/firefox.sh
     source ./scripts/install/zsh.sh
+    source ./scripts/install/flatpak.sh
     # backup files first
     dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
     for dir in "${dirs[@]}"; do
