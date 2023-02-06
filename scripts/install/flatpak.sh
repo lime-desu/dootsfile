@@ -24,3 +24,5 @@ setup_flatpak() {
     sudo flatpak override --filesystem=xdg-config/gtk-{3,4}.0 && echo "Done."
   fi
 }
+
+setup_flatpak

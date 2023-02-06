@@ -16,3 +16,5 @@ setup_firefox() {
     fi
   done
 }
+
+setup_firefox

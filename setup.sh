@@ -57,22 +57,18 @@ setup() {
   if [ ! -d "$DOOTS" ]; then
     create "$DOOTS" && cd "$_" || return
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
-    # load all of the install scripts 
-    source ./scripts/install/dl-from-github.sh
-    source ./scripts/install/firefox.sh
-    source ./scripts/install/zsh.sh
-    source ./scripts/install/flatpak.sh
     # backup files first
     dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
     for dir in "${dirs[@]}"; do
       backup "$dir"
       create "$dir"
     done
-    # execute the install scripts functions
+    # execute install scripts
     ./setup.sh
-    setup_zsh
-    setup_firefox
-    dl_from_releases
+    source ./scripts/install/zsh.sh
+    source ./scripts/install/dl-from-github.sh
+    source ./scripts/install/flatpak.sh
+    source ./scripts/install/firefox.sh
     bat cache --build
   fi
 }
@@ -92,8 +88,6 @@ main
 # uncomment this line of array below then remove some you don't want to include
 # Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
 # TODO: add colors, make this interactive, and split into multiple file?
-# create another function to install themes on flatpak
-# flatpak install adw-gtk3 && flatpak override theme --gtk-{3,4}
 
 # doots=(
 #   alacritty

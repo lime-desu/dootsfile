@@ -43,3 +43,5 @@ dl_from_releases() {
     esac
   done
 }
+
+dl_from_releases

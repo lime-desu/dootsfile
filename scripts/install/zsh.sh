@@ -8,3 +8,5 @@ setup_zsh() {
     chsh -s "$(which zsh)"
   fi
 }
+
+setup_zsh
