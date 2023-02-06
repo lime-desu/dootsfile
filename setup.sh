@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-source ./scripts/install/dl-from-github.sh
-
 dependencies=(bat broot chsh curl fd fzf git jq lsd nvim rg stow tar tmux wget wl-copy zsh)
 check_dependencies() {
   for dependency in "${dependencies[@]}"; do
@@ -38,12 +36,6 @@ backup() {
   fi
 }
 
-dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
-for dir in "${dirs[@]}"; do
-  backup "$dir"
-  create "$dir"
-done
-
 # If you have this error message below:
 # WARNING! stowing config would cause conflicts:
 # All operations aborted.
@@ -61,43 +53,31 @@ symlink() {
   echo "Symlinking $dootsfile to $target_dir..."
 }
 
-setup_zsh() {
-  backup "$HOME/.zshenv"
-  create "$HOME/.local/state/zsh/"
-  symlink "$DOOTS/config/zsh/.zshenv" "$HOME"
-  if [ "$SHELL" != "$(which zsh)" ]; then
-    chsh -s "$(which zsh)"
-  fi
-}
-
-setup_firefox() {
-  mozilla_dirs=(
-    ~/.mozilla/firefox/**.default-**
-    ~/.var/app/org.mozilla.firefox/.mozilla/firefox/**.default-**
-    ~/.librewolf/**.default-**
-    ~/.var/app/io.gitlab.librewolf-community/.librewolf/**.default-**
-  )
-  
-  for dir in "${mozilla_dirs[@]}"; do
-    search_file="$dir/search.json.mozlz4"
-    if [[ -d $dir ]] && [[ ! -e $search_file.doots ]]; then
-      backup "$search_file"
-      symlink "$DOOTS/config/librewolf/search.json.mozlz4" "$search_file"
-    fi
-  done
-}
-
 setup() {
   if [ ! -d "$DOOTS" ]; then
     create "$DOOTS" && cd "$_" || return
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
+    # load all of the install scripts 
+    source ./scripts/install/dl-from-github.sh
+    source ./scripts/install/firefox.sh
+    source ./scripts/install/zsh.sh
+    # backup files first
+    dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
+    for dir in "${dirs[@]}"; do
+      backup "$dir"
+      create "$dir"
+    done
+    # execute the install scripts functions
     ./setup.sh
     setup_zsh
     setup_firefox
-    bat cache --build
     dl_from_releases
+    bat cache --build
   fi
+}
 
+main() {
+  setup
   stow_this config "${CONFIG}"
   stow_this bin "${BINS}"
   stow_this themes "${THEMES}"
@@ -105,7 +85,7 @@ setup() {
 }
 
 check_dependencies
-setup
+main
 
 # For custom installation comment out `stow_this config` from above, and
 # uncomment this line of array below then remove some you don't want to include
