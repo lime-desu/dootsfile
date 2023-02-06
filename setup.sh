@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-dependencies=(bat broot chsh curl fd fzf git lsd nvim rg stow tar tmux wget wl-copy zsh)
+source ./scripts/install/dl-from-github.sh
+
+dependencies=(bat broot chsh curl fd fzf git jq lsd nvim rg stow tar tmux wget wl-copy zsh)
 check_dependencies() {
   for dependency in "${dependencies[@]}"; do
     if ! command -v "$dependency" > /dev/null; then
@@ -28,7 +30,7 @@ create() {
 
 backup() {
   local file="$1"
-  local backup_file=${2:-$1.doots}
+  local backup_file=${2:-$file.doots}
 
   if [[ -e "$file" ]] && [[ ! -e "$backup_file" ]]; then
     cp -r "$file" "$backup_file"
@@ -82,44 +84,6 @@ setup_firefox() {
       backup "$search_file"
       symlink "$DOOTS/config/librewolf/search.json.mozlz4" "$search_file"
     fi
-  done
-}
-
-get_download_url() {
-  local repo="$1"
-  local extension="$2"
-
-  local release_url
-  release_url=$(curl -s "https://api.github.com/repos/$repo/releases" | \
-    jq -r '.[].assets[] | select(.name | endswith("'"$extension"'")) | .browser_download_url' | \
-    grep -o "https.*" | head -n1)
-  echo "$release_url"
-}
-
-dl_from_releases() {
-  echo "Fetching download links..."
-  # This will download phinger-cursors and adw-gtk3 theme from github releases
-  cursor_release_url=$(get_download_url phisch/phinger-cursors ".tar.bz2")
-  theme_release_url=$(get_download_url lassekongo83/adw-gtk3 ".tar.xz")
-
-  while true; do
-    echo -n "Choose download method: (1) curl, (2) wget: "
-    read -r cmd
-    case "$cmd" in
-      1)
-        curl -L "$cursor_release_url" | tar xvfj - -C "$ICONS"
-        curl -L "$theme_release_url" | tar xvfJ - -C "$THEMES"
-        break
-        ;;
-      2)
-        wget -c -O- "$cursor_release_url" | tar xvfj - -C "$ICONS"
-        wget -c -O- "$theme_release_url" | tar xvfJ - -C "$THEMES"
-        break
-        ;;
-      *)
-        echo "Invalid choice. Please try again."
-        ;;
-    esac
   done
 }
 
