@@ -73,6 +73,7 @@ setup() {
     source ./scripts/install/dl-from-github.sh
     source ./scripts/install/flatpak.sh
     source ./scripts/install/firefox.sh
+    source ./scripts/install/keybindings.sh
     # bat cache --build
     # recommended tools to install
     echo -e "${BLD}${BLU}All done.${WHT}\n\nRecommended tools to install:${RST}"
