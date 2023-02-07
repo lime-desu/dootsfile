@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-dependencies=(bat broot chsh curl fd fzf git jq lsd nvim rg stow tar tmux wget wl-copy zsh)
+dependencies=(chsh curl git jq nvim stow tar wget zsh)
+# fzf dependencies: bat broot fd lsd rg tmux wl-copy
 check_dependencies() {
   for dependency in "${dependencies[@]}"; do
     if ! command -v "$dependency" > /dev/null; then
-      echo "Error: '$dependency' command not found. Please install it first and try again."
+      echo -e "${RED}Error: ${YLW}'$dependency' ${RST}command not found. \nPlease install it first and try again."
       exit 1
     fi
   done
@@ -22,7 +23,8 @@ create() {
   local dir_name
   dir_name="$(basename "$dir")"
   if [[ ! -d "$dir" ]]; then
-    mkdir -p "$dir" && echo "Creating directory for '$dir_name'" 
+    echo -e "Creating directory for ${BLD}${BLU}'$dir_name'${RST}..." 
+    mkdir -p "$dir" 
   fi
 }
 
@@ -31,8 +33,8 @@ backup() {
   local backup_file=${2:-$file.doots}
 
   if [[ -e "$file" ]] && [[ ! -e "$backup_file" ]]; then
+    echo "Backing up ${BLD}${BLU}$file${RST} to ${BLD}${CYN}$backup_file${RST}..."
     cp -r "$file" "$backup_file"
-    echo "Backing up $file to $backup_file..."
   fi
 }
 
@@ -49,14 +51,16 @@ stow_this() {
 
 symlink() {
   local dootsfile="$1" target_dir="$2"
+  echo -e "Symlinking ${BLD}${BLU}$dootsfile${RST} to ${BLD}${CYN}$target_dir${RST}..."
   ln -sf "$dootsfile" "$target_dir"
-  echo "Symlinking $dootsfile to $target_dir..."
 }
 
 setup() {
   if [ ! -d "$DOOTS" ]; then
+    echo "Fetching Doots from the source..."
     create "$DOOTS" && cd "$_" || return
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
+    source ./config/zsh/functions/colors.zsh && define_colors
     # backup files first
     dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
     for dir in "${dirs[@]}"; do
@@ -69,7 +73,10 @@ setup() {
     source ./scripts/install/dl-from-github.sh
     source ./scripts/install/flatpak.sh
     source ./scripts/install/firefox.sh
-    bat cache --build
+    # bat cache --build
+    # recommended tools to install
+    echo -e "${BLD}${BLU}All done.${WHT}\n\nRecommended tools to install:${RST}"
+    source ./scripts/tools.sh
   fi
 }
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-source ../config/zsh/functions/colors.zsh
+source "${DOOTS}/config/zsh/functions/colors.zsh"
 define_colors
-
 # r̶u̶s̶t̶ linux cli/tui tools and apps that i use
 tools=(alacritty atuin bat broot btop chafa cowsay cava delta dust exa fd foot fuck fzf git kitty librewolf lsd mpv pipes.sh neofetch nvim rg starship tldr topgrade tmux zsh)
 LANG=en_US.UTF-8

@@ -17,14 +17,14 @@ get_download_url() {
 dl_from_releases() {
   echo "Fetching download links from:"
   for repo in "${repos[@]}"; do
-   echo " - $repo"
+   echo -e  "${BLU} - $repo${RST}"
   done
 
   cursor_release_url=$(get_download_url "${repos[0]}" "${extensions[0]}")
   theme_release_url=$(get_download_url "${repos[1]}" "${extensions[1]}")
 
   while true; do
-    echo -n "Choose download method: (1) curl, (2) wget: "
+    echo -n -e "Choose download method: ${BLD}(1)${BLU} curl, ${RST}(2)${CYN} wget: ${RST}"
     read -r cmd
     case "$cmd" in
       1)
@@ -38,7 +38,7 @@ dl_from_releases() {
         break
         ;;
       *)
-        echo "Invalid choice. Please try again."
+        echo -e "${BLD}${RED}Error: ${RST}Invalid choice. Please try again."
         ;;
     esac
   done
