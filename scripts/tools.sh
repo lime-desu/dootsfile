@@ -3,28 +3,59 @@ source "${DOOTS}/config/zsh/functions/colors.zsh"
 define_colors
 
 # r̶u̶s̶t̶ linux cli/tui tools and apps that i use
-tools=(alacritty atuin bat broot btop chafa cowsay cava delta dust exa fd foot fuck fzf git kitty librewolf lsd mpv pipes.sh neofetch nvim rg starship tldr topgrade tmux zsh)
-icons=( 󰳗 󰭟 פּ  󰈟  󰺢      󰚌       ﳣ    󱓞   ﮮ )
-flags=("-V" "-V" "-V" "-V" "-v" "--version" "-V" "-v" "-V" "-V" "-v" "-V" "-v" "-v" "--version" "-v" "-v" "-V" "-V" "-V" "-v" "--version" "--version" "-V" "-V" "-v" "-V" "-V" "--version")
+# ( -v" "-v" "-V" "-V" "-V" "-v" "--version" "--version" "-V" "-V" "-v" "-V" "-V" "--version")
 
+declare -A tools
+tools=(
+  [alacritty]=" --version"
+  [atuin]="󰳗 --version"
+  [bat]="󰭟 --version"
+  [broot]="פּ --version"
+  [btop]=" --version"
+  [chafa]="󰈟 --version"
+  [cowsay]=" --version"
+  [cava]="󰺢 -v"
+  [delta]=" --version"
+  [dust]=" --version"
+  [exa]=" --version"
+  [fd]=" --version"
+  [foot]=" --version"
+  [fuck]="󰚌 --version"
+  [fzf]=" --version"
+  [git]=" --version"
+  [kitty]=" --version"
+  [librewolf]=" --version"
+  [lsd]=" --version"
+  [mpv]=" --version"
+  [pipes.sh]="ﳣ --version"
+  [neofetch]=" --version"
+  [nvim]=" --version"
+  [rg]=" --version"
+  [starship]="󱓞 --version"
+  [tldr]=" --version"
+  [tmux]=" -V"
+  [zsh]=" --version"
+)
+
+mapfile -t sorted_tools < <(echo "${!tools[@]}" | tr ' ' '\n' | sort)
 printf "${BLD}%-18s %-10s %-10s\n" "Tools" "Status" "Version"
 printf "%s\n${RST}" "-----------------------------------------------"
-for i in "${!tools[@]}"; do
-  tool="${tools[$i]}"
-  icon="${icons[$i]}"
-  version_flag="${flags[$i]}"
-  
+
+for tool in "${sorted_tools[@]}"; do
+  IFS=' ' read -r -a tool_data <<< "${tools[$tool]}"
   if command -v "$tool" &> /dev/null; then
-    version=$("$tool" "$version_flag" 2> /dev/null | awk '{
+    version=$("$tool" "${tool_data[1]}" 2> /dev/null | awk '{
       for (i = 1; i <= NF; i++) {
-        if ($i ~ /[0-9]+\.[0-9]+([.][0-9]+)?/) {
+        if ($i ~ /[0-9]+.[0-9]+([.][0-9]+)?/) {
           print $i;
           exit;
         }
       }
     }')
-    printf "${BLU}${icon}${RST}${BLD} %-18s ${GRN}%-10s ${RST}${YLW}%-10s\n${RST}" "$tool" "" "$version"
+    printf "${BLU}${tool_data[0]}${RST}${BLD} %-18s ${GRN}%-10s ${RST}${YLW}%-10s\n${RST}" \
+           "$tool" "" "$version"
   else
-    printf "${CYN}${icon}${RST}${BLD} %-18s ${RED}%-10s ${BLK}%-10s\n${RST}" "$tool" "" "command not found"
+    printf "${CYN}${tool_data[0]}${RST}${BLD} %-18s ${RED}%-10s ${BLK}%-10s\n${RST}" \
+           "$tool" "" "command not found"
   fi
 done
