@@ -13,10 +13,11 @@ setup_flatpak() {
     flatpak install flathub com.github.tchx84.Flatseal
   
     if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
-      echo -e "Applying ${BLD}${BLU}theme${RST} on GNOME..."
+      echo -e "Applying ${BLD}${BLU}theme and cusor icon${RST} on GNOME..."
       gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
       gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-      echo -e "Installing ${BLD}${BLU}ExtensionManager on Flatpak for GNOME..."
+      gsettings set org.gnome.desktop.interface cursor-theme phinger-cursors
+      echo -e "Installing ${BLD}${BLU}ExtensionManager${RST} on Flatpak for GNOME..."
       flatpak install flathub com.mattjakeman.ExtensionManager
     fi
   

@@ -24,7 +24,7 @@ create() {
   dir_name="$(basename "$dir")"
   if [[ ! -d "$dir" ]]; then
     echo -e "Creating directory for ${BLD}${BLU}'$dir_name'${RST}..." 
-    mkdir -p "$dir" 
+    mkdir -p "$dir" && sleep 2
   fi
 }
 
@@ -34,25 +34,21 @@ backup() {
 
   if [[ -e "$file" ]] && [[ ! -e "$backup_file" ]]; then
     echo "Backing up ${BLD}${BLU}$file${RST} to ${BLD}${CYN}$backup_file${RST}..."
-    cp -r "$file" "$backup_file"
+    cp -r "$file" "$backup_file" && sleep 2
   fi
 }
 
-# If you have this error message below:
-# WARNING! stowing config would cause conflicts:
-# All operations aborted.
-# uncomment `--adopt` flag below
-# and then git reset --hard
 stow_this() {
   local dootsfile="$1" target_dir="$2"
-  stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir" #--adopt
-  #git reset --hard
+  stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir" --adopt
+  sleep 2
+  git reset --hard > /dev/null
 }
 
 symlink() {
   local dootsfile="$1" target_dir="$2"
   echo -e "Symlinking ${BLD}${BLU}$dootsfile${RST} to ${BLD}${CYN}$target_dir${RST}..."
-  ln -sf "$dootsfile" "$target_dir"
+  ln -sf "$dootsfile" "$target_dir" && sleep 2
 }
 
 setup() {
