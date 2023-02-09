@@ -5,9 +5,11 @@ bindkey '^[[B'              down-line-or-beginning-search   # Down-Arrow
 bindkey '^[OB'              down-line-or-beginning-search
 
 # atuin 
-eval "$(atuin init zsh)"
-bindkey '^[[A'              _atuin_search_widget            # Up-Arrow
-bindkey '^[OA'              _atuin_search_widget
+(( $+commands[atuin] )) && {
+  eval "$(atuin init zsh)"
+  bindkey '^[[A'            _atuin_search_widget            # Up-Arrow
+  bindkey '^[OA'            _atuin_search_widget
+}
 
 # dircycle
 bindkey '^[[1;3D'           insert-cycledleft               # Alt+Left
@@ -45,7 +47,7 @@ function view_in_pager () {
     $SHELL -i -c "$(fc -ln -1) | $PAGER"
 }
 zle     -N    view_in_pager                                 # View the last executed command in pager
-bindkey "^[/" view_in_pager                                 # Alt-/
+bindkey "^_" view_in_pager                                  # Ctrl-/
 
 function rationalise_dot() {
   if [[ $LBUFFER = *.. ]]; then
