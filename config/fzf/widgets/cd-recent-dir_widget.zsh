@@ -5,7 +5,7 @@ fzf-cd-recent-dir-widget () {
     --color=fg:bold:blue --query=${LBUFFER} --read0 --print0 |
     IFS= read -rd '' dir 
     if [[ -n $dir ]]; then
-        BUFFER="builtin cd -- $dir"
+        BUFFER=" builtin cd -- $dir"
         zle accept-line
     fi
   zle reset-prompt
