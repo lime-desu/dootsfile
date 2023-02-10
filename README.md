@@ -48,6 +48,7 @@ And that's all 👌
     - it will also download [Oh-My-Tmux](https://github.com/gpakosz/.tmux) too and tmux plugins
   - Set up Firefox/Librewolf search engine shortcuts, you can find it on `about:preferences#search`. (Not custom CSS).
     - shortcut for search engine for quick search, example `:gh` will search on github `:r/` will search subreddit, `:so` stackoverflow,`:y` youtube and etc.
+    - and it will also execute [Firefox-Ui-Fix](https://github.com/black7375/Firefox-UI-Fix) installation script
   - Install [phinger-cursors](https://github.com/phisch/phinger-cursors) icons as a mouse/cursor theme and [adw-gtk3](https://github.com/lassekongo83/adw-gtk3) for consistent gtk looking theme (will fetch it from github releases)
   - If on Gnome De:
     - This will also import all my of Gnome Keybindings (including Custom keybindings, and Gnome Shell Shortcut aswell as [Pop!_Os-Shell](https://github.com/pop-os/shell) too)
