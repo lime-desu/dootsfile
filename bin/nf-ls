@@ -6,9 +6,10 @@ elif [ "$(uname -s)" == "Darwin" ]; then
 fi
 
 get_nf_cheat_sheets() {
-    echo -ne "$(curl -s https://www.nerdfonts.com/cheat-sheet \
-    | grep 'class="class-name">' \
-    | sed 's/ *<div class="class-name">//; s/<\/div><div class="codepoint">/ \\u/; s/<\/div>//; s/\(.* \)\(.*\)/\2 \1/; s/nf-/\ /')"
+  echo -ne "$(curl -s https://www.nerdfonts.com/cheat-sheet \
+    | grep -o '<div class="class-name">.*</div>' \
+    | sed -e 's/<div class="class-name">\(.*\)<\/div><div title="Copy Hex Code to Clipboard" class="codepoint">\(.*\)<\/div>/\\u\2\tnf-\1/'
+  )"
 }
 
 update_nf-ls_cache() {
@@ -21,8 +22,8 @@ if [ ! -d "$NF_LS_DIR" ]; then
     update_nf-ls_cache
 fi
 
-awk '{print $1 "    -- " $2}' "$NF_LS_DIR"/nf-ls-cheat.sh | \
+awk '{print $1 "    -- " $3}' "$NF_LS_DIR"/nf-ls-cheat.sh | column -t | \
     fzf -m \
     --header "Nerd Font Cheat.sh" \
-    --bind "enter:execute(wl-copy {+1}; notify-send 'Nerd Font Cheat.sh' '{+1} {+3} - has been copied')" \
+    --bind "enter:execute(wl-copy {+1}; notify-send 'Nerd Font Cheat.sh' '{+1} {+3} - icon has been copied')" \
     --bind "alt-u:execute(bash -c update_nf-ls_cache)" \
