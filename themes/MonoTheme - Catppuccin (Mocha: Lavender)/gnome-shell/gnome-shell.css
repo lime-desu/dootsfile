@@ -1,3 +1,19 @@
+/* OUTLINE */
+
+.login-dialog .modal-dialog-button:default,.unlock-dialog .modal-dialog-button:default, .lg-extension:active, .lg-extension:hover, .lg-extension, .page-navigation-arrow:active > StIcon, .page-navigation-arrow:hover > StIcon, .app-well-app.app-folder:selected .quick-settings-system-item .power-item:insensitive, .quick-toggle-menu, .quick-toggle:checked, .quick-toggle, 
+.screenshot-ui-tooltip, .screenshot-ui-shot-cast-button:checked, .screenshot-ui-shot-cast-button:hover, .screenshot-ui-shot-cast-button:focus, .screenshot-ui-shot-cast-container, 
+.switcher-list .item-box:selected, .switcher-list .item-box:focus, .switcher-list .item-box:hover, 
+.weather-button:active, .weather-button:hover, .weather-button, 
+.world-clocks-button:active, .world-clocks-button:hover, .world-clocks-button, 
+.events-button:active, .events-button:hover, .events-button, 
+.calendar .calendar-day-base:active, .calendar .calendar-day-base:selected, .calendar .calendar-day-base:hover, .calendar .calendar-month-header .pager-button:hover, .calendar .calendar-month-header .pager-button:focus, .calendar:active, .calendar:hover, 
+.datemenu-today-button:active, .datemenu-today-button:hover, .popup-menu-item:focus, .popup-menu-item:hover, .popup-menu-content, .candidate-popup-content, .toggle-switch, StEntry:focus, StEntry:hover, StEntry, 
+.screenshot-ui-show-pointer-button:outlined, .screenshot-ui-type-button:outlined, .screenshot-ui-show-pointer-button:checked, .screenshot-ui-type-button:checked, .screenshot-ui-show-pointer-button:active, .screenshot-ui-type-button:active, .screenshot-ui-show-pointer-button:hover, .screenshot-ui-type-button:hover, .hotplug-notification-item:checked, .hotplug-notification-item:active, .hotplug-notification-item:hover, 
+.modal-dialog .modal-dialog-linked-button, .hotplug-notification-item, .notification-banner .notification-button, #LookingGlassDialog > #Toolbar 
+.flat.lg-toolbar-button:checked, .app-folder-dialog .folder-name-container .flat.edit-folder-button:checked, .flat.button:checked, .flat.icon-button:checked, #LookingGlassDialog > #Toolbar .flat.lg-toolbar-button:active, .app-folder-dialog .folder-name-container .flat.edit-folder-button:active, .flat.button:active, .flat.icon-button:active, #LookingGlassDialog > #Toolbar .flat.lg-toolbar-button:hover, .app-folder-dialog .folder-name-container .flat.edit-folder-button:hover, .flat.button:hover, .flat.icon-button:hover, #LookingGlassDialog > #Toolbar .flat.lg-toolbar-button, .app-folder-dialog .folder-name-container .flat.edit-folder-button, .flat.button, .flat.icon-button, #LookingGlassDialog > #Toolbar .lg-toolbar-button:checked, .app-folder-dialog .folder-name-container .edit-folder-button:checked, .button:checked, .icon-button:checked, #LookingGlassDialog > #Toolbar .lg-toolbar-button:active, .app-folder-dialog .folder-name-container .edit-folder-button:active, .button:active, .icon-button:active, #LookingGlassDialog > #Toolbar .lg-toolbar-button:hover, .app-folder-dialog .folder-name-container .edit-folder-button:hover, .button:hover, .icon-button:hover, #LookingGlassDialog > #Toolbar .lg-toolbar-button, .app-folder-dialog .folder-name-container .edit-folder-button, .button, .icon-button, .modal-dialog, .screenshot-ui-panel, .workspace-switcher, .switcher-list, .resize-popup, .osd-monitor-label, .osd-window {
+  border: 1.5px solid #b4befe; 
+}
+
 /*GLOBAL*/
 
 
@@ -4902,7 +4918,6 @@ StWidget.focused .app-well-app-running-dot {
     color: #cdd6f4;
     background-color: rgba(255, 255, 255, 0.1);
 }
-
 #LookingGlassDialog>#Toolbar .flat.lg-toolbar-button:active,
 .app-folder-dialog .folder-name-container .flat.edit-folder-button:active,
 .flat.button:active,
