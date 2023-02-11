@@ -13,3 +13,6 @@
 [submodule "config/foot/themes"]
 	path = config/foot/themes
 	url = https://github.com/catppuccin/foot
+[submodule "config/hypr/hyprland"]
+	path = config/hypr/hyprland
+	url = https://github.com/catppuccin/hyprland
