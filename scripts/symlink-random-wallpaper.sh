@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ../config/zsh/functions/colors.zsh
+source "$DOOTS"/config/zsh/functions/colors.zsh
 define_colors
 
 source_dir="$HOME/Pictures/Wallpapers"
@@ -53,7 +53,21 @@ clone_repositories() {
   done
 }
 
-main() {
+update_repo() {
+  for repo in "${repositories[@]}"; do
+    repo_username="${repo%%/*}"
+    if [ -d "$source_dir/$repo_username" ]; then
+      echo -e "Updating wallpapers from: ${BLD}${BLU}$repo${RST} repo..."
+      cd "$source_dir/$repo_username" || return
+      if ! git pull origin; then
+        echo -e "${BLD}${RED}Error:${RST} Failed to update wallpapers from ${BLD}${BLU}${repo}${RST}."
+        echo -e "Check your internet connection and try again.\n"
+      fi
+    fi
+  done
+}
+
+show_message() {
 cat << EOF
 ${BLD}${YLW}${RED}Warning:${RST} This script will use a lot of bandwidth!!
 This will download several wallpapers from github repo
@@ -65,19 +79,26 @@ ${BLU}$dest_dir${RST}
 Here are the following list of wallpaper repository source:
 EOF
 
-for repo in "${repositories[@]}"; do
- echo -e " - ${BLU}$repo${RST}"
-done
+  for repo in "${repositories[@]}"; do
+   echo -e " - ${BLU}$repo${RST}"
+  done
+}
 
-while true; do
-    echo -en "\nAre you really sure you want to continue? (y/n): "
-    read -r choice
-    case "$choice" in
-      [Yy]) clone_repositories; create_dir; symlink_images; break;;
-      [Nn]) echo "Aborting..."; exit 1;;
-      *) echo "Invalid input.";;
-    esac
-done
+main() {
+  if [ -d "$dest_dir" ]; then
+    update_repo; symlink_images;
+  else
+    show_message
+    while true; do
+        echo -en "\nAre you really sure you want to continue? (y/n): "
+        read -r choice
+        case "$choice" in
+          [Yy]) clone_repositories; create_dir; symlink_images; break;;
+          [Nn]) echo "Aborting..."; exit 1;;
+          *) echo "Invalid input.";;
+        esac
+    done
+  fi
 }
 
 main
