@@ -15,6 +15,7 @@ check_dependencies() {
 DOOTS="$HOME/Git/Local/dootsfile"
 CONFIG="$HOME/.config"
 BINS="$HOME/.local/bin"
+SCRIPTS="$BINS/scripts"
 THEMES="$HOME/.local/share/themes"
 ICONS="$HOME/.local/share/icons"
 
@@ -58,7 +59,7 @@ setup() {
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
     source ./config/zsh/functions/colors.zsh && define_colors
     # backup files first
-    dirs=("$CONFIG" "$BINS" "$THEMES" "$ICONS")
+    dirs=("$CONFIG" "$BINS" "$SCRIPTS" "$THEMES" "$ICONS")
     for dir in "${dirs[@]}"; do
       backup "$dir"
       create "$dir"
@@ -81,6 +82,7 @@ main() {
   setup
   stow_this config "${CONFIG}"
   stow_this bin "${BINS}"
+  stow_this scripts "${SCRIPTS}"
   stow_this themes "${THEMES}"
   stow_this icons "${ICONS}"
 }

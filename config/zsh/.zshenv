@@ -49,6 +49,7 @@ alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
 typeset -U
 paths=(
     "$HOME/.local/bin"
+    "$HOME/.local/bin/scripts"
     "$CARGO_HOME/bin"
 )
 
