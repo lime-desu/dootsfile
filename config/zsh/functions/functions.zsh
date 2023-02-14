@@ -58,6 +58,6 @@ unique() { awk '!seen[$0]++' "$1"; }
 
 update() {
   sudo dnf makecache && topgrade -y;
-  echo -e "\n"; omz_update_custom_plugins;
+  omz-custom update
   git -C $OMT_DIR pull;
 }
