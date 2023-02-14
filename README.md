@@ -59,15 +59,13 @@ And that's all 👌
 
 > The color scheme used is [Catppuccin Mocha](https://github.com/catppuccin) (which has already been set up and configured via its submodules.)
 
-> In Neovim, I use Vanilla [Lazy Vim](https://www.lazyvim.org/) configuration, with the only modification being the Catppuccin color scheme and the Lualine. (idk how to it and i'm still nub)
+> In Neovim, I use Vanilla [Lazy Vim](https://www.lazyvim.org/) configuration, with the only modification being the Catppuccin color scheme and the Lualine. (idk how to configure it yet and i'm still nub)
 
  </details>
  
   #### Testing this out on a temporary installation:
   ```sh
-  # create tempdir and set it as $HOME to do not dirty your home directory
-  temp_dir=$(mktemp -d)
-  export HOME=$temp_dir
-  cd $temp_dir
-  # then ran the setup script
+  temp_dir=$(mktemp -d)                   # create tempdir variable
+  export HOME=$temp_dir                   # set it as $HOME directory to don't dirty your ~
+  cd $temp_dir                            # cd into it, then ran the setup script above
   ```

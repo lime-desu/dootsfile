@@ -13,10 +13,10 @@ setup_firefox() {
     if [[ -d $dir ]] && [[ ! -e $search_file.doots ]]; then
       backup "$search_file"
       symlink "$DOOTS/config/librewolf/search.json.mozlz4" "$search_file"
+      echo "Executing ${BLD}${BLU}Firefox-UI-Fix${RST} Install script..." && sleep 2
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"
     fi
   done
-  echo "Executing ${BLD}${BLU}Firefox-UI-Fix${RST} Install script..." && sleep 2
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"
 }
 
 setup_firefox

@@ -50,12 +50,12 @@ cat < "$NF_DL_DIR/nf-dl_url"  | \
         unzip {1} -d ${FONT_DIR}/{1}
         fc-cache -f ${FONT_DIR} && [ -e ${FONT_DIR}/{1} ] && echo \"\n${bld}${cyn}Nerd Font: ${blu}{1} ${rst}has been installed\n\"
         echo -e \"${bld}${cyn}Would you like to delete or keep ${blu}{1}.zip${rst} (y/n):\" && rm -i {1}.zip
-        echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
+        echo -e '\n${blu}${bld}Press any key to continue...${rst}' && read -rsk1
     else 
         echo -e \"${bld}${blu}Uninstall/Remove ${cyn}Nerd Font: {1} ${rst}(y/n):\" 
         [ -d ${FONT_DIR}/{1} ] && rm -IR ${FONT_DIR}/{1}; echo 'remove' > $tmp_file
         fc-cache -f -v && echo \"\n${bld}${cyn}Nerd Font: ${blu}{1} ${rst}has been uninstalled\"
-        echo -e '\n${blu}${bld}Press any key to continue...' && read -rsk1
+        echo -e '\n${blu}${bld}Press any key to continue...${rst}' && read -rsk1
     fi
     )+reload(
     if grep -q 'remove' $tmp_file; then
