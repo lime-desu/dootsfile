@@ -46,8 +46,8 @@ And that's all 👌
   - Setup zsh as a default shell, after setting this up:
     - this will automatically install and use [Oh-My-Zsh](https://ohmyz.sh/) framework and download it's defined custom plugins
     - it will also download [Oh-My-Tmux](https://github.com/gpakosz/.tmux) too and tmux plugins
-  - Set up Firefox/Librewolf search engine shortcuts, you can find it on `about:preferences#search`. (Not custom CSS).
-    - shortcut for search engine for quick search, example `:gh` will search on github `:r/` will search subreddit, `:so` stackoverflow,`:y` youtube and etc.
+  - Set up Firefox/Librewolf search engine shortcuts (Not custom CSS).
+    - shortcut search engine for quick search, example `:gh` will search on github `:r/` will search subreddit, `:so` stackoverflow,`:y` youtube and etc.
     - and it will also execute [Firefox-Ui-Fix](https://github.com/black7375/Firefox-UI-Fix) installation script
   - Install [phinger-cursors](https://github.com/phisch/phinger-cursors) icons as a mouse/cursor theme and [adw-gtk3](https://github.com/lassekongo83/adw-gtk3) for consistent gtk looking theme (will fetch it from github releases)
   - If on Gnome De:
@@ -69,3 +69,54 @@ And that's all 👌
   export HOME=$temp_dir                   # set it as $HOME directory to don't dirty your ~
   cd $temp_dir                            # cd into it, then ran the setup script above
   ```
+  
+  ### Keybindings
+  <details>
+  <summary><strong> Firefox </strong></summary>
+
+| Search Engine | Keyword |
+| :-  | :-  |
+| [Google](https://www.google.com/)  | `:g`  |
+| [Youtube](https://www.youtube.com/) | `:y` `:y/` (most viewed), `:y//` or `:yt` (most viewed by year)  |
+| [Reddit](https://www.reddit.com/)  | `:r` or `:re`, `:r/` or `r/` (subreddit)  |
+| [Quora](https://www.quora.com/) | `:q` (sometimes not working detected as a robot xd)
+| [GitHub](https://github.com) | `:gh` `:gh/` (most stars) |
+| [Stack Overflow](https://stackoverflow.com)  | `:so` |
+| [Unix Stack Exchange](https://unix.stackexchange.com/) | `:use`  |
+| [DevDocs](https://devdocs.io/) | `:dd` |
+| [MDN Web Docs](https://developer.mozilla.org/en-US/)  | `:mdn`
+| [CODELF](https://unbug.github.io/codelf/) | `:var` |
+| [Arch Wiki](https://wiki.archlinux.org/) | `:aw` |
+| [Ask Fedora](https://ask.fedoraproject.org/) | `:fed`  |
+| [Mankier](https://www.mankier.com/) | `:man`  |
+| [Command Not Found](https://command-not-found.com/) | `:cnf`  |
+| [Explain Shell](https://www.explainshell.com/) | `:xsh`  |
+| [Internet Archive (Wayback Machine)](https://archive.org/)  | `:ia` or `:wm`  |
+| [Merriam Webster Dictionary](https://www.merriam-webster.com/)  | `:mw` |
+| [Urban Dictionary](https://www.urbandictionary.com/) | `:ud`  |
+| [AlternativeTo](https://alternativeto.net/) | `:alt`  |
+| [OpenSubtitles](https://www.opensubtitles.org/en/search/subs) | `:subs` |
+| [DeepL (to EN)](https://www.deepl.com/translator) | `:dl` |
+| [Google Translate (to EN)](https://translate.google.com/)  | `:tl` |
+| [Google Maps](https://maps.google.com/) | `:maps` |
+| [Anna's Archive](https://annas-archive.org/)  | `:lib` or `:aa` |
+| [Library Genesis](https://www.libgen.is/) | `:libgen` or `:lg`  |
+| [Goodreads](https://www.goodreads.com/) | `:gr` |
+
+And many more some weeb and pirate stuff..
+You can find all of the list on `about:preferences#search`
+
+**Pro Tip:**
+
+Pressing `Ctrl-L` or `Alt-D` will focus on search bar
+
+**Adding custom search engine:**
+
+By default it is disabled you have to enabled it first,
+on `about:config` add this line and set it to true
+```
+browser.urlbar.update2.engineAliasRefresh
+```
+Also suggest me some good search engines to add...
+
+</details>
