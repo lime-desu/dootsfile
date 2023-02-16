@@ -16,3 +16,6 @@
 [submodule "config/hypr/hyprland"]
 	path = config/hypr/hyprland
 	url = https://github.com/catppuccin/hyprland
+[submodule "themes"]
+	path = themes
+	url = https://github.com/lime-desu/MochaTheme
