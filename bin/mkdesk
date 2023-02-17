@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+read -rp "Name of the application: " app_name
+
+while true; do
+    read -rp "Command to execute: " command
+    [ -z "$command" ] || break
+    echo "Error: command cannot be empty. Please try again."
+done
+
+while true; do
+    read -rp "Path to the icon (blank for default): " icon_path
+    if [ -n "$icon_path" ] && [ ! -f "$icon_path" ]; then
+        echo "Error: the specified path does not exist. Please try again."
+    else
+        break
+    fi
+done
+read -rp "Additional comments to include (blank for none): " comments
+
+desktop_dir="$HOME/.local/share/applications"
+desktop_file="$desktop_dir/$app_name.desktop"
+
+[ -d "$desktop_dir" ] || mkdir -p "$desktop_dir"
+
+cat > "$desktop_file" <<EOF
+[Desktop Entry]
+Name=$app_name
+Comment=$comments
+Exec=$command
+Icon=$icon_path
+Type=Application
+EOF
+
+chmod +x "$desktop_file"
+
+if [ -f "$desktop_file" ]; then
+    echo "Desktop entry created at $desktop_file"
+fi
