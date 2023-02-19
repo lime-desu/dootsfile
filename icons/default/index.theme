@@ -1,4 +1,4 @@
 [Icon Theme]
 Name=Default
 Comment=Default Cursor Theme
-Inherits=phinger-cursors
+Inherits=Catppuccin-Mocha-Dark-Cursors

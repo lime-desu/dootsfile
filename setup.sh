@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-dependencies=(chsh curl git jq nvim stow tar wget zsh)
+dependencies=(chsh curl git jq nvim stow tar unzip wget zsh)
 # fzf dependencies: bat broot fd lsd rg tmux wl-copy
 check_dependencies() {
   for dependency in "${dependencies[@]}"; do

@@ -1,7 +1,7 @@
 #!/bin/env bash
 
-repos=("phisch/phinger-cursors" "lassekongo83/adw-gtk3")
-extensions=(".tar.bz2" ".tar.xz")
+repos=("phisch/phinger-cursors" "lassekongo83/adw-gtk3" "catppuccin/cursors")
+extensions=(".tar.bz2" ".tar.xz" "Mocha-Dark-Cursors.zip")
 
 get_download_url() {
   local repo="$1"
@@ -14,34 +14,48 @@ get_download_url() {
   echo "$release_url"
 }
 
+# created separate function for unzip, since extraction from stdin wouldn't work
+unzip_from_index_to() {
+  local url
+  url=$(get_download_url "${repos[$1]}" "${extensions[$2]}")
+  local file_name
+  file_name=$(basename "$url")
+  curl -sL -o "$file_name" "$url"
+  if [ -f "$file_name" ]; then
+    unzip "$file_name" -d "$3"
+    rm "$file_name"
+  else
+    echo "Error: Failed to extract '$file_name'"
+  fi
+}
+
 dl_from_releases() {
+  local curl_cmd="curl -L"
+  local wget_cmd="wget -c -O-"
+  local download_cmd="$curl_cmd"
+
   echo "Fetching download links from:"
   for repo in "${repos[@]}"; do
-   echo -e  "${BLU} - $repo${RST}"
+    echo -e "${BLU} - $repo${RST}"
   done
 
-  cursor_release_url=$(get_download_url "${repos[0]}" "${extensions[0]}")
+  phinger_cursor_release_url=$(get_download_url "${repos[0]}" "${extensions[0]}")
   theme_release_url=$(get_download_url "${repos[1]}" "${extensions[1]}")
+  download_and_extract_catppuccin_cursor=$(unzip_from_index_to 2 2 "$ICONS")
 
   while true; do
     echo -n -e "Choose download method: ${BLD}(1)${BLU} curl, ${RST}(2)${CYN} wget: ${RST}"
     read -r cmd
     case "$cmd" in
-      1)
-        curl -L "$cursor_release_url" | tar xvfj - -C "$ICONS"
-        curl -L "$theme_release_url" | tar xvfJ - -C "$THEMES"
-        break
-        ;;
-      2)
-        wget -c -O- "$cursor_release_url" | tar xvfj - -C "$ICONS"
-        wget -c -O- "$theme_release_url" | tar xvfJ - -C "$THEMES"
-        break
-        ;;
-      *)
-        echo -e "${BLD}${RED}Error: ${RST}Invalid choice. Please try again."
-        ;;
+      1) download_cmd="$curl_cmd"; break;;
+      2) download_cmd="$wget_cmd"; break;;
+      *) echo -e "${BLD}${RED}Error: ${RST}Invalid choice. Please try again.";;
     esac
   done
+
+  $download_cmd "$phinger_cursor_release_url" | tar xvfj - -C "$ICONS"
+  $download_cmd "$theme_release_url" | tar xvfJ - -C "$THEMES" &&
+  "$download_and_extract_catppuccin_cursor"
 }
 
 dl_from_releases
