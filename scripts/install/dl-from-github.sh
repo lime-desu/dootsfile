@@ -1,7 +1,7 @@
 #!/bin/env bash
 
-repos=("phisch/phinger-cursors" "lassekongo83/adw-gtk3" "catppuccin/cursors")
-extensions=(".tar.bz2" ".tar.xz" "Mocha-Dark-Cursors.zip")
+repos=("phisch/phinger-cursors" "lassekongo83/adw-gtk3" "Code-Hex/Neo-cowsay" "catppuccin/cursors")
+extensions=(".tar.bz2" ".tar.xz" "x86_64.tar.gz" "Mocha-Dark-Cursors.zip")
 
 get_download_url() {
   local repo="$1"
@@ -29,6 +29,10 @@ unzip_from_index_to() {
   fi
 }
 
+cleanup_cowsay() {
+  rm -rvf "$BINS"/{LICENSE,doc}
+}
+
 dl_from_releases() {
   local curl_cmd="curl -L"
   local wget_cmd="wget -c -O-"
@@ -41,7 +45,8 @@ dl_from_releases() {
 
   phinger_cursor_release_url=$(get_download_url "${repos[0]}" "${extensions[0]}")
   theme_release_url=$(get_download_url "${repos[1]}" "${extensions[1]}")
-  download_and_extract_catppuccin_cursor=$(unzip_from_index_to 2 2 "$ICONS")
+  neocowsay_release_url=$(get_download_url "${repos[2]}" "${extensions[2]}")
+  download_and_extract_catppuccin_cursor=$(unzip_from_index_to 3 3 "$ICONS")
 
   while true; do
     echo -n -e "Choose download method: ${BLD}(1)${BLU} curl, ${RST}(2)${CYN} wget: ${RST}"
@@ -54,7 +59,8 @@ dl_from_releases() {
   done
 
   $download_cmd "$phinger_cursor_release_url" | tar xvfj - -C "$ICONS"
-  $download_cmd "$theme_release_url" | tar xvfJ - -C "$THEMES" &&
+  $download_cmd "$theme_release_url" | tar xvfJ - -C "$THEMES"
+  $download_cmd "$neocowsay_release_url" | tar xvfz - -C "$BINS" && cleanup_cowsay &&
   "$download_and_extract_catppuccin_cursor"
 }
 
