@@ -13,12 +13,6 @@ alias \
     lofi='mpv --no-video https://youtu.be/jfKfPfyJRdk'
 
 alias \
-    cp='cp -iv' \
-    mv='mv -iv' \
-    rm='rm -iv' \
-    md='mkdir -pv';
-
-alias \
     alacrittyrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/alacritty.yml" \
     fzfrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzfrc" \
     gitrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/git/config" \
