@@ -8,7 +8,7 @@
 	path = config/btop/themes
 	url = https://github.com/catppuccin/btop
 [submodule "config/kitty/themes"]
-	path = config/kitty/themes
+	path = config/kitty/catppuccin
 	url = https://github.com/catppuccin/kitty
 [submodule "config/foot/themes"]
 	path = config/foot/themes
