@@ -12,7 +12,7 @@ IFS=':' read -ra selected < <(
       --bind "ctrl-r:unbind(ctrl-r)+change-prompt(rg > )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
       --prompt 'rg > ' \
       --delimiter : \
-      --header ' M-r ripgrep mode | M-f fzf mode ' \
+      --header ' Ctrl-r ripgrep mode | Ctrl-f fzf mode ' \
       --preview 'bat --color=always {1} --highlight-line {2}' \
       --preview-window 'nohidden,<60(nohidden,up,60%,border-bottom,+{2}+3/3,~3)'
 )
