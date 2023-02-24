@@ -10,13 +10,6 @@ cdtmp() {
   echo "${CYN}Changed to temp directory: ${BLU}$(pwd)${RST}"
 }
 
-colors() {
-  for color in {0..255}; do
-    print -Pn "%K{$color}  %k%F{$color}${(l:3::0:)color}%f " \
-      ${${(M)$((color%6)):#3}:+$'\n'}
-  done
-}
-
 cheat() {
   if ! command -v cht.sh > /dev/null; then
     echo "installing cheat.sh and it's dependencies..."
@@ -52,12 +45,13 @@ up(){
   cd "${dir:-..}"
 }
 
-path() { echo ${PATH//:/\\n} }
-silent() { "$@" > /dev/null 2>&1; }
-unique() { awk '!seen[$0]++' "$1"; }
-
 update() {
   sudo dnf makecache && topgrade -y;
   omz-custom update
   git -C $OMT_DIR pull;
 }
+
+command_exist() { (( $+commands[$1] )) }
+path() { echo ${PATH//:/\\n} }
+silent() { "$@" > /dev/null 2>&1; }
+unique() { awk '!seen[$0]++' "$1"; }

@@ -1,3 +1,10 @@
+colors() {
+  for color in {0..255}; do
+    print -Pn "%K{$color}  %k%F{$color}${(l:3::0:)color}%f " \
+      ${${(M)$((color%6)):#3}:+$'\n'}
+  done
+}
+
 define_colors() {
 if command -v tput > /dev/null 2>&1; then
     # colors
@@ -38,4 +45,3 @@ else
     EHL="\033[27m" 
 fi
 }
-
