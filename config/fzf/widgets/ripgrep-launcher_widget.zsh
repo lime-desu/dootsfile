@@ -1,5 +1,5 @@
 fzf-ripgrep-widget() {
-    bash ${DOOTS:-$HOME/.local}/scripts/fzf-rg-launcher.sh 
+    bash ${DOOTS:-$HOME/.local}/scripts/fzf-rg-launcher.sh < "$TTY"
     zle redisplay
 }
 
