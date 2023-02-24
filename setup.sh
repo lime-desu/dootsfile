@@ -1,15 +1,31 @@
 #!/usr/bin/env bash
-set -e
+# set -eux
+source_colors() {
+  local tmp_file
+  tmp_file="$(mktemp)"
+  curl -fsSL https://raw.githubusercontent.com/lime-desu/dootsfile/main/config/zsh/functions/colors.zsh > "$tmp_file"
+  source "$tmp_file" && define_colors
+  unset tmp_file
+}
 
-dependencies=(chsh curl git jq nvim stow tar unzip wget zsh)
-# fzf dependencies: bat broot fd lsd rg tmux wl-copy
+dependencies=(chsh curl fzf git jq nvim stow tar tmux unzip wget zsh)
+# fzf dependencies: bat broot fd lsd rg wl-copy
 check_dependencies() {
+  missing_deps=()
   for dependency in "${dependencies[@]}"; do
     if ! command -v "$dependency" > /dev/null; then
-      echo -e "${RED}Error: ${YLW}'$dependency' ${RST}command not found. \nPlease install it first and try again."
-      exit 1
+      missing_deps+=("$dependency")
     fi
   done
+
+  if [ ${#missing_deps[@]} -gt 0 ]; then
+    echo -e "${RED}${BLD}Error:${RST} The following dependencies are not installed: "
+    for dependency in "${missing_deps[@]}"; do
+      echo "- ${YLW}$dependency${RST}"
+    done
+    echo "Please install them first and try again."
+    exit 1
+  fi
 }
 
 DOOTS="$HOME/Git/Local/dootsfile"
@@ -54,10 +70,9 @@ symlink() {
 
 setup() {
   if [ ! -d "$DOOTS" ]; then
-    echo "Fetching Doots from the source..."
+    echo -e "${BLD}${BLU}Fetching ${CYN}Doots${RST}${BLU}${BLD} from the source...${RST}"
     create "$DOOTS" && cd "$_" || return
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
-    source ./config/zsh/functions/colors.zsh && define_colors
     # backup files first
     dirs=("$CONFIG" "$BINS" "$SCRIPTS" "$THEMES" "$ICONS")
     for dir in "${dirs[@]}"; do
@@ -87,13 +102,14 @@ main() {
   stow_this icons "${ICONS}"
 }
 
+source_colors
 check_dependencies
 main
 
 # For custom installation comment out `stow_this config` from above, and
 # uncomment this line of array below then remove some you don't want to include
 # Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
-# TODO: add colors, make this interactive, and split into multiple file?
+# TODO: make this interactive, and split into multiple file?
 
 # doots=(
 #   alacritty
