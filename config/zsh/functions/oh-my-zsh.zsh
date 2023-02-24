@@ -1,6 +1,6 @@
 omz-custom() {
-usage() {
-    cat <<EOF
+  usage() {
+cat <<EOF
 ${BLD}Usage:${RST} 
 ${BLD}${GRN}  omz-custom ${RST}${YLW}<command>${RST}
 ${BLD}${GRN}  omz-custom ${RST}${YLW}[remove] [plugin|theme] [name]${RST}
@@ -11,86 +11,71 @@ ${GRN}  update              ${RST}    Update Oh My Zsh and all custom plugins/th
 ${GRN}  remove [type] [name]${RST}    Remove/Uninstall a specific plugin or theme
 ${BLD}Type:${RST}
 ${GRN}  plugin [repos...]   ${RST}    Install one or more custom plugins
-${GRN}  theme  [repos...]    ${RST}   Install one or more custom themes
+${GRN}  theme  [repos...]   ${RST}    Install one or more custom themes
 
 ${GRN}  --help              ${RST}    Display this help message
-
 EOF
+  }
 
-}
+  install_custom() {
+    local custom_dir="$ZSH_CUSTOM/${1}s"
+    for repo in "${@:2}"; do
+      local name="${repo##*/}"
+      local dir="$custom_dir/$name"
+      if [[ ! -d "$dir" ]]; then
+        echo "${GRN}Installing ${BLD}${YLW}$name${RST} ${BLU}${1}...${RST}"
+        git clone --depth=1 "https://github.com/$repo" "$dir"
+      fi
+    done
+  }
+
+  remove_custom() {
+    local custom_dir="$ZSH_CUSTOM/${1}s"
+    local dir="$custom_dir/$2"
+    if [[ -d "$dir" ]]; then
+      echo "${RED}Removing ${BLD}${YLW}$2${RST} ${BLU}${1}...${RST}"
+      rm -rf "$dir" > /dev/null && sleep 2; echo "Done."
+    else
+      echo -e "${BLD}${RED}Error: ${YLW}$2${RST} not found.\n"
+      usage
+    fi
+  }
+
+  update_custom() {
+    echo "${BLU}Updating ${BLD}[Oh My Zsh]${RST} ..."
+    git -C "$ZSH" pull
+    echo ""
+    printf "${BLU}%s${RST}\n" "Updating custom plugins and themes..."
+    find "$ZSH_CUSTOM" -type d -name ".git" | while read LINE; do
+      plugin=${LINE%/.git}
+      if git -C "$plugin" pull --rebase; then
+        printf "%s${RST}\n" "${YLW}${BLD}${plugin##*/}${RST} ${GRN}has been updated and/or is at the current version.${RST}"
+      else
+        printf "%s${RST}\n" "${RED}There was an error updating ${RST}${YLW}${BLD}${plugin##*/}.${RST}${RED} Try again later or figure out what went wrong..."
+      fi
+    done
+  }
+
   main() {
-    set -e
-    local type="$1"
-    local omz_dir="${ZSH:-$HOME/.local/share/oh-my-zsh}"
-
-    if [[ ! -d "$omz_dir" ]]; then
+    if [[ ! -d "$ZSH" ]]; then
         echo "${BLU}Installing ${BLD}[Oh My Zsh]${RST} ..."
-        git clone https://github.com/ohmyzsh
+        git clone https://github.com/ohmyzsh/ohmyzsh.git "$ZSH"
     fi
 
-    install_custom() {
-        local type="$1"
-        local custom_dir="${ZSH_CUSTOM:-$omz_dir/custom}/${type}s"
-        local repos=("${@:2}")
-
-        for repo in "${repos[@]}"; do
-            local name=${repo##*/}
-            local dir="$custom_dir/$name"
-            if [[ ! -d "$dir" ]]; then
-                echo "${GRN}Installing ${BLD}${YLW}$name${RST} ${BLU}${type}...${RST}"
-                git clone --depth=1 "https://github.com/$repo" "$dir"
-                echo "${BLD}${BLU}Installed successfully.${RST}"
-                echo "Now add ${BLD}${YLW}$name${RST} on zshrc plugin array"
-            fi
-        done
-    }
-
-    remove_custom() {
-        local type="$1"
-        local name="$2"
-        local custom_dir="${ZSH_CUSTOM:-$omz_dir/custom}/${type}s"
-        local dir="$custom_dir/$name"
-
-        if [[ -d "$dir" ]]; then
-            echo "${RED}Removing ${BLD}${YLW}$name${RST} ${BLU}${type}...${RST}"
-            rm -rf "$dir" > /dev/null && sleep 2; echo "Done."
-        else
-            echo -e "${BLD}${RED}Error: ${YLW}$name${RST} not found.\n"
-            usage
-        fi
-    }
-
-    update_custom() {
-        echo "${BLU}Updating ${BLD}[Oh My Zsh]${RST} ..."
-        git -C "$omz_dir" pull
-        echo ""
-        printf "${BLU}%s${RST}\n" "Updating custom plugins and themes..."
-        find "${ZSH_CUSTOM:-$ZSH/custom}" -type d -name ".git" | while read LINE; do
-            plugin=${LINE:h}
-            pushd -q "${plugin}"
-            if git pull --rebase; then
-                printf "%s${RST}\n" ${YLW}${BLD}"${plugin:t}${RST} ${GRN}has been updated and/or is at the current version.${RST}"
-            else
-                printf "%s${RST}\n" "${RED}There was an error updating ${RST}${YLW}${BLD}${plugin:t}.${RST}${RED} Try again later or figure out what went wrong..."
-            fi
-            popd -q
-        done
-    }
-
-  case $1 in
-    plugin|theme)
-      install_custom "$type" "${@:2}"
-      ;;
-    update)
-      update_custom
-      ;;
-    remove)
-      remove_custom "$2" "$3"
-      ;;
-    *)
-      usage
-      ;;
-  esac
+    case $1 in
+      plugin|theme)
+          install_custom "$1" "${@:2}"
+          ;;
+      update)
+          update_custom
+          ;;
+      remove)
+          remove_custom "$2" "$3"
+          ;;
+      *)
+          usage
+          ;;
+    esac
   }
   main "$@"
 }
