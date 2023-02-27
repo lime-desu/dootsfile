@@ -1,10 +1,9 @@
-#"^{install,todo}-*.txt"
 *.bak
 bookmarks
 *.log
 *.txt
 *zcompdump*
-installed-**
 flatpak-**.zsh
 *-lock.json
-config/broot/**/**/br
+config/broot/**/
+!scripts/**
