@@ -2,11 +2,10 @@ alacritty
 bat
 broot
 btop
-cava
 chafa
 util-linux
 curl
-delta
+git-delta
 dust
 exa
 fd
@@ -24,6 +23,7 @@ ripgrep
 stow
 starship
 tar
+tealdeer
 tmux
 unzip
 wget

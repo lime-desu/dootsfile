@@ -1,31 +1,12 @@
 #!/usr/bin/env bash
 # set -eux
+base_url="https://raw.githubusercontent.com/lime-desu/dootsfile/main"
 source_colors() {
   local tmp_file
   tmp_file="$(mktemp)"
-  curl -fsSL https://raw.githubusercontent.com/lime-desu/dootsfile/main/config/zsh/functions/colors.zsh > "$tmp_file"
+  curl -fsSL "${base_url}"/config/zsh/functions/colors.zsh > "$tmp_file"
   source "$tmp_file" && define_colors
   unset tmp_file
-}
-
-dependencies=(chsh curl fzf git jq nvim stow tar tmux unzip wget zsh)
-# fzf dependencies: bat broot fd lsd rg wl-copy
-check_dependencies() {
-  missing_deps=()
-  for dependency in "${dependencies[@]}"; do
-    if ! command -v "$dependency" > /dev/null; then
-      missing_deps+=("$dependency")
-    fi
-  done
-
-  if [ ${#missing_deps[@]} -gt 0 ]; then
-    echo -e "${RED}${BLD}Error:${RST} The following dependencies are not installed: "
-    for dependency in "${missing_deps[@]}"; do
-      echo "- ${YLW}$dependency${RST}"
-    done
-    echo "Please install them first and try again."
-    exit 1
-  fi
 }
 
 DOOTS="$HOME/Git/Local/dootsfile"
@@ -34,6 +15,48 @@ BINS="$HOME/.local/bin"
 SCRIPTS="$BINS/scripts"
 THEMES="$HOME/.local/share/themes"
 ICONS="$HOME/.local/share/icons"
+
+DEPENDENCIES=(alacritty bat broot btop cava chafa chsh curl delta dust exa fd foot fuck fzf git jq kitty lsd mpv neofetch nvim rg stow starship tar tldr tmux unzip wget wl-copy zsh)
+# fzf dependencies: bat broot fd lsd rg wl-copy
+check_dependencies() {
+  missing_deps=()
+  for dependency in "${DEPENDENCIES[@]}"; do
+    if ! command -v "$dependency" > /dev/null; then
+      missing_deps+=("$dependency")
+    fi
+  done
+
+  if [ ${#missing_deps[@]} -gt 0 ]; then
+    echo -e "${BLD}${BLU}Installing the following packages: ${RST}"
+    for dependency in "${missing_deps[@]}"; do
+      echo "- ${YLW}$dependency${RST}"
+    done
+    echo -e "${BLD}${RED}Note:${RST} Certain packages aren't available on some package manager"
+    return 1
+  fi
+  return 0
+}
+
+declare -A PACKAGE_LISTS=(
+    ["pacman"]="${base_url}/scripts/install/packages/arch.txt"
+    ["apt"]="${base_url}/scripts/install/packages/debian.txt"
+    ["dnf"]="${base_url}/scripts/install/packages/fedora.txt"
+    ["xbps-install"]="${base_url}/scripts/install/packages/void.txt"
+)
+
+install_packages() {
+  for package_manager in "${!PACKAGE_LISTS[@]}"; do
+    readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[$package_manager]}")
+    if command -v "$package_manager" &>/dev/null; then
+      case "$package_manager" in
+        dnf|apt) sudo "$package_manager" install -y "${packages[@]}";;
+        pacman|xbps-install) sudo "$package_manager" -Sy "${packages[@]}";;
+        *) echo "${BLD}${RED}Error:${RST} Unsupported package manager.";;
+      esac
+      bat cache --build
+    fi
+  done
+}
 
 create() {
   local dir="$1" 
@@ -59,7 +82,7 @@ stow_this() {
   local dootsfile="$1" target_dir="$2"
   stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir" --adopt
   sleep 2
-  git reset --hard > /dev/null
+  git reset --hard &> /dev/null
 }
 
 symlink() {
@@ -86,14 +109,15 @@ setup() {
     source ./scripts/install/flatpak.sh
     source ./scripts/install/firefox.sh
     source ./scripts/install/keybindings.sh
-    # bat cache --build
+    echo -e "${BLD}${BLU}All done.${RST}\n\n"
     # recommended tools to install
-    echo -e "${BLD}${BLU}All done.${WHT}\n\nRecommended tools to install:${RST}"
     source ./scripts/tools.sh
   fi
 }
 
 main() {
+  source_colors
+  ! check_dependencies && install_packages
   setup
   stow_this config "${CONFIG}"
   stow_this bin "${BINS}"
@@ -102,13 +126,11 @@ main() {
   stow_this icons "${ICONS}"
 }
 
-source_colors
-check_dependencies
 main
 
 # For custom installation comment out `stow_this config` from above, and
 # uncomment this line of array below then remove some you don't want to include
-# Note: Using stow will not work it will litter all the files in the target dir without their foldername/basename
+# Note: Using stow will not work, so symlinking it instead
 # TODO: make this interactive, and split into multiple file?
 
 # doots=(
