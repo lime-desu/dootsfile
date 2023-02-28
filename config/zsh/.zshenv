@@ -42,7 +42,7 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export ZDOTDIR="$HOME"/.config/zsh
 export ZSH="$XDG_DATA_HOME"/oh-my-zsh 
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
-export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="_ sudo ll g B X"
+export ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES="_ sudo ll g C B X"
 # wget
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
 # paths
