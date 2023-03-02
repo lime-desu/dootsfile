@@ -108,10 +108,10 @@ setup() {
     source ./scripts/install/dl-from-github.sh
     source ./scripts/install/flatpak.sh
     source ./scripts/install/firefox.sh
-    source ./scripts/install/keybindings.sh
+    source ./scripts/install/gnome.sh
     echo -e "${BLD}${BLU}All done.${RST}\n\n"
-    # recommended tools to install
-    source ./scripts/tools.sh
+    # recommended tools
+    source ./scripts/tool.sh
   fi
 }
 
