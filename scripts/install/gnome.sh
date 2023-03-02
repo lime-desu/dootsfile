@@ -18,6 +18,8 @@ setup_keybinds() {
     if command -v flatpak > /dev/null; then
       echo -e "Installing ${BLD}${BLU}ExtensionManager${RST} on Flatpak for GNOME..."
       flatpak install --assumeyes flathub com.mattjakeman.ExtensionManager
+      echo -e "Applying ${BLD}${BLU}Gtk theme on Flatpak${RST}..."
+      sudo flatpak override --filesystem=xdg-config/gtk-{3,4}.0
     fi
   fi
 }

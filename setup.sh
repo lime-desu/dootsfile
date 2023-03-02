@@ -42,6 +42,7 @@ declare -A PACKAGE_LISTS=(
     ["apt"]="${base_url}/scripts/install/packages/debian.txt"
     ["dnf"]="${base_url}/scripts/install/packages/fedora.txt"
     ["xbps-install"]="${base_url}/scripts/install/packages/void.txt"
+    ["flatpak"]="${base_url}/scripts/install/packages/flatpak.txt"
 )
 
 install_packages() {
@@ -49,7 +50,7 @@ install_packages() {
     readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[$package_manager]}")
     if command -v "$package_manager" &>/dev/null; then
       case "$package_manager" in
-        dnf|apt) sudo "$package_manager" install -y "${packages[@]}";;
+        dnf|apt|flatpak) sudo "$package_manager" install -y "${packages[@]}";;
         pacman|xbps-install) sudo "$package_manager" -Sy "${packages[@]}";;
         *) echo "${BLD}${RED}Error:${RST} Unsupported package manager.";;
       esac
@@ -106,7 +107,6 @@ setup() {
     ./setup.sh
     source ./scripts/install/zsh.sh
     source ./scripts/install/dl-from-github.sh
-    source ./scripts/install/flatpak.sh
     source ./scripts/install/firefox.sh
     source ./scripts/install/gnome.sh
     echo -e "${BLD}${BLU}All done.${RST}\n\n"
