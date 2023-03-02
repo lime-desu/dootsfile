@@ -3,8 +3,6 @@ source "${DOOTS}/config/zsh/functions/colors.zsh"
 define_colors
 
 # r̶u̶s̶t̶ linux cli/tui tools and apps that i use
-# ( -v" "-v" "-V" "-V" "-V" "-v" "--version" "--version" "-V" "-V" "-v" "-V" "-V" "--version")
-
 declare -A tools
 tools=(
   [alacritty]=" --version"
@@ -13,7 +11,7 @@ tools=(
   [broot]="פּ --version"
   [btop]=" --version"
   [chafa]="󰈟 --version"
-  [cowsay]=" --version"
+  [cowsay]=" -h"
   [cava]="󰺢 -v"
   [delta]=" --version"
   [dust]=" --version"
