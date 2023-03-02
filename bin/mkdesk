@@ -1,29 +1,44 @@
 #!/usr/bin/env bash
-
-read -rp "Name of the application: " app_name
-
-while true; do
-    read -rp "Command to execute: " command
-    [ -z "$command" ] || break
-    echo "Error: command cannot be empty. Please try again."
-done
-
-while true; do
-    read -rp "Path to the icon (blank for default): " icon_path
-    if [ -n "$icon_path" ] && [ ! -f "$icon_path" ]; then
-        echo "Error: the specified path does not exist. Please try again."
-    else
-        break
-    fi
-done
-read -rp "Additional comments to include (blank for none): " comments
-
+app_name=""
+command=""
+icon_path=""
+comments=""
 desktop_dir="$HOME/.local/share/applications"
-desktop_file="$desktop_dir/$app_name.desktop"
 
-[ -d "$desktop_dir" ] || mkdir -p "$desktop_dir"
+get_app_name() { read -rp "Enter the name of the application: " app_name; }
+get_command() {
+  while true; do
+      read -rp "Command to execute: " command
+      [ -z "$command" ] || break
+      echo "Error: command cannot be empty. Please try again."
+  done
+}
 
-cat > "$desktop_file" <<EOF
+validate_command() {
+    if ! command -v "$command" >/dev/null; then
+        echo "Error: $command is not a valid command."
+        get_command
+        validate_command
+    fi
+}
+
+get_icon_path() { read -rp "Enter the path to the icon (blank for default): " icon_path; }
+
+validate_icon_path() {
+    if [ -n "$icon_path" ] && [ ! -f "$icon_path" ]; then
+        echo "Error: $icon_path is not a valid file path."
+        get_icon_path
+        validate_icon_path
+    fi
+}
+get_comments() { read -rp "Enter additional comments to include (blank for none): " comments; }
+
+create_desktop_file() {
+    desktop_file="$desktop_dir/$app_name.desktop"
+
+    [ -d "$desktop_dir" ] || mkdir -p "$desktop_dir"
+
+    cat > "$desktop_file" <<EOF
 [Desktop Entry]
 Name=$app_name
 Comment=$comments
@@ -32,8 +47,19 @@ Icon=$icon_path
 Type=Application
 EOF
 
-chmod +x "$desktop_file"
+    if [ -f "$desktop_file" ]; then
+      echo "Desktop entry created at $desktop_file"
+    else
+      echo "Error: Failed to create desktop entry."
+    fi
+}
 
-if [ -f "$desktop_file" ]; then
-    echo "Desktop entry created at $desktop_file"
-fi
+# ask input
+get_app_name
+get_command
+validate_command
+get_icon_path
+validate_icon_path
+get_comments
+
+create_desktop_file
