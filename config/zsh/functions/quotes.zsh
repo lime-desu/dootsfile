@@ -19,6 +19,5 @@ function quote {
   local quote author
   quote=$(sed -e 's|</dt>.*||g' -e 's|.*html||g' -e 's|^[^a-zA-Z]*||' -e 's|</a..*$||g' <<< "$data")
   author=$(sed -e 's|.*/quotes/||g' -e 's|<.*||g' -e 's|.*">||g' <<< "$data")
-  yellow="\e[33m" green="\e[32m" blue="\e[34m" 
-  print -P "%F{6}${author}%f: %F{4}“${quote}”"
+  print -P "%B%F{6}${author}%f: %F{4}“${quote}”%f%b"
 }

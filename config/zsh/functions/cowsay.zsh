@@ -1,8 +1,11 @@
 if (( $+commands[cowsay] )); then
+
+  alias neocowsay="cowsay --rainbow --random --bold"
+
   function override_cmd_with_neocowsay {
     local cmd=$1
     shift
-    if [[ ! "$*" =~ "--help" ]]; then
+    if [[ ! "$*" =~ "--help" ]] && [[ $# -ne 0 ]]; then
       if [[ "$cmd" == "mkdir" || "$cmd" == "rmdir" ]]; then
         command "$cmd" --parents --verbose "$@" | cowsay --rainbow --random --bold
       else
@@ -13,23 +16,10 @@ if (( $+commands[cowsay] )); then
     fi
   }
 
-  mv() {
-    override_cmd_with_neocowsay "mv" "$@"
-  }
+  mv() { override_cmd_with_neocowsay "mv" "$@"; }
+  cp() { override_cmd_with_neocowsay "cp" "$@"; }
+  rm() { override_cmd_with_neocowsay "rm" "$@"; }
+  mkdir() { override_cmd_with_neocowsay "mkdir" "$@"; }
+  rmdir() { override_cmd_with_neocowsay "rmdir" "$@";}
 
-  cp() {
-    override_cmd_with_neocowsay "cp" "$@"
-  }
-
-  rm() {
-    override_cmd_with_neocowsay "rm" "$@"
-  }
-
-  mkdir() {
-    override_cmd_with_neocowsay "mkdir" "$@"
-  }
-
-  rmdir() {
-    override_cmd_with_neocowsay "rmdir" "$@"
-  }
 fi

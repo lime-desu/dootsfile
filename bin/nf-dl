@@ -4,8 +4,8 @@ if [ "$(uname -s)" == "Linux" ]; then
     FONT_DIR="$HOME/.local/share/fonts"
     NF_DL_DIR="$HOME/.cache/fzf/nf-dl"
 elif [ "$(uname -s)" == "Darwin" ]; then
-    FONT_DIR="/Applications/Fonts"
-    NF_DL_DIR="/Library/Caches/fzf/nf-dl"
+    FONT_DIR="$HOME/Applications/Fonts"
+    NF_DL_DIR="$HOME/Library/Caches/fzf/nf-dl"
 fi
 
 blu=$(tput setaf 4) cyn=$(tput setaf 6) bld=$(tput bold) rst=$(tput sgr0)

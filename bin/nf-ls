@@ -2,7 +2,7 @@
 if [ "$(uname -s)" == "Linux" ]; then
     NF_LS_DIR="$HOME/.cache/fzf/nf-ls"
 elif [ "$(uname -s)" == "Darwin" ]; then
-    NF_LS_DIR="/Library/Caches/fzf/nf-ls"
+    NF_LS_DIR="$HOME/Library/Caches/fzf/nf-ls"
 fi
 
 get_nf_cheat_sheets() {
