@@ -9,6 +9,7 @@ git-delta
 dust
 exa
 fd
+foliate
 foot
 thefuck
 fzf
@@ -29,3 +30,5 @@ unzip
 wget
 wl-clipboard
 zsh
+base-devel
+nodejs

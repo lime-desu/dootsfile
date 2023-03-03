@@ -5,8 +5,15 @@
 <details open>
   <summary><strong> Prerequisites </strong></summary>
 
+Any Nerd Fonts installed and used by your terminal emulator to display icon (Highly Recommended: JetBrains Mono, since most of the config using this font)
+
+You can use my script to download any Nerd Fonts
+(requires [fzf](https://github.com/junegunn/fzf))
+```
+bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/bin/nf-dl)"
+```
 <details>
-  <summary><strong> Setup Scripts Dependencies </strong></summary>
+  <summary>Setup Script Dependencies </summary>
 
 | Packages | Description | 
 | :---     | :----| 
@@ -21,22 +28,32 @@
 
 </details>
 
-Any Nerd Fonts installed and used by your terminal emulator to display icon (Highly Recommended: JetBrains Mono, since most of the config using this font)
-
-You can use my script to download any Nerd Fonts
-(requires [fzf](https://github.com/junegunn/fzf))
-```
-bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/bin/nf-dl)"
-```
-
 <details>
-  <summary><strong> Packages List </strong></summary>
+  <summary> Packages List </summary>
 
-Following packages that will be installed on the setup script:
-  
-| Packages      | Arch | Debian |Fedora | Void | Description | 
+  #### Applications:
+
+  Following packages that will be installed on the setup script:
+
+| Packages      | Arch | Debian |Fedora | Void | Description |
 | :---          | :--- | :---   | :---  | :--- | :----| 
 |  alacritty    | ✓    | ✗      | ✓     | ✓    | Fast, cross-platform, OpenGL terminal Emulator 
+|  foliate      | ✓    | ✗      | ✓     | ✓    | A Simple and modern GTK eBook reader
+|  foot         | ✓    | ✓      | ✓     | ✓    | Lightweight Wayland terminal emulator
+|  mpv          | ✓    | ✓      | ✓     | ✓    | A media player
+|  kitty        | ✓    | ✓      | ✓     | ✓    | Cross-platform, fast, feature rich, GPU based terminal
+
+| Flatpak Packages      | Description |
+| :---                  | :---        |
+| amberol               | Plays music, and nothing else
+| flatseal              | Utility to manage Flatpak Applications Permission
+| junction              | Application chooser for opening files and links
+| gradience             | Change the look of adwaita with ease
+
+  **Command Line Utilities** *(Mostly [Modern Unix](https://github.com/ibraheemdev/modern-unix))*
+
+| Packages      | Arch | Debian |Fedora | Void | Description |
+| :---          | :--- | :---   | :---  | :--- | :----| 
 |  bat          | ✓    | ✓      | ✓     | ✓    | A Cat(1) clone with wings
 |  broot        | ✓    | ✗      | ✗     | ✓    | A tree explorer and a customizable launcher
 |  btop         | ✓    | ✓      | ✓     | ✓    | Modern Resources Monitor Utility
@@ -46,12 +63,9 @@ Following packages that will be installed on the setup script:
 |  dust         | ✓    | ✗      | ✗     | ✓    | A more intuitive version of du in rust
 |  exa          | ✓    | ✓      | ✓     | ✓    | Modern replacement for ls
 |  fd           | ✓    | ✓      | ✓     | ✓    | Simple, fast and user-friendly alternative to find
-|  foot         | ✓    | ✓      | ✓     | ✓    | Lightweight Wayland terminal emulator
 |  fuck         | ✓    | ✓      | ✓     | ✓    | App that corrects your previous console command
 |  fzf          | ✓    | ✓      | ✓     | ✓    | A command-line fuzzy finder
-|  kitty        | ✓    | ✓      | ✓     | ✓    | Cross-platform, fast, feature rich, GPU based terminal
 |  lsd          | ✓    | ✗      | ✓     | ✓    | Ls command with pretty colors and some other stuff
-|  mpv          | ✓    | ✓      | ✓     | ✓    | A media player
 |  neofetch     | ✓    | ✓      | ✓     | ✓    | CLI system information tool
 |  ripgrep      | ✓    | ✓      | ✓     | ✓    | Command Line oriented search tool
 |  starship     | ✓    | ✗      | ✗     | ✓    | Cross platform shell prompt
@@ -60,16 +74,28 @@ Following packages that will be installed on the setup script:
 |  unzip        | ✓    | ✓      | ✓     | ✓    | A utility for unpacking zip files
 |  wl-clipboard | ✓    | ✓      | ✓     | ✓    | Command-line copy/paste utilities for Wayland
 
+
+  <sub><sup>*Foliate is available on Debian, but it isn't available on Ubuntu (only on 3rd party repo PPA) so I didn't include it.* </sub></sup>
+  <sub><sup>*If the package manager can't find all the necessary packages, it will fail to install and won't do anything* </sub></sup>
+
+  Required version:
+  - `fzf` >= 0.30 (***deps:*** *bat, broot, fd lsd rg wl-copy*)
+  - `lsd` >= 0.23.1
+  - `neovim` >= 0.8.0 (***deps:*** *C Compiler and Nodejs*)
+
+  Also include essential group of packages for building and compiling
+
   </details>
 </details>
 
+> **Note** *Prior running the script ensure that environment variable are set. (`echo $XDG_CURRENT_DESKTOP`)*
 
 | Method    | Command                                                                                     |
 | :-------- | :-----------------------------------------------------------------------------------------  |
 | **curl**  | `bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"`   |
 | **wget**  | `bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"`  |
 
-> **Note** _It's a good idea to take a look at the script and inspect it first to know what it does._
+> **Warning** *It's a good idea to take a look at the script and inspect and review it first to know what it does.*
 
 <details>
 <summary><strong> Setup Script Summary </strong></summary>
@@ -87,11 +113,11 @@ Following packages that will be installed on the setup script:
   - If on Gnome De:
     - Execute [catppuccin/gnome-terminal](https://github.com/catppuccin/gnome-terminal) script and apply it, and update some gnome settings.
     - This will also import all of my Gnome Keybindings (including Custom keybindings, and Gnome Shell Shortcut aswell as [Pop!_Os-Shell](https://github.com/pop-os/shell) too)
-  - Lastly, if Flatpak is installed, set it up and add the Flathub repository. Install useful apps like [Flatseal](https://flathub.org/apps/details/com.github.tchx84.Flatseal), [Extension Manager](https://flathub.org/apps/details/com.mattjakeman.ExtensionManager) (on Gnome), and [Junction](https://flathub.org/apps/details/re.sonny.Junction).
-  
+  - Lastly, if Flatpak is installed, Install useful apps: [Amberol](https://flathub.org/apps/details/io.bassi.Amberol), [Flatseal](https://flathub.org/apps/details/com.github.tchx84.Flatseal), [Junction](https://flathub.org/apps/details/re.sonny.Junction), [Gradience](https://flathub.org/apps/details/com.github.GradienceTeam.Gradience) and [Extension Manager](https://flathub.org/apps/details/com.mattjakeman.ExtensionManager) (on Gnome)
+
  </details>
  
-  #### Testing this out on a temporary installation:
+  **Testing this out on a temporary installation:**
   ```sh
   temp_dir=$(mktemp -d)                   # create tempdir variable
   export HOME=$temp_dir                   # set it as $HOME directory to don't dirty your ~
@@ -173,7 +199,7 @@ Following packages that will be installed on the setup script:
   | <kbd>Super</kbd> + <kbd>I</kbd>                                          | Open Settings |
   | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>                      | System Monitor |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>                       | Logout/Exit |
-   
+
   - [Official Documentation](https://help.gnome.org/users/gnome-help/stable/shell-keyboard-shortcuts.html.en)
   - [Pop Os Shell Keyboard Shortcuts](https://support.system76.com/articles/pop-keyboard-shortcuts/)
 
@@ -222,7 +248,9 @@ Following packages that will be installed on the setup script:
 
 <details open>
   <summary><strong> Fzf Widgets </strong></summary>
-  
+
+  > <kbd>Alt</kbd> + <kbd>?</kbd> will show list of fzf keybinds
+
   | Key | Details |
   | :-      | :-          |
   | <kbd>Alt</kbd> + <kbd>M</kbd>                         | Manpages Widget (list all manpages can preview with tldr, and cheat.sh)
@@ -235,7 +263,7 @@ Following packages that will be installed on the setup script:
   | <kbd>Alt</kbd> + <kbd>A</kbd>                         | Alias Widget (search all aliases)
   | <kbd>Alt</kbd> + <kbd>F</kbd>                         | Functions Widget (search function list)
   | <kbd>Alt</kbd> + <kbd>D</kbd>                         | Dictionary Widget (based on /usr/share/dict/words)
- 
+
 </details>
 
   > List all zsh keybinds: `bindkey -M <keymap>` (`bindkey -l` to list all keymap)

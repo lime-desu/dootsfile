@@ -1,4 +1,6 @@
 org.gtk.Gtk3theme.adw-gtk3
 org.gtk.Gtk3theme.adw-gtk3-dark
+io.bassi.Amberol
 com.github.tchx84.Flatseal
+com.github.GradienceTeam.Gradience
 re.sonny.Junction

@@ -23,3 +23,5 @@ unzip
 wget
 wl-clipboard
 zsh
+build-essential
+nodejs

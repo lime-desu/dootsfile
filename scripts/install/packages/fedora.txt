@@ -8,6 +8,7 @@ curl
 git-delta
 exa
 fd-find
+foliate
 foot
 thefuck
 fzf
@@ -27,3 +28,5 @@ unzip
 wget
 wl-clipboard
 zsh
+@c-development
+nodejs
