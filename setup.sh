@@ -17,7 +17,6 @@ THEMES="$HOME/.local/share/themes"
 ICONS="$HOME/.local/share/icons"
 
 DEPENDENCIES=(alacritty bat broot btop cava chafa chsh curl delta dust exa fd foot fuck fzf git jq kitty lsd mpv neofetch nvim rg stow starship tar tldr tmux unzip wget wl-copy zsh)
-# fzf dependencies: bat broot fd lsd rg wl-copy
 check_dependencies() {
   missing_deps=()
   for dependency in "${DEPENDENCIES[@]}"; do
@@ -45,16 +44,18 @@ declare -A PACKAGE_LISTS=(
     ["flatpak"]="${base_url}/scripts/install/packages/flatpak.txt"
 )
 
+setup_flatpak() { sudo flatpak remote-modify --enable flathub && sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo; }
+
 install_packages() {
   for package_manager in "${!PACKAGE_LISTS[@]}"; do
     readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[$package_manager]}")
     if command -v "$package_manager" &>/dev/null; then
+      setup_flatpak
       case "$package_manager" in
         dnf|apt|flatpak) sudo "$package_manager" install -y "${packages[@]}";;
         pacman|xbps-install) sudo "$package_manager" -Sy "${packages[@]}";;
         *) echo "${BLD}${RED}Error:${RST} Unsupported package manager.";;
       esac
-      bat cache --build
     fi
   done
 }
@@ -79,11 +80,18 @@ backup() {
   fi
 }
 
+create_dircopy_and_backup() {
+    dirs=("$CONFIG" "$BINS" "$SCRIPTS" "$THEMES" "$ICONS")
+    for dir in "${dirs[@]}"; do
+      backup "$dir"
+      create "$dir"
+    done
+}
+
 stow_this() {
   local dootsfile="$1" target_dir="$2"
   stow "$dootsfile" --dir "$DOOTS" --verbose --restow --target "$target_dir" --adopt
   sleep 2
-  git reset --hard &> /dev/null
 }
 
 symlink() {
@@ -93,32 +101,6 @@ symlink() {
 }
 
 setup() {
-  if [ ! -d "$DOOTS" ]; then
-    echo -e "${BLD}${BLU}Fetching ${CYN}Doots${RST}${BLU}${BLD} from the source...${RST}"
-    create "$DOOTS" && cd "$_" || return
-    git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
-    # backup files first
-    dirs=("$CONFIG" "$BINS" "$SCRIPTS" "$THEMES" "$ICONS")
-    for dir in "${dirs[@]}"; do
-      backup "$dir"
-      create "$dir"
-    done
-    # execute install scripts
-    ./setup.sh
-    source ./scripts/install/zsh.sh
-    source ./scripts/install/dl-from-github.sh
-    source ./scripts/install/firefox.sh
-    source ./scripts/install/gnome.sh
-    echo -e "${BLD}${BLU}All done.${RST}\n\n"
-    # recommended tools
-    source ./scripts/tool.sh
-  fi
-}
-
-main() {
-  source_colors
-  ! check_dependencies && install_packages
-  setup
   stow_this config "${CONFIG}"
   stow_this bin "${BINS}"
   stow_this scripts "${SCRIPTS}"
@@ -126,6 +108,27 @@ main() {
   stow_this icons "${ICONS}"
 }
 
+main() {
+  if [ ! -d "$DOOTS" ]; then
+    source_colors
+    echo -e "${BLD}${BLU}Fetching ${CYN}Doots${RST}${BLU}${BLD} from the source...${RST}"
+    create "$DOOTS" && cd "$_" || return
+    git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
+    ! check_dependencies && install_packages
+    create_dircopy_and_backup
+    # execute install scripts
+    source ./scripts/install/dl-from-github.sh
+    source ./scripts/install/zsh.sh
+    source ./scripts/install/firefox.sh
+    source ./scripts/install/gnome.sh
+    setup && git reset --hard &> /dev/null && bat cache --build
+    echo -e "${BLD}${BLU}All done.${RST}\n\n"
+    # recommended tools
+    source ./scripts/tool.sh
+  fi
+}
+
+[ "$(pwd)" = "${DOOTS}" ] && setup
 main
 
 # For custom installation comment out `stow_this config` from above, and
