@@ -90,4 +90,4 @@ omz-custom plugin \
     "zsh-users/zsh-completions" \
     "zsh-users/zsh-syntax-highlighting"
 
-omz-custom theme "romkatv/powerlevel10k"
+! command_exist starship && omz-custom theme "romkatv/powerlevel10k"
