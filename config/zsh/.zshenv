@@ -8,9 +8,6 @@ export DOOTS="$HOME/Git/Local/dootsfile"
 # default editor
 export {EDITOR,VISUAL}="nvim"
 
-# atuin
-export ATUIN_NOBIND="true"
-# eval "$(atuin init zsh)"
 # bash
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
 # bat
@@ -38,6 +35,8 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 # rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+# starship
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 # zsh
 export ZDOTDIR="$HOME"/.config/zsh
 export ZSH="$XDG_DATA_HOME"/oh-my-zsh 
@@ -56,4 +55,3 @@ paths=(
 for dir in "${paths[@]}"; do
     [[ -d $dir ]] && path+=$dir
 done
-
