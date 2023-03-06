@@ -19,7 +19,7 @@ alias \
     hyprlandrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.conf" \
     kittyrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/kitty/kitty.conf" \
     nvimrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/after/plugin/defaults.lua" \
-    tmuxrc="$EDITOR $HOME/.tmux.conf.local" \
+    tmuxrc="$EDITOR ${XDG_CONFIG_HOME:-$HOME/config}/tmux/tmux.conf.local" \
     zshrc="$EDITOR ${ZDOTDIR:-$HOME/.config/zsh}/.zshrc" \
     zshenv="$EDITOR ${ZDOTDIR:-$HOME/.config/zsh}/.zshenv" \
     {v,vim}="$EDITOR" \

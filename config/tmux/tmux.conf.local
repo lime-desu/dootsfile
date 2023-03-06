@@ -451,6 +451,8 @@ TMUX_FZF_THEME=" \
 --color=fg+:blue,border:blue"
 TMUX_FZF_OPTIONS="-p $TMUX_FZF_THEME" 
 
+set-environment -g -F TMUX_PLUGIN_MANAGER_PATH "${XDG_DATA_HOME}/tmux/plugins"
+
 # Options
 set -g default-terminal "xterm-256color"
 set-option -ga terminal-overrides ",xterm-256color:Tc"
