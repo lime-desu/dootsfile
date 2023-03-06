@@ -7,3 +7,4 @@ flatpak-**.zsh
 *-lock.json
 config/broot/**/
 !scripts/**
+tmux.conf
