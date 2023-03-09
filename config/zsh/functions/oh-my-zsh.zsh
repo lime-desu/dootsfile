@@ -59,7 +59,7 @@ EOF
   main() {
     if [[ ! -d "$ZSH" ]]; then
         echo "${BLU}Installing ${BLD}[Oh My Zsh]${RST} ..."
-        git clone https://github.com/ohmyzsh/ohmyzsh.git "$ZSH"
+        git clone https://github.com/ohmyzsh/ohmyzsh.git "$ZSH" && exec $SHELL -l
     fi
 
     case $1 in
