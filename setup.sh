@@ -36,6 +36,16 @@ check_dependencies() {
   return 0
 }
 
+install_packages() {
+    if command -v "$package_manager" &>/dev/null; then
+      case "$package_manager" in
+        dnf|apt|flatpak) sudo "$package_manager" install -y "${packages[@]}";;
+        pacman|xbps-install) sudo "$package_manager" -Sy "${packages[@]}";;
+        *) echo "${BLD}${RED}Error:${RST} Unsupported package manager.";;
+      esac
+    fi
+}
+# essential packages (setup script dependencies, modern unix and base-devel package (for building and compiling))
 declare -A PACKAGE_LISTS=(
     ["pacman"]="${base_url}/scripts/install/packages/arch.txt"
     ["apt"]="${base_url}/scripts/install/packages/debian.txt"
@@ -46,17 +56,11 @@ declare -A PACKAGE_LISTS=(
 
 setup_flatpak() { sudo flatpak remote-modify --enable flathub && sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo; }
 
-install_packages() {
+install_essential_packages() {
+  setup_flatpak
   for package_manager in "${!PACKAGE_LISTS[@]}"; do
     readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[$package_manager]}")
-    if command -v "$package_manager" &>/dev/null; then
-      setup_flatpak
-      case "$package_manager" in
-        dnf|apt|flatpak) sudo "$package_manager" install -y "${packages[@]}";;
-        pacman|xbps-install) sudo "$package_manager" -Sy "${packages[@]}";;
-        *) echo "${BLD}${RED}Error:${RST} Unsupported package manager.";;
-      esac
-    fi
+    install_packages "$package_manager" "${packages[@]}"
   done
 }
 
@@ -114,14 +118,14 @@ main() {
     echo -e "${BLD}${BLU}Fetching ${CYN}Doots${RST}${BLU}${BLD} from the source...${RST}"
     create "$DOOTS" && cd "$_" || return
     git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
-    ! check_dependencies && install_packages
     create_dircopy_and_backup
+    setup && git reset --hard &> /dev/null
+    ! check_dependencies && install_essential_packages && bat cache --build
     # execute install scripts
-    source ./scripts/install/dl-from-github.sh
-    source ./scripts/install/zsh.sh
-    source ./scripts/install/firefox.sh
     source ./scripts/install/gnome.sh
-    setup && git reset --hard &> /dev/null && bat cache --build
+    source ./scripts/install/zsh.sh
+    source ./scripts/install/dl-from-github.sh
+    source ./scripts/install/firefox.sh
     echo -e "${BLD}${BLU}All done.${RST}\n\n"
     # recommended tools
     source ./scripts/tool.sh
