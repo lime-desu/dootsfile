@@ -4,7 +4,7 @@ source "$DOOTS"/config/zsh/functions/colors.zsh
 define_colors
 
 source_dir="$HOME/Pictures/Wallpapers"
-dest_dir="$HOME/Pictures/Wallpapers/Random_Wallpapers"
+dest_dir="$source_dir/Random_Wallpapers"
 
 create_dir(){
   if [ ! -d "$dest_dir" ]; then
@@ -38,66 +38,81 @@ repositories=(                                            # Total of 15.2+ GB
   "linuxdotexe/nordic-wallpapers"                         # 830+ MB
   "mut-ex/wallpapers"                                     # 650+ MB
   "saint-13/Linux_Dynamic_Wallpapers"                     # 2.5+ GB
+  # "cat-milk/Anime-Girls-Holding-programming-Books"        # 580+ MB
 )
 
 clone_repositories() {
-  for repo in "${repositories[@]}"; do
-    repo_username="${repo%%/*}"
-    if [ ! -d "$source_dir/$repo_username" ]; then
       echo -e "Downloading wallpapers from: ${BLD}${BLU}$repo${RST} repo..."
       if ! git clone --depth=1 "https://github.com/$repo" "$source_dir/$repo_username"; then
         echo -e "${BLD}${RED}Error:${RST} Failed to download wallpapers from ${BLD}${BLU}${repo}${RST}."
-        echo -e "Check your internet connection and try again.\n"
+        echo -e "Or it is already ${YLW}${BLD}downloaded,${RST} check ${BLD}${BLU}$repo_dir.\n${RST}"
       fi
-    fi
-  done
 }
 
-update_repo() {
-  for repo in "${repositories[@]}"; do
-    repo_username="${repo%%/*}"
-    if [ -d "$source_dir/$repo_username" ]; then
+update_repositories() {
       echo -e "Updating wallpapers from: ${BLD}${BLU}$repo${RST} repo..."
       cd "$source_dir/$repo_username" || return
       if ! git pull origin; then
         echo -e "${BLD}${RED}Error:${RST} Failed to update wallpapers from ${BLD}${BLU}${repo}${RST}."
         echo -e "Check your internet connection and try again.\n"
       fi
-    fi
+}
+
+repository() {
+  for repo in "${repositories[@]}"; do
+    repo_username="${repo%%/*}"
+    repo_dir="$source_dir/$repo_username"
+    case "$1" in
+      clone) clone_repositories;;
+      update) update_repositories;;
+      list) echo -e " - ${BLU}$repo${RST}";;
+    esac
   done
 }
 
 show_message() {
 cat << EOF
-${BLD}${YLW}${RED}Warning:${RST} This script will use a lot of bandwidth!!
-This will download several wallpapers from github repo
-(${BLD}${YLW}Note:${RST} Some of the downloaded wallpapers will have duplicates)
+${BLD}${YLW}${RED}Warning:${RST} This script will download a lot of wallpapers from remote repositories and use a lot of bandwidth!!
+(${BLD}${YLW}Note:${RST} Some of the downloaded wallpapers may have duplicates)
 
-And will then symlink it to single directory on:
+The wallpapers will be symlinked to a single directory at:
 ${BLU}$dest_dir${RST}
+Downloaded wallpapers will be stored in:
+${BLU}$source_dir${RST}
 
-Here are the following list of wallpaper repository source:
+(${BLD}${YLW}Another Note:${RST} You can easily add/edit/remove sources from the repository array.
+Rerunning the script again, to update the previously downloaded wallpapers repo and resymlink,
+Or will download wallpapers if you add new repo sources from array then symlink it.
+
+Here are the following list of wallpaper repository source/s:
 EOF
 
-  for repo in "${repositories[@]}"; do
-   echo -e " - ${BLU}$repo${RST}"
-  done
+repository list
 }
 
+repository_exists() { repo_dir="$source_dir/${1%%/*}" && [[ -d "$repo_dir" ]]; }
+
 main() {
-  if [ -d "$dest_dir" ]; then
-    update_repo; symlink_images;
-  else
+  all_dirs_exist=true
+  for repo in "${repositories[@]}"; do
+    repository_exists "$repo" || { all_dirs_exist=false; break; }
+  done
+
+  if [[ ! -d "$source_dir" ]]; then
     show_message
     while true; do
         echo -en "\nAre you really sure you want to continue? (y/n): "
         read -r choice
         case "$choice" in
-          [Yy]) clone_repositories; create_dir; symlink_images; break;;
+          [Yy]) create_dir; repository clone && symlink_images; break;;
           [Nn]) echo "Aborting..."; exit 1;;
           *) echo "Invalid input.";;
         esac
     done
+  elif "$all_dirs_exist"; then
+    repository update && symlink_images
+  elif ! "$all_dirs_exist"; then
+    repository clone && symlink_images
   fi
 }
 
