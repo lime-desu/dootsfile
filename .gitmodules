@@ -19,3 +19,6 @@
 [submodule "themes"]
 	path = themes
 	url = https://github.com/lime-desu/MochaTheme
+[submodule "icons/Skeuowaita"]
+	path = icons/Skeuowaita
+	url = https://github.com/Frostbitten-jello/Skeuowaita
