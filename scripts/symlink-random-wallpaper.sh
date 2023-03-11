@@ -15,13 +15,19 @@ create_dir() {
 
 image_extensions=("jpg" "png" "jpeg" "svg" "webp" "icon" "bmp")
 symlink_images() {
-	echo -e "${YLW}\nSymlinking wallpapers...${RST}"
+	echo -e "${BLD}${YLW}\nSymlinking wallpapers...${RST}"
+	total_count=0
 	for extension in "${image_extensions[@]}"; do
-		find "$source_dir" -type f -name "*.$extension" -print0 | while read -r -d $'\0' file; do
+		count=0
+		while IFS= read -r -d $'\0' file; do
 			ln -sf "$file" "$dest_dir"
-		done
+			((count++))
+			((total_count++))
+			echo -ne "\rSymlinking $count ${YLW}$extension${RST} wallpapers..."
+		done < <(find "$source_dir" -type f -name "*.$extension" -print0)
+		echo ""
 	done
-	echo -e "\nDone symlinking all wallpapers to:\n${BLD}${BLU}$dest_dir${RST}"
+	echo -e "Done symlinking ${BLD}${GRN}$total_count${RST} wallpapers to:\n${BLD}${BLU}$dest_dir${RST}"
 }
 
 # Custom: simply uncomment/remove from the array, for adding sources (format: <username>/<reponame>)
