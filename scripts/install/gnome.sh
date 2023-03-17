@@ -23,11 +23,11 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 	}
 
 	EXTENSIONS=(
-		# "arcmenu@arcmenu.com"
 		# "dash-to-dock@micxgx.gmail.com"
 		# "pano@elhan.io"
 		# "just-perfection-desktop@just-perfection"
 		# "netspeedsimplified@prateekmedia.extension"
+		"arcmenu@arcmenu.com"
 		"gsconnect@andyholmes.github.io"
 		"hidetopbar@mathieu.bidon.ca"
 		"pop-shell@system76.com"
@@ -36,19 +36,29 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		"widgets@aylur"
 	)
 
-	enable_extension() {
+	apply_extension_config() {
+		local extensions=("aylurs-widgets" "hidetopbar" "pop-shell" "rounded-window-corners" "user-theme")
+		local schema="org/gnome/shell/extensions"
 
+		for ext in "${extensions[@]}"; do
+			dconf load "/$schema/$ext/" <"$DOOTS/share/gnome-shell/extensions/$ext"
+		done
+	}
+
+	enable_extension() {
 		echo -e "${BLD}${BLU}Before proceeding ensure the following extension are installed to apply their configuration:${RST}"
 		printf " ${BLU}-${RST} %s\n" "${EXTENSIONS[@]}"
 		echo -e "${BLD}${YLW}Note:${RST} Only ${BLU}gsconnect${RST} config aren't included only for enabling it. (Already installed on ${GRN}Debian and Fedora${RST})"
 		echo -e "Also ${BLU}pop-shell${RST} and ${BLU}user-theme${RST} extensions are already installed on ${GRN}Fedora${RST} as system extensions\n" && sleep 10
-		read -rp "All extension are already installed? (y to proceed or n to skip) : " choice
+		read -rp "Extensions are already installed? (y to proceed or n to skip) : " choice
 
 		if [[ "$choice" =~ ^[yY]$ ]]; then
 			for extension in "${EXTENSIONS[@]}"; do
+				extension_name=${extension%%@*} # extract extension name up to the "@" character
 				if gnome-extensions list | grep -q "$extension"; then
 					gnome-extensions enable "$extension"
-					echo "$extension shell extension enabled successfully."
+					echo -e "${BLU}$extension${RST} shell extension enabled successfully."
+					apply_extension_config && echo -e "Applying ${GRN}$extension_name${RST} configuration..."
 				fi
 			done
 		fi
@@ -60,9 +70,8 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		echo -e "Importing ${BLD}${BLU}Gnome Keybindings${RST}..." && sleep 2
 		perl "${DOOTS}"/scripts/gnome-keybindings.pl --import "${DOOTS}/"config/gnome-keybindings.csv
 		echo -e "Applying ${BLD}${BLU}theme and cusor icon${RST} on GNOME..." && sleep 2
-		curl -sL https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 - # gnome-terminal catppuccin
+		curl -sL https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 - # execute catppuccin/gnome-terminal script
 		gsettings set org.gnome.Terminal.ProfilesList default '95894cfd-82f7-430d-af6e-84dl68bc34f5'       # mocha
-		gsettings set org.gnome.shell.extensions.user-theme name 'MochaTheme-1'
 		gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
 		gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 		gsettings set org.gnome.desktop.interface cursor-theme 'Catppuccin-Mocha-Dark-Cursors'
