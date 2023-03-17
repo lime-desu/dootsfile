@@ -21,17 +21,19 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 			install_packages "$package_manager" "${packages[@]}"
 		done
 	}
-
+	# TODO: don't hardcode gsettings value ask for prompt
 	main() {
 		install_gnome_packages
 		echo -e "Importing ${BLD}${BLU}Gnome Keybindings${RST}..." && sleep 2
 		perl "${DOOTS}"/scripts/gnome-keybindings.pl --import "${DOOTS}/"config/gnome-keybindings.csv
 		echo -e "Applying ${BLD}${BLU}theme and cusor icon${RST} on GNOME..." && sleep 2
 		curl -sL https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 - # gnome-terminal catppuccin
-		gsettings set org.gnome.Terminal.ProfilesList default "95894cfd-82f7-430d-af6e-84d168bc34f5"       # mocha
+		gsettings set org.gnome.Terminal.ProfilesList default '95894cfd-82f7-430d-af6e-84dl68bc34f5'       # mocha
+		gsettings set org.gnome.shell.extensions.user-theme name 'MochaTheme-1'
 		gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
 		gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-		gsettings set org.gnome.desktop.interface cursor-theme Catppuccin-Mocha-Dark-Cursors
+		gsettings set org.gnome.desktop.interface cursor-theme 'Catppuccin-Mocha-Dark-Cursors'
+		gsettings set org.gnome.desktop.interface icon-theme 'Skeuowaita'
 		if command -v flatpak >/dev/null; then
 			echo -e "Applying ${BLD}${BLU}Gtk theme on Flatpak${RST}..."
 			sudo flatpak override --filesystem=xdg-config/gtk-{3,4}.0
