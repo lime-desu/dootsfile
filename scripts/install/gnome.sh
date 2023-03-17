@@ -9,8 +9,8 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 	#-----------------------------------------------
 	declare -A GNOME_PACKAGES=(
 		["pacman"]="gnome-tweaks"
-		["apt"]="gnome-tweaks gnome-shell-extension-gsconnect"
-		["dnf"]="gnome-tweaks gnome-shell-extension-gsconnect gnome-shell-extension-pop-shell gnome-shell-extension-user-theme"
+		["apt"]="gnome-tweaks gnome-shell-extension-gsconnect openssl"
+		["dnf"]="gnome-tweaks gnome-shell-extension-gsconnect openssl gnome-shell-extension-pop-shell xprop gnome-shell-extension-user-theme"
 		["xbps-install"]="gnome-tweaks"
 		["flatpak"]="com.mattjakeman.ExtensionManager"
 	)
@@ -21,9 +21,42 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 			install_packages "$package_manager" "${packages[@]}"
 		done
 	}
+
+	EXTENSIONS=(
+		# "arcmenu@arcmenu.com"
+		# "dash-to-dock@micxgx.gmail.com"
+		# "pano@elhan.io"
+		# "just-perfection-desktop@just-perfection"
+		# "netspeedsimplified@prateekmedia.extension"
+		"gsconnect@andyholmes.github.io"
+		"hidetopbar@mathieu.bidon.ca"
+		"pop-shell@system76.com"
+		"rounded-window-corners@yilozt"
+		"user-theme@gnome-shell-extensions.gcampax.github.com"
+		"widgets@aylur"
+	)
+
+	enable_extension() {
+
+		echo -e "${BLD}${BLU}Before proceeding ensure the following extension are installed to apply their configuration:${RST}"
+		printf " ${BLU}-${RST} %s\n" "${EXTENSIONS[@]}"
+		echo -e "${BLD}${YLW}Note:${RST} Only ${BLU}gsconnect${RST} config aren't included only for enabling it. (Already installed on ${GRN}Debian and Fedora${RST})"
+		echo -e "Also ${BLU}pop-shell${RST} and ${BLU}user-theme${RST} extensions are already installed on ${GRN}Fedora${RST} as system extensions\n" && sleep 10
+		read -rp "All extension are already installed? (y to proceed or n to skip) : " choice
+
+		if [[ "$choice" =~ ^[yY]$ ]]; then
+			for extension in "${EXTENSIONS[@]}"; do
+				if gnome-extensions list | grep -q "$extension"; then
+					gnome-extensions enable "$extension"
+					echo "$extension shell extension enabled successfully."
+				fi
+			done
+		fi
+	}
+
 	# TODO: don't hardcode gsettings value ask for prompt
 	main() {
-		install_gnome_packages
+		install_gnome_packages && enable_extension
 		echo -e "Importing ${BLD}${BLU}Gnome Keybindings${RST}..." && sleep 2
 		perl "${DOOTS}"/scripts/gnome-keybindings.pl --import "${DOOTS}/"config/gnome-keybindings.csv
 		echo -e "Applying ${BLD}${BLU}theme and cusor icon${RST} on GNOME..." && sleep 2
