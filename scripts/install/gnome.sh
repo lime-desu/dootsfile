@@ -22,6 +22,13 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		done
 	}
 
+	apply_flatpak_theme_config() {
+		if command -v flatpak >/dev/null; then
+			echo -e "Applying ${BLD}${BLU}Gtk theme on Flatpak${RST}..."
+			sudo flatpak override --filesystem=xdg-config/gtk-{3,4}.0
+		fi
+	}
+
 	EXTENSIONS=(
 		# "dash-to-dock@micxgx.gmail.com"
 		# "pano@elhan.io"
@@ -46,7 +53,7 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 	}
 
 	enable_extension() {
-		echo -e "${BLD}${BLU}Before proceeding ensure the following extension are installed to apply their configuration:${RST}"
+		echo -e "${BLD}${BLU}\nBefore proceeding ensure the following extension are installed to apply their configuration:${RST}"
 		printf " ${BLU}-${RST} %s\n" "${EXTENSIONS[@]}"
 		echo -e "${BLD}${YLW}Note:${RST} Only ${BLU}gsconnect${RST} config aren't included only for enabling it. (Already installed on ${GRN}Debian and Fedora${RST})"
 		echo -e "Also ${BLU}pop-shell${RST} and ${BLU}user-theme${RST} extensions are already installed on ${GRN}Fedora${RST} as system extensions\n" && sleep 10
@@ -64,22 +71,35 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		fi
 	}
 
-	# TODO: don't hardcode gsettings value ask for prompt
-	main() {
-		install_gnome_packages && enable_extension
+	import_gnome_keybindings() {
 		echo -e "Importing ${BLD}${BLU}Gnome Keybindings${RST}..." && sleep 2
 		perl "${DOOTS}"/scripts/gnome-keybindings.pl --import "${DOOTS}/"config/gnome-keybindings.csv
-		echo -e "Applying ${BLD}${BLU}theme and cusor icon${RST} on GNOME..." && sleep 2
-		curl -sL https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 - # execute catppuccin/gnome-terminal script
-		gsettings set org.gnome.Terminal.ProfilesList default '95894cfd-82f7-430d-af6e-84dl68bc34f5'       # mocha
-		gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+	}
+
+	# TODO: don't hardcode gsettings value ask for prompt
+	apply_gnome_settings() {
+		echo -e "Applying ${BLD}${BLU}Gnome settings, themes and cusor icon${RST}..." && sleep 2
+		gsettings set org.gnome.mutter dynamic-workspaces 'false'                # turn off dynamic-workspaces (fixed 4 workspaces as default)
+		gsettings set org.gnome.mutter center-new-windows 'true'                 # place new windows at the center of the screen
+		gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click 'true' # enable tap to click on touchpad
+		gsettings set org.gnome.desktop.interface show-battery-percentage 'true' # show show-battery-percentage
+		gsettings set org.gnome.desktop.interface clock-show-weekday 'true'      # show weekdays
+		# gsettings set org.gnome.desktop.interface clock-format '12h'
+		# gsettings set org.gtk.Settings.FileChooser clock-format '12h'
+		# gsettings set org.gtk.gtk4.Settings.FileChooser clock-format '12h'
+		# gsettings set org.gnome.desktop.sound allow-volume-above-100-percent 'true'
+		# gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 		gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+		gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
 		gsettings set org.gnome.desktop.interface cursor-theme 'Catppuccin-Mocha-Dark-Cursors'
 		gsettings set org.gnome.desktop.interface icon-theme 'Skeuowaita'
-		if command -v flatpak >/dev/null; then
-			echo -e "Applying ${BLD}${BLU}Gtk theme on Flatpak${RST}..."
-			sudo flatpak override --filesystem=xdg-config/gtk-{3,4}.0
-		fi
+		curl -sL https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 - # execute catppuccin/gnome-terminal script
+		gsettings set org.gnome.Terminal.ProfilesList default '95894cfd-82f7-430d-af6e-84d168bc34f5'       # Catppuccin mocha
+	}
+
+	main() {
+		install_gnome_packages && apply_flatpak_theme_config && enable_extension
+		import_gnome_keybindings && apply_gnome_settings
 	}
 
 	main
