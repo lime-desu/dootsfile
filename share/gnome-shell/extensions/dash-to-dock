@@ -1,0 +1,14 @@
+[/]
+apply-custom-theme=false
+background-color='rgb(17,17,27)'
+background-opacity=0.80000000000000004
+custom-background-color=false
+custom-theme-shrink=false
+dash-max-icon-size=48
+dock-position='BOTTOM'
+height-fraction=0.90000000000000002
+hot-keys=false
+intellihide=false
+intellihide-mode='ALL_WINDOWS'
+preferred-monitor=-2
+preferred-monitor-by-connector='eDP-1'

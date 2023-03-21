@@ -78,7 +78,7 @@ org.gnome.desktop.wm.keybindings	switch-to-workspace-up	['<Primary><Super>Up', '
 org.gnome.desktop.wm.keybindings	switch-windows	['<Alt>Tab']
 org.gnome.desktop.wm.keybindings	switch-windows-backward	['<Shift><Alt>Tab']
 org.gnome.desktop.wm.keybindings	toggle-above	[]
-org.gnome.desktop.wm.keybindings	toggle-fullscreen	[]
+org.gnome.desktop.wm.keybindings	toggle-fullscreen	['F11']
 org.gnome.desktop.wm.keybindings	toggle-maximized	['<Super>m']
 org.gnome.desktop.wm.keybindings	toggle-on-all-workspaces	[]
 org.gnome.desktop.wm.keybindings	toggle-shaded	[]
@@ -205,7 +205,7 @@ org.gnome.shell.extensions.pop-shell	focus-down	['<Super>Down', '<Super>KP_Down'
 org.gnome.shell.extensions.pop-shell	focus-left	['<Super>Left', '<Super>KP_Left', '<Super>h']
 org.gnome.shell.extensions.pop-shell	focus-right	['<Super>Right', '<Super>KP_Right', '<Super>l']
 org.gnome.shell.extensions.pop-shell	focus-up	['<Super>Up', '<Super>KP_Up', '<Super>k']
-org.gnome.shell.extensions.pop-shell	hint-color-rgba	'rgb(205,214,244)'
+org.gnome.shell.extensions.pop-shell	hint-color-rgba	'rgb(180,190,254)'
 org.gnome.shell.extensions.pop-shell	management-orientation	['o']
 org.gnome.shell.extensions.pop-shell	pop-monitor-down	['<Super><Shift><Primary>Down', '<Super><Shift><Primary>KP_Down', '<Super><Shift><Primary>j']
 org.gnome.shell.extensions.pop-shell	pop-monitor-left	['<Super><Shift>Left', '<Super><Shift>KP_Left', '<Super><Shift>h']

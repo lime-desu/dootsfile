@@ -1,7 +1,7 @@
 [/]
 activate-launcher=@as []
-active-hint=false
-active-hint-border-radius=uint32 0
+active-hint=true
+active-hint-border-radius=uint32 16
 focus-down=['<Super>Down', '<Super>KP_Down', '<Super>j']
 focus-left=['<Super>Left', '<Super>KP_Left', '<Super>h']
 focus-right=['<Super>Right', '<Super>KP_Right', '<Super>l']
@@ -9,7 +9,7 @@ focus-up=['<Super>Up', '<Super>KP_Up', '<Super>k']
 fullscreen-launcher=false
 gap-inner=uint32 3
 gap-outer=uint32 3
-hint-color-rgba='rgb(205,214,244)'
+hint-color-rgba='rgb(180,190,254)'
 management-orientation=['o']
 pop-monitor-down=['<Super><Shift><Primary>Down', '<Super><Shift><Primary>KP_Down', '<Super><Shift><Primary>j']
 pop-monitor-left=['<Super><Shift>Left', '<Super><Shift>KP_Left', '<Super><Shift>h']
