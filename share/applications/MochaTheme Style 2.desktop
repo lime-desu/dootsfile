@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=MochaTheme Style 2
+Comment=Custom Gnome Shell Theme
+Exec=dconf write /org/gnome/shell/extensions/user-theme/name "'MochaTheme-2'"
+Icon=/home/void/.local/share/icons/desktop/style2.png
+Type=Application

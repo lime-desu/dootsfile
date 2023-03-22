@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Catppuccin Mocha Lavender Theme
+Comment=Should have Catppuccin GTK Theme (Lavender)
+Exec=dconf write /org/gnome/shell/extensions/user-theme/name "'Catppuccin-Mocha-Standard-Lavender-Dark'"
+Icon=/home/void/.local/share/icons/desktop/catppuccin.png
+Type=Application

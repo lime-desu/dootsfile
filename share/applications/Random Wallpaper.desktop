@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Random Wallpaper
+Comment=Change Wallpaper Randomly
+Exec=/home/void/.local/bin/scripts/set-random-wallpaper.sh
+Icon=/home/void/.local/share/icons/desktop/wallpaper.png
+Type=Application
