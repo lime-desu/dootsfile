@@ -8,10 +8,10 @@
 if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 	#-----------------------------------------------
 	declare -A GNOME_PACKAGES=(
-		["pacman"]="gnome-tweaks"
-		["apt"]="gnome-tweaks gnome-shell-extension-gsconnect openssl"
-		["dnf"]="gnome-tweaks gnome-shell-extension-gsconnect openssl gnome-shell-extension-pop-shell xprop gnome-shell-extension-user-theme"
-		["xbps-install"]="gnome-tweaks"
+		["pacman"]="gnome-tweaks libgda"
+		["apt"]="gnome-tweaks gnome-shell-extension-gsconnect openssl gir1.2-gda-5.0 gir1.2-gsound-1.0"
+		["dnf"]="gnome-tweaks gnome-shell-extension-gsconnect openssl gnome-shell-extension-pop-shell xprop gnome-shell-extension-user-theme libgda libgda-sqlite"
+		["xbps-install"]="gnome-tweaks libgda"
 		["flatpak"]="com.mattjakeman.ExtensionManager"
 	)
 
@@ -24,19 +24,19 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 
 	apply_flatpak_theme_config() {
 		if command -v flatpak >/dev/null; then
-			echo -e "Applying ${BLD}${BLU}Gtk theme on Flatpak${RST}..."
+			echo -e "\nApplying ${BLD}${BLU}Gtk theme on Flatpak${RST}..."
 			sudo flatpak override --filesystem=xdg-config/gtk-{3,4}.0
 		fi
 	}
 
 	EXTENSIONS=(
-		# "pano@elhan.io"
-		# "just-perfection-desktop@just-perfection"
 		# "netspeedsimplified@prateekmedia.extension"
 		"arcmenu@arcmenu.com"
 		"dash-to-dock@micxgx.gmail.com"
 		"gsconnect@andyholmes.github.io"
 		"hidetopbar@mathieu.bidon.ca"
+		"just-perfection-desktop@just-perfection"
+		"pano@elhan.io"
 		"pop-shell@system76.com"
 		"rounded-window-corners@yilozt"
 		"user-theme@gnome-shell-extensions.gcampax.github.com"
@@ -45,7 +45,7 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 
 	apply_extension_config() {
 		# Technically I can refactor this, and use single array only, but since enabling and applying extensions are different command, especially aylurs-widgets have different formatting, just to avoid confusion i created another array.
-		local extensions=("arcmenu" "aylurs-widgets" "dash-to-dock" "hidetopbar" "pop-shell" "rounded-window-corners" "user-theme")
+		local extensions=("arcmenu" "aylurs-widgets" "dash-to-dock" "hidetopbar" "just-perfection" "pano" "pop-shell" "rounded-window-corners" "user-theme")
 		local schema="org/gnome/shell/extensions"
 
 		for ext in "${extensions[@]}"; do
