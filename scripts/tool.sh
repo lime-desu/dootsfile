@@ -32,6 +32,7 @@ tools=(
 	[starship]="󱓞 --version"
 	[tldr]=" --version"
 	[tmux]=" -V"
+	[wipe]=" -V"
 	[zsh]=" --version"
 )
 
