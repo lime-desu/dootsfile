@@ -24,8 +24,11 @@
     changed = green
     untracked = red
 
+[alias]
+    update = "!git pull --recurse-submodules && git submodule update --remote"
+
 [pull]
-    rebase = false
+    rebase = true
 
 [core]
     pager = delta
