@@ -24,7 +24,7 @@ cat <<-EOF
 EOF
 )"
 
-if [[ $TERM_PROGRAM = tmux ]]; then
+if [[ $TERM_PROGRAM = tmux ]] || [[ $TERM = foot ]]; then
   FZF_THEME_CATPPUCCIN_MOCHA_BG="--color=bg+:#313244"
 else
   FZF_THEME_CATPPUCCIN_MOCHA_BG="--color=bg+:#313244,bg:#1e1e2e"

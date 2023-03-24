@@ -237,8 +237,8 @@ org.gnome.shell.extensions.pop-shell	toggle-floating	['<Super>g']
 org.gnome.shell.extensions.pop-shell	toggle-stacking	['s']
 org.gnome.shell.extensions.pop-shell	toggle-stacking-global	['<Super>s']
 org.gnome.shell.extensions.pop-shell	toggle-tiling	['<Super>y']
-custom	'Open Terminal Emulator (Alacritty)'	'alacritty'	'<Super>Return'
-custom	'Open Terminal Emulator (Foot)'	'foot'	'<Control><Alt>t'
+custom	'Open Terminal Emulator (Alacritty)'	'alacritty'	'<Super>t'
+custom	'Open Gnome Terminal'	'gnome-terminal'	'<Control><Alt>t'
 custom	'Open File Explorer'	'nautilus'	'<Super>e'
 custom	'Random Wallpaper'	'/home/void/Git/Local/dootsfile/scripts/set-random-wallpaper.sh'	'<Shift><Super>w'
 custom	'Rick Roll'	'foot bash -c   \"curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash\"'	'<Control><Alt>Delete'
@@ -246,3 +246,4 @@ custom	'System Monitor'	'gnome-system-monitor'	'<Shift><Control>Escape'
 custom	'View Cheat Sheets Images'	'eog /home/void/Pictures/CheatSheets'	'<Shift><Super>Return'
 custom	'Open Ebook Reader (Foliate)'	'com.github.johnfactotum.Foliate'	'<Super>f'
 custom	'Open Text Editor (Neovim)'	'foot bash -c \"nvim\"'	'<Super>n'
+custom	'Open Terminal Emulator (Foot)'	'foot'	'<Super>Return'
