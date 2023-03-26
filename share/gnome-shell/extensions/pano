@@ -1,13 +1,15 @@
 [/]
-active-item-border-color='rgb(137,180,250)'
+active-item-border-color='rgb(180,190,254)'
 history-length=100
-hovered-item-border-color='rgb(180,190,254)'
+hovered-item-border-color='rgba(180,190,254,0.8)'
 incognito-window-background-color='rgb(0,0,11)'
 is-in-incognito=false
+keep-search-entry=true
 send-notification-on-copy=false
 show-indicator=false
 sync-primary=false
 window-background-color='rgb(17,17,27)'
+window-height=380
 
 [code-item]
 body-bg-color='rgb(30,30,46)'

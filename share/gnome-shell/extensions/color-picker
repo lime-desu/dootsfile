@@ -1,0 +1,7 @@
+[/]
+enable-shortcut=true
+enable-systray=false
+menu-size=uint32 8
+notify-style=uint32 0
+persistent-mode=true
+quit-key=''
