@@ -1,8 +1,39 @@
 # dootsfile
 🏠 - Personal Dotfiles (Managed by GNU Stow)
 
+![Bocchi](https://user-images.githubusercontent.com/114978689/227949867-bbb1dcb5-8914-434b-83fd-980975e61257.jpg "Current Setup")
+
+## Tools Overview
+
+- **DE**: [Gnome](https://www.gnome.org/)
+  - **Extensions**: (*[config included](https://github.com/lime-desu/dootsfile/tree/main/share/gnome-shell/extensions)*)
+    -  [arcmenu](https://extensions.gnome.org/extension/3628/arcmenu/)
+    -  [aylurs-widgets](https://extensions.gnome.org/extension/5338/aylurs-widgets/)
+    -  [dash-to-dock](https://extensions.gnome.org/extension/307/dash-to-dock/)
+    -  [hidetopbar](https://extensions.gnome.org/extension/545/hide-top-bar/)
+    -  [just-perfection](https://extensions.gnome.org/extension/3843/just-perfection/)
+    -  [pano](https://extensions.gnome.org/extension/5278/pano/)
+    -  [pop-os-shell](https://github.com/pop-os/shell)
+    -  [rounded-window-corners](https://extensions.gnome.org/extension/5237/rounded-window-corners/)
+- **OS**: [Fedora Linux](https://getfedora.org/)
+- **Shell**: zsh
+  - **Framework**: [oh-my-zsh](https://ohmyz.sh/)
+  - **Plugin Manager**: [custom](https://github.com/lime-desu/dootsfile/blob/main/config/zsh/functions/oh-my-zsh.zsh)
+  - **Prompt**: [Starship](https://starship.rs/) ([p10k](https://github.com/romkatv/powerlevel10k) as fallback)
+- **Terminal**: alacritty, foot
+- **Editor**: [Neovim](https://github.com/neovim/neovim/) (using [LazyVim](https://www.lazyvim.org/) configuration)
+- **Browser**: [Librewolf](https://librewolf.net/)/Firefox
+- **Fonts**: Jetbrains Mono [Nerd Font](https://www.nerdfonts.com/), SF Pro Mono
+- **Icons**:
+  - **Application**: [Skeouwaita](https://github.com/Frostbitten-jello/Skeuowaita)
+  - **Cursor**: [Catppuccin Cursor](https://github.com/catppuccin/cursors), [Phinger Cursors](https://github.com/phisch/phinger-cursors)
+- **Colorscheme**: [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha (Lavender)
+
 ### Installation
-<details open>
+
+**Automatic:**
+
+<details>
   <summary><strong> Prerequisites </strong></summary>
 
 Any Nerd Fonts installed and used by your terminal emulator to display icon (Highly Recommended: JetBrains Mono, since most of the config using this font)
@@ -14,6 +45,8 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
 ```
 <details>
   <summary>Setup Script Dependencies </summary>
+
+  You don't need to install any of these item listed below since they are already installed on your system, and included on the setup script as well
 
 | Packages | Description | 
 | :---     | :----| 
@@ -90,41 +123,23 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
 
 > **Note** *Prior running the script ensure that environment variable are set. (`echo $XDG_CURRENT_DESKTOP`)*
 
-| Method    | Command                                                                                     |
-| :-------- | :-----------------------------------------------------------------------------------------  |
-| **curl**  | `bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"`   |
-| **wget**  | `bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"`  |
+using **curl**
+```
+bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"
+```
 
-> **Warning** *It's a good idea to take a look at the script and inspect and review it first to know what it does.*
+using **wget**
+```
+bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"
+```
 
-<details>
-<summary><strong> Setup Script Summary </strong></summary>
+> **Warning** *Please review the script first before executing. Don't blindly run it. Consider running it on a new machine*
 
-  - Will automatically install all the necessary packages and dependencies
-  - Get all the files from the source (and store it on `$HOME/Git/Local/dootsfile`)
-  - Using [stow](https://www.gnu.org/software/stow/) to symlink it based on their xdg-spec directories (Backup existing files and rename with `.doots` extension.)
-  - Setup zsh as a default shell, after setting this up:
-    - it will automatically install and use [Oh-My-Zsh](https://ohmyz.sh/) framework and download it's [defined custom plugins](https://github.com/lime-desu/dootsfile/blob/84da632afbcba8f1b5f691352d31ab1dec26c57e/config/zsh/functions/oh-my-zsh.zsh#L83)
-    - will also download and setup [Oh-My-Tmux](https://github.com/gpakosz/.tmux) too.
-  - Set up Firefox/Librewolf search engine shortcuts (Not custom CSS).
-    - for quick search, e.g.: `:gh` for github search, `:r/` subreddit search, `:so` stackoverflow search,`:y` youtube search and etc.
-    - and it will also execute [Firefox-Ui-Fix](https://github.com/black7375/Firefox-UI-Fix) installation script
-  - Install [phinger-cursors](https://github.com/phisch/phinger-cursors), [catppuccin-cursors](https://github.com/catppuccin/cursors), [neocowsay](https://github.com/Code-Hex/Neo-cowsay), and [adw-gtk3](https://github.com/lassekongo83/adw-gtk3) (will fetch it from github releases)
-  - If on Gnome De:
-    - Execute [catppuccin/gnome-terminal](https://github.com/catppuccin/gnome-terminal) script and apply it, and update some gnome settings.
-    - This will also import all of my Gnome Keybindings (including Custom keybindings, and Gnome Shell Shortcut aswell as [Pop!_Os-Shell](https://github.com/pop-os/shell) too)
-  - Lastly, if Flatpak is installed, Install useful apps: [Amberol](https://flathub.org/apps/details/io.bassi.Amberol), [Flatseal](https://flathub.org/apps/details/com.github.tchx84.Flatseal), [Junction](https://flathub.org/apps/details/re.sonny.Junction), [Gradience](https://flathub.org/apps/details/com.github.GradienceTeam.Gradience) and [Extension Manager](https://flathub.org/apps/details/com.mattjakeman.ExtensionManager) (on Gnome)
+**Manually**:
 
- </details>
- 
-  **Testing this out on a temporary installation:**
-  ```sh
-  temp_dir=$(mktemp -d)                   # create tempdir variable
-  export HOME=$temp_dir                   # set it as $HOME directory to don't dirty your ~
-  cd $temp_dir                            # cd into it, then ran the setup script above
-  ```
-  
-  ### Keybindings
+> **Note** This README is wip, and some of the info may be outdated. Configuration in this repo are subject to change overtime."
+
+### Keybindings
 <details>
   <summary><strong> Firefox </strong></summary>
 
@@ -178,10 +193,10 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
 	
   | Key | Action |
   | :-  | :-  |
-  | <kbd>Super</kbd> + <kbd>Enter</kbd>                                      | Open Alacritty (Terminal Emulator) |
+  | <kbd>Super</kbd> + <kbd>Enter</kbd>                                      | Open Foot (Terminal Emulator) |
+  | <kbd>Super</kbd> + <kbd>Enter</kbd>                                      | Open Alacritty (Terminal Emulator inside tmux) |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Q</kbd>                       | Close window |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>                       | Maximize window | 
-  | <kbd>Super</kbd> + <kbd>R</kbd>                                          | Adjustment Mode (PopOS Shell Extension)|
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>1-4</kbd>                     | Move window to workspace number 1-4 |
   | <kbd>Super</kbd> + <kbd>1-4</kbd>                                        | Switch to workspace number 1-4 |
   | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Left/Right</kbd>                 | Move to the Left/Right workspace |
@@ -190,7 +205,7 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
   | <kbd>Super</kbd> + <kbd>Tab</kbd>                                        | Switch Application (Gnome default alt-tab behaviour)|
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>                       | Hide all normal windows |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>                       | Change Wallpaper Randomly |
-  | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>                          | Open Foot (Terminal Emulator) |
+  | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>                          | Open Gnome Terminal |
   | <kbd>Super</kbd> + <kbd>N</kbd>                                          | Open Neovim (Text Editor) |
   | <kbd>Super</kbd> + <kbd>F</kbd>                                          | Open Foliate (Ebook Reader) |
   | <kbd>Super</kbd> + <kbd>E</kbd>                                          | Open Nautilus (File Manager) |
@@ -200,6 +215,12 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
   | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>                      | System Monitor |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>                       | Logout/Exit |
 
+  Shell Extension bindings:
+  - Arcmenu: <kbd>Super</kbd> + <kbd>D</kbd>  - Arcmenu runner
+  - Colorpicker: <kbd>Super</kbd> + <kbd>0</kbd>  - Toggle colorpicker
+  - Pop Os Shell: <kbd>Super</kbd> + <kbd>R</kbd>  - Adjustment Mode
+  - Pano: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> - Show pano clipboard
+
   - [Official Documentation](https://help.gnome.org/users/gnome-help/stable/shell-keyboard-shortcuts.html.en)
   - [Pop Os Shell Keyboard Shortcuts](https://support.system76.com/articles/pop-keyboard-shortcuts/)
 
@@ -207,7 +228,7 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
 	
 </details>
 
-<details open>
+<details>
   <summary><strong> Neovim </strong></summary>
 	
   - <kbd>Leader</kbd> - to show which-key
@@ -218,7 +239,7 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
 	
 </details>
 
-<details open>
+<details>
   <summary><strong> Tmux </strong></summary>
 	
   - <kbd>Prefix</kbd> + <kbd>?</kbd> - to show the list of all keybindings
@@ -227,7 +248,7 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
   > <kbd>Prefix</kbd> = <kbd>Ctrl</kbd> + <kbd>a</kbd> or <kbd>Ctrl</kbd> + <kbd>b</kbd>
 	</details>
 
-<details open>
+<details>
   <summary><strong> Zsh </strong></summary>
 	
   | Key | Details |
