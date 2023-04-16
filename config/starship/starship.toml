@@ -12,7 +12,6 @@ $git_state\
 $git_status\
 $git_metrics\
 $hg_branch\
-$fill${custom.file_number}${custom.folder_number}\
 $all\
 $character"""
 
@@ -28,7 +27,7 @@ vicmd_symbol = "[❮](green)"
 [directory]
 style = "bold blue"
 read_only = " "
-truncation_length = 10
+truncation_length = 4
 truncate_to_repo = false
 truncation_symbol = "…/"
 use_os_path_sep = false
@@ -86,21 +85,7 @@ stashed = '*${count} '
 [cmd_duration]
 format = '[ ﮫ $duration]($style)'
 style = 'yellow'
-min_time = 0
-
-[custom.file_number]
-command = "find . -maxdepth 1 -type f | wc -l"
-when = "true"
-symbol = " "
-format = '[$symbol$output]($style) '
-style = "lavender"
-
-[custom.folder_number]
-command = "find . -maxdepth 1 -type d -not -name '.git' | wc -l"
-when = "true"
-symbol = " "
-format = '[$symbol$output]($style) '
-style = "lavender"
+min_time = 2000
 
 [custom.git_host]
 command = """
