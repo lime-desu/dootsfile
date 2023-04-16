@@ -83,6 +83,7 @@ EOF
 omz-custom plugin \
     "djui/alias-tips" \
     "wfxr/forgit" \
+    "lime-desu/fzf-tab-completion" \
     "Bhupesh-V/ugit" \
     "marlonrichert/zsh-autocomplete" \
     "hlissner/zsh-autopair" \
