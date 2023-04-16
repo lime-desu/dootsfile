@@ -96,6 +96,7 @@ plugins=(
 	extract
 	fancy-ctrl-z
 	fzf
+	fzf-tab-completion
 	fd
 	forgit
 	git
