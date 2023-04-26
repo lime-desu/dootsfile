@@ -1,19 +1,21 @@
-# zsh-autocomplete - make tab go straight to the menu and cycle there
+# resource fzf completion `**`
+[[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
+bindkey -r '^I'                                             # Remove Tab binding
+bindkey '^[[27;5;9~' fzf-completion                         # Ctrl+Tab (same bindings for fzf-tab-completion plugin)
+
+# zsh-autocomplete plugin - make tab go straight to the menu and cycle there
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
 bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
-
-# fzf-tab-completion
-bindkey '^[[27;5;9~' fzf_completion                         # Ctrl+Tab
 
 # execute the command and don't clear it
 bindkey '^[^M'              accept-and-hold                 # Alt+Enter
 
-bindkey '^[[B'              down-line-or-beginning-search   # Down-Arrow 
+bindkey '^[[B'              down-line-or-beginning-search   # Down-Arrow
 bindkey '^[OB'              down-line-or-beginning-search
 
 (( $+commands[atuin] )) && { eval "$(atuin init zsh --disable-ctrl-r)"; }
 
-# dircycle
+# dircycle plugin
 bindkey '^[[1;3D'           insert-cycledleft               # Alt+Left
 bindkey '^[[1;3C'           insert-cycledright              # Alt+Right
 
