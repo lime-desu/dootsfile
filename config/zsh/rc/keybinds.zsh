@@ -1,3 +1,10 @@
+# zsh-autocomplete - make tab go straight to the menu and cycle there
+bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
+bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+
+# fzf-tab-completion
+bindkey '^[[27;5;9~' fzf_completion                         # Ctrl+Tab
+
 # execute the command and don't clear it
 bindkey '^[^M'              accept-and-hold                 # Alt+Enter
 
@@ -9,11 +16,6 @@ bindkey '^[OB'              down-line-or-beginning-search
 # dircycle
 bindkey '^[[1;3D'           insert-cycledleft               # Alt+Left
 bindkey '^[[1;3C'           insert-cycledright              # Alt+Right
-
-# resource fzf completion `**` doesn't work when using on fedora + zsh-autocomplete
-[[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
-
-[[ -f "$DOOTS/config/zsh/functions/*.zsh" ]] && source "$DOOTS/config/zsh/functions/*.zsh"
 
 function insert_cmd_sub {
     RBUFFER='$()'"$RBUFFER"
