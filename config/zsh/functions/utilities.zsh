@@ -31,6 +31,14 @@ lsix() {
 	fi
 	$BIN/lsix "$@"
 }
+# cli and local web note‑taking, bookmarking, archiving, and knowledge base application
+nb() {
+	if ! command_exist nb >/dev/null; then
+		echo "${BLD}${BLU}nb${RST} is not installed. Installing it first..."
+		curl -sL https://raw.github.com/xwmx/nb/master/nb -o $BIN/nb && chmod +x $BIN/nb
+	fi
+	$BIN/nb "$@"
+}
 # ripgrep all
 # translate-shell - cli translator using Google Translate, Bing Translator, Yandex.Translate, etc. 
 trans() {
