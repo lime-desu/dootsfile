@@ -117,9 +117,6 @@ fpath+=${XDG_CONFIG_HOME:-$DOOTS/config}/zsh/completions
 
 [[ -f "$ZSH/oh-my-zsh.sh" ]] && source $ZSH/oh-my-zsh.sh
 
-zstyle ':autocomplete:tab:*' fzf-completion yes
-zstyle ':autocomplete:*' min-input 1
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
