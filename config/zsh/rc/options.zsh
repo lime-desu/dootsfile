@@ -26,7 +26,15 @@ setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 setopt GLOB_COMPLETE        # Show autocompletion menu with globs
 setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
 
-zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
-zstyle ':completion:*:warnings' format '%F{cyan}%BSorry, no matches for: %d%b%f'
+zstyle ':completion:*' verbose true
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}'
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' use-cache on
+zstyle ':completion:*:paths' path-completion yes
+
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+zstyle ':completion:*:warnings' format '%F{cyan}%BSorry, no matches for: %d%b%f'
+zstyle ':completion:*:commands' list-colors '=*=1;32'
+zstyle ':completion:*:builtins' list-colors '=*=1;33'
+zstyle ':completion:*:aliases' list-colors '=*=1;35'
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==1;34=34}:${(s.:.)LS_COLORS}")';
