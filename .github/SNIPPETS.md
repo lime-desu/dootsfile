@@ -19,7 +19,7 @@ sudo dnf install gstreamer1-plugin-openh264 mozilla-openh264
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 git -C $DOOTS/config/zsh restore .
-cargo install atuin cargo-update wipe topgrade
+cargo install atuin cargo-update cargo-cache wipe topgrade
 curl -sS https://starship.rs/install.sh | sh
 ```
 
@@ -29,6 +29,7 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh
 ```
 **Papirus folder colors**
 ```
+gsettings set  org.gnome.desktop.interface icon-theme 'Papirus-Dark'
 cd $CLONES && git clone https://github.com/catppuccin/papirus-folders.git
 cd papirus-folders && sudo cp -r src/* /usr/share/icons/Papirus
 ./papirus-folders -C cat-mocha-lavender --theme Papirus-Dark
@@ -43,4 +44,11 @@ for file in "$DOOTS/$DESKTOP/"*.desktop; do
     cp -v "$file" "$HOME/.local/$DESKTOP/"
 done
 git -C "$DOOTS/$DESKTOP/" restore .
+```
+**Gnome**
+```sh
+# disable extension version check
+gsettings set org.gnome.shell disable-extension-version-validation false
+# get the current wallpaper set
+gsettings get org.gnome.desktop.background picture-uri
 ```

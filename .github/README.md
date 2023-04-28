@@ -41,7 +41,7 @@ Any Nerd Fonts installed and used by your terminal emulator to display icon (Hig
 You can use my script to download any Nerd Fonts
 (requires [fzf](https://github.com/junegunn/fzf))
 ```
-bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/bin/nf-dl)"
+bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/bin/main/nf-dl)"
 ```
 <details>
   <summary>Setup Script Dependencies </summary>
@@ -111,6 +111,11 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/b
   <sub><sup>*Foliate is available on Debian, but it isn't available on Ubuntu (only on 3rd party repo PPA) so I didn't include it.* </sub></sup>
   <sub><sup>*If the package manager can't find all the necessary packages, it will fail to install and won't do anything* </sub></sup>
 
+  Optional Packages (install via cargo):
+  - `atuin` - for shell history sync
+  - `wipe` - for shell clear animations
+  - `topgrade` - upgrade/update everything
+
   Required version:
   - `fzf` >= 0.30 (***deps:*** *bat, broot, fd lsd rg wl-copy*)
   - `lsd` >= 0.23.1
@@ -137,7 +142,7 @@ bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/
 
 **Manually**:
 
-> **Note** This README is wip, and some of the info may be outdated. Configuration in this repo are subject to change overtime."
+> **Note** The info on this README may be outdated. Configuration in this repo are subject to change overtime."
 
 ### Keybindings
 <details>
@@ -194,7 +199,7 @@ bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/
   | Key | Action |
   | :-  | :-  |
   | <kbd>Super</kbd> + <kbd>Enter</kbd>                                      | Open Foot (Terminal Emulator) |
-  | <kbd>Super</kbd> + <kbd>Enter</kbd>                                      | Open Alacritty (Terminal Emulator inside tmux) |
+  | <kbd>Super</kbd> + <kbd>T</kbd>                                          | Open Alacritty inside tmux (Terminal Emulator) |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Q</kbd>                       | Close window |
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>                       | Maximize window | 
   | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>1-4</kbd>                     | Move window to workspace number 1-4 |
@@ -220,6 +225,7 @@ bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/
   - Colorpicker: <kbd>Super</kbd> + <kbd>0</kbd>  - Toggle colorpicker
   - Pop Os Shell: <kbd>Super</kbd> + <kbd>R</kbd>  - Adjustment Mode
   - Pano: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> - Show pano clipboard
+  - UserTheme: <kbd>Ctrl</kbd> + <kbd>Super</kbd> + <kbd>1-7</kbd> - Change topbar theme style
 
   - [Official Documentation](https://help.gnome.org/users/gnome-help/stable/shell-keyboard-shortcuts.html.en)
   - [Pop Os Shell Keyboard Shortcuts](https://support.system76.com/articles/pop-keyboard-shortcuts/)
@@ -253,8 +259,9 @@ bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/
 	
   | Key | Details |
   | :-  | :-  |
+  | <kbd>Ctrl</kbd> + <kbd>L</kbd>                        | Clear screen and scroll back with animations (requires wipe)
   | <kbd>Alt</kbd> + <kbd>Enter</kbd>                     | Accept and hold (execute command and don't clear it)
-  | <kbd>Alt</kbd> + <kbd>Left/Right</kdb>                | Dircycle (Browser like navigating directory stacks `dirs -v`)
+  | <kbd>Alt</kbd> + <kbd>Left/Right</kdb>                | Dircycle plugin (Browser like navigating directory stacks `dirs -v`)
   | <kbd>Ctrl-x</kbd> + <kbd>Ctrl-v</kbd>                 | Edit and paste clipboard (Similar to edit command-line(`Ctrl-x`+`Ctrl-e`))
   | <kbd>Ctrl</kbd> + <kbd>Q</kbd>                        | Save input (Pressing Ctrl-q will Store/Restore input to buffer)
   | <kbd>Ctrl-x</kbd> + <kbd>Ctrl-q</kbd>                 | Paste then edit saved input
@@ -263,17 +270,17 @@ bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/
   | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>      | Execute previous command with sudo (sudo !! + enter)
   | <kbd>Alt</kbd> + <kbd>L</kbd>                         | Execute ls (if the buffer is empty else transform it to lowercase)
   | <kbd>Alt</kbd> + <kbd>G</kbd>                         | Execute git status (if inside on a git repository)
-  | <kbd>.</kbd>                                          | Rationalise dot (Expands .. to ../..)
   | <kbd>Ctrl</kbd> + <kbd>/</kbd>                        | View in pager (open in pager the previous executed command)
   | <kbd>Ctrl</kbd> + <kbd>D</kbd>                        | Force exit (by default if the buffer is not empty, zsh won't exit)
+  | <kbd>Ctrl</kbd> + <kbd>Z</kbd>                        | Fancy Ctrl-Z plugin
+  | <kbd>.</kbd>                                          | Rationalise dot (Expands .. to ../..)
 
 <details open>
   <summary><strong> Fzf Widgets </strong></summary>
 
-  > <kbd>Alt</kbd> + <kbd>?</kbd> will show list of fzf keybinds
-
   | Key | Details |
   | :-      | :-          |
+  | <kbd>Ctrl</kbd> + <kbd>Tab</kbd>                      | Fzf completion `**` and fzf-tab-completion plugin (rebinded instead of tab)
   | <kbd>Alt</kbd> + <kbd>M</kbd>                         | Manpages Widget (list all manpages can preview with tldr, and cheat.sh)
   | <kbd>Ctrl</kbd> + <kbd>F</kbd>                        | Ripgrep Widget (ripgrep launcher + fzf as secondary filter)
   | <kbd>Alt</kbd> + <kbd>I</kbd>                         | Locate Widget (quickly find files with index database using locate command)
@@ -285,8 +292,11 @@ bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/
   | <kbd>Alt</kbd> + <kbd>F</kbd>                         | Functions Widget (search function list)
   | <kbd>Alt</kbd> + <kbd>D</kbd>                         | Dictionary Widget (based on /usr/share/dict/words)
 
+  > <kbd>Alt</kbd> + <kbd>?</kbd> will show list of fzf keybinds
+
 </details>
 
   > List all zsh keybinds: `bindkey -M <keymap>` (`bindkey -l` to list all keymap)
+  > To know/change keybinding sequence code: `showkey -a`
 
 </details>
