@@ -4,6 +4,7 @@ path() { echo ${PATH//:/\\n} }
 silent() { "$@" > /dev/null 2>&1; }
 unique() { awk '!seen[$0]++' "$1"; }
 wtfis() { curl -s "cheat.sh/${@:-cheat}" | sed -e 's/cheat/wtfis/g' | bat --plain -l=md || less -R } > /dev/tty
+zshaddhistory() { whence ${${(z)1}[1]} >| /dev/null || return 1 }
 
 bak() {
     if [ -d "$1" ]; then
