@@ -80,24 +80,6 @@ fi
 
 BLK=$(tput setaf 0); RED=$(tput setaf 1); GRN=$(tput setaf 2); YLW=$(tput setaf 3); BLD=$(tput bold);
 BLU=$(tput setaf 4); MGN=$(tput setaf 5); CYN=$(tput setaf 6); WHT=$(tput setaf 7); RST=$(tput sgr0);
-FZF_GIT_HELP="$(
-cat <<-EOF
-
-        ${BLU}${BLD}FZF-Git.sh Keybinds Shortcut        
-
-        ${BLU}${BLD}M-g M-f     ${RST}${CYN}Files
-        ${BLU}${BLD}M-g M-b     ${RST}${CYN}Branches
-        ${BLU}${BLD}M-g M-t     ${RST}${CYN}Tags
-        ${BLU}${BLD}M-g M-r     ${RST}${CYN}Remotes
-        ${BLU}${BLD}M-g M-h     ${RST}${CYN}commit Hashes
-        ${BLU}${BLD}M-g M-e     ${RST}${CYN}(for -) Each ref 
-        ${BLU}${BLD}M-g M-s     ${RST}${CYN}Stashes
-        ${BLU}${BLD}M-g M-u     ${RST}${CYN}U(ndo) Git
-
-        ${BLU}${BLD}M-?         ${RST}${CYN}Help (this page)
-        ${BLU}${BLD}ESC         ${RST}${CYN}Exit
-EOF
-)"
 
 if [[ $- =~ i ]]; then
 # -----------------------------------------------------------------------------
@@ -120,7 +102,7 @@ _fzf_git_check() {
   return 1
 }
 
-__fzf_git=${BASH_SOURCE[0]:-${(%):-%x}}
+__fzf_git=${BASH_SOURCE[0]:-${0}}
 __fzf_git=$(readlink -f "$__fzf_git" 2> /dev/null || /usr/bin/ruby --disable-gems -e 'puts File.expand_path(ARGV.first)' "$__fzf_git" 2> /dev/null)
 
 if [[ -z $_fzf_git_cat ]]; then
@@ -236,15 +218,17 @@ _fzf_git_undo() {
 }
 
 if [[ -n "${BASH_VERSION:-}" ]]; then
+  KEY="C"
   __fzf_git_init() {
     bind '"\er": redraw-current-line'
     local o
     for o in "$@"; do
-      bind '"\M-g\M-'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
-      bind '"\M-g'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
+      bind '"\C-g\C-'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
+      bind '"\C-g'${o:0:1}'": "`_fzf_git_'$o'`\e\C-e\er"'
     done
   }
 elif [[ -n "${ZSH_VERSION:-}" ]]; then
+  KEY="M"
   __fzf_git_join() {
     local item
     while read item; do
@@ -264,5 +248,23 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
 fi
 __fzf_git_init files branches tags remotes hashes stashes each_ref undo
 
+FZF_GIT_HELP="$(
+cat <<-EOF
+
+        ${BLU}${BLD}$(basename "$0") Keybinds Shortcut
+
+        ${BLU}${BLD}${KEY}-g ${KEY}-f     ${RST}${CYN}Files
+        ${BLU}${BLD}${KEY}-g ${KEY}-b     ${RST}${CYN}Branches
+        ${BLU}${BLD}${KEY}-g ${KEY}-t     ${RST}${CYN}Tags
+        ${BLU}${BLD}${KEY}-g ${KEY}-r     ${RST}${CYN}Remotes
+        ${BLU}${BLD}${KEY}-g ${KEY}-h     ${RST}${CYN}commit Hashes
+        ${BLU}${BLD}${KEY}-g ${KEY}-e     ${RST}${CYN}(for -) Each ref 
+        ${BLU}${BLD}${KEY}-g ${KEY}-s     ${RST}${CYN}Stashes
+        ${BLU}${BLD}${KEY}-g ${KEY}-u     ${RST}${CYN}U(ndo) Git
+
+        ${BLU}${BLD}M-?         ${RST}${CYN}Help (this page)
+        ${BLU}${BLD}ESC         ${RST}${CYN}Exit
+EOF
+)"
 # -----------------------------------------------------------------------------
 fi
