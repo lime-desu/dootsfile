@@ -1,23 +1,4 @@
-#!/usr/bin/env sh
-# CLR=$(for i in {0..7}; do echo "tput setaf $i"; done)
-BLK=\$(tput setaf 0); RED=\$(tput setaf 1); GRN=\$(tput setaf 2); YLW=\$(tput setaf 3); BLU=\$(tput setaf 4); 
-MGN=\$(tput setaf 5); CYN=\$(tput setaf 6); WHT=\$(tput setaf 7); BLD=\$(tput bold); RST=\$(tput sgr0);    
-
-AWK_COLOR_VAR=" -v BLK=${BLK} -v RED=${RED} -v GRN=${GRN} -v YLW=${YLW} -v BLU=${BLU} -v MGN=${MGN} -v CYN=${CYN} -v WHT=${WHT} -v BLD=${BLD} -v RST=${RST}"
-
-FZF_FLATPAK_HELP="$(
-cat <<-EOF
-
-      ${BLU}${BLD}Fzf-Flatpak.sh     
-
-      ${BLU}${BLD}M-f M-i     ${RST}${CYN}Install apps (flathub repo)
-      ${BLU}${BLD}M-f M-u     ${RST}${CYN}Uninstall apps
-      ${BLU}${BLD}M-f M-r     ${RST}${CYN}Run apps
-
-      ${BLU}${BLD}M-?         ${RST}${CYN}Help (this page)
-      ${BLU}${BLD}ESC         ${RST}${CYN}Exit
-EOF
-)"
+AWK_COLOR_VAR=" -v BLK=\"$(tput setaf 0)\" -v RED=\"$(tput setaf 1)\" -v GRN=\"$(tput setaf 2)\" -v YLW=\"$(tput setaf 3)\" -v BLU=\"$(tput setaf 4)\" -v MGN=\"$(tput setaf 5)\" -v CYN=\"$(tput setaf 6)\" -v WHT=\"$(tput setaf 7)\" -v BLD=\"$(tput bold)\" -v RST=\"$(tput sgr0)\""
 
 if [[ $- =~ i ]]; then
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,7 +21,7 @@ _fzf_flatpak_check() {
   return 1
 }
 
-__fzf_flatpak=${BASH_SOURCE[0]:-${(%):-%x}}
+__fzf_flatpak=${BASH_SOURCE[0]:-${0}}
 __fzf_flatpak=$(readlink -f "$__fzf_flatpak" 2> /dev/null || /usr/bin/ruby --disable-gems -e 'puts File.expand_path(ARGV.first)' "$__fzf_flatpak" 2> /dev/null)
 
 _fzf_flatpak_install() {
@@ -131,7 +112,7 @@ _fzf_flatpak_uninstall() {
   touch /tmp/uns
   _fzf_flatpak_uninstall_lists_with_runtimes | _fzf_flatpak_fzf_installed_lists \
     --prompt=" Uninstall > " \
-    --preview  "flatpak info {-1} | awk $AWK_COLOR_VAR -F\":\" '{print RED BLD  \$1 RST MGN \$2}'" \
+    --preview "flatpak info {-1} | awk ${AWK_COLOR_VAR} -F\":\" '{print RED BLD \$1 RST MGN \$2}'"
 }
 
 _fzf_flatpak_run_apps() {
@@ -139,19 +120,21 @@ _fzf_flatpak_run_apps() {
   touch /tmp/run
   _fzf_flatpak_installed_lists-applications | _fzf_flatpak_fzf_installed_lists \
     --prompt=" Run > " \
-    --preview  "flatpak info {-1} | awk $AWK_COLOR_VAR -F\":\" '{print CYN BLD  \$1 RST BLU \$2}'" \
+    --preview "flatpak info {-1} | awk ${AWK_COLOR_VAR} -F\":\" '{print CYN BLD  \$1 RST BLU \$2}'"
 }
 
 if [[ -n "${BASH_VERSION:-}" ]]; then
+  KEY="C"
   __fzf_flatpak_init() {
     bind '"\er": redraw-current-line'
     local o
     for o in "$@"; do
-      bind '"\M-f\M-'${o:0:1}'": "`_fzf_flatpak_'$o'`\e\M-e\er"'
-      bind '"\M-f'${o:0:1}'": "`_fzf_flatpak_'$o'`\e\M-e\er"'
+      bind '"\C-f\C-'${o:0:1}'": "`_fzf_flatpak_'$o'`\e\C-e\er"'
+      bind '"\C-f'${o:0:1}'": "`_fzf_flatpak_'$o'`\e\C-e\er"'
     done
   }
 elif [[ -n "${ZSH_VERSION:-}" ]]; then
+  KEY="M"
   __fzf_flatpak_join() {
     local item
     while read item; do
@@ -170,5 +153,20 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
   }
 fi
 __fzf_flatpak_init install uninstall run_apps
+
+BLD=$(tput bold); BLU=$(tput setaf 4); CYN=$(tput setaf 6); RST=$(tput sgr0)
+FZF_FLATPAK_HELP="$(
+cat <<-EOF
+
+      ${BLU}${BLD}$(basename "$0")
+
+      ${BLU}${BLD}${KEY}-f ${KEY}-i     ${RST}${CYN}Install apps (flathub repo)
+      ${BLU}${BLD}${KEY}-f ${KEY}-u     ${RST}${CYN}Uninstall apps
+      ${BLU}${BLD}${KEY}-f ${KEY}-r     ${RST}${CYN}Run apps
+
+      ${BLU}${BLD}M-?         ${RST}${CYN}Help (this page)
+      ${BLU}${BLD}ESC         ${RST}${CYN}Exit
+EOF
+)"
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 fi
