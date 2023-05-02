@@ -8,7 +8,6 @@ alias \
     ip="ip -human -color addr" \
     myip="ip | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' && curl ifconfig.me; echo" \
     rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash' \
-    lofi='mpv --no-video https://youtu.be/jfKfPfyJRdk' \
     lsbl='cd > /dev/null ;fd --hidden --follow --type=l' # list broken links
 
 alias \
