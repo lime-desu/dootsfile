@@ -128,19 +128,16 @@ bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/bin/main/nf-dl)"
 
 > **Note** *Prior running the script ensure that environment variable are set. (`echo $XDG_CURRENT_DESKTOP`)*
 
-using **curl**
-```
-bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"
-```
-
-using **wget**
-```
-bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"
+```sh
+if command -v curl >/dev/null 2>&1; then
+  bash -c "$(curl -Ls https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"
+else
+  bash -c "$(wget -O - https://raw.githubusercontent.com/lime-desu/dootsfile/main/setup.sh)"
+fi
 ```
 
 > **Warning** *Please review the script first before executing. Don't blindly run it. Consider running it on a new machine*
 
-**Manually**:
 
 > **Note** The info on this README may be outdated. Configuration in this repo are subject to change overtime."
 
