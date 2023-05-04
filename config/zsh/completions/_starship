@@ -15,10 +15,10 @@ _starship() {
 
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
 ":: :_starship_commands" \
 "*::: :->starship" \
 && ret=0
@@ -30,21 +30,21 @@ _starship() {
         case $line[1] in
             (bug-report)
 _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 && ret=0
 ;;
 (completions)
 _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 ':shell:(bash elvish fish powershell zsh)' \
 && ret=0
 ;;
 (config)
 _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 '::name -- Configuration key to edit:' \
 '::value -- Value to place into that key:' \
 && ret=0
@@ -66,15 +66,15 @@ _arguments "${_arguments_options[@]}" \
 '--keymap=[The keymap of fish/zsh/cmd]:KEYMAP: ' \
 '-j+[The number of currently running jobs]:JOBS: ' \
 '--jobs=[The number of currently running jobs]:JOBS: ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 && ret=0
 ;;
 (init)
 _arguments "${_arguments_options[@]}" \
 '--print-full-init[]' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 ':shell:' \
 && ret=0
 ;;
@@ -97,17 +97,19 @@ _arguments "${_arguments_options[@]}" \
 '--jobs=[The number of currently running jobs]:JOBS: ' \
 '-l[List out all supported modules]' \
 '--list[List out all supported modules]' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 '::name -- The name of the module to be printed:' \
 && ret=0
 ;;
 (preset)
 _arguments "${_arguments_options[@]}" \
+'(-l --list)-o+[Output the preset to a file instead of stdout]:OUTPUT:_files' \
+'(-l --list)--output=[Output the preset to a file instead of stdout]:OUTPUT:_files' \
 '-l[List out all preset names]' \
 '--list[List out all preset names]' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 '::name -- The name of preset to be printed:(bracketed-segments nerd-font-symbols no-empty-icons no-nerd-font no-runtime-versions pastel-powerline plain-text-symbols pure-preset tokyo-night)' \
 && ret=0
 ;;
@@ -115,13 +117,14 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 '-d[Print the default instead of the computed config]' \
 '--default[Print the default instead of the computed config]' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 '*::name -- Configuration keys to print:' \
 && ret=0
 ;;
 (prompt)
 _arguments "${_arguments_options[@]}" \
+'(--right)--profile=[Print the prompt with the specified profile name (instead of the standard left prompt)]:PROFILE: ' \
 '-s+[The status code of the previously run command as an unsigned or signed 32bit integer]:STATUS_CODE: ' \
 '--status=[The status code of the previously run command as an unsigned or signed 32bit integer]:STATUS_CODE: ' \
 '*--pipestatus=[Bash, Fish and Zsh support returning codes for each process in a pipeline]:PIPESTATUS: ' \
@@ -138,21 +141,21 @@ _arguments "${_arguments_options[@]}" \
 '-j+[The number of currently running jobs]:JOBS: ' \
 '--jobs=[The number of currently running jobs]:JOBS: ' \
 '--right[Print the right prompt (instead of the standard left prompt)]' \
-'(--right)--continuation[Print the continuation prompt (instead of the standard left prompt)]' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'(--right --profile)--continuation[Print the continuation prompt (instead of the standard left prompt)]' \
+'-h[Print help]' \
+'--help[Print help]' \
 && ret=0
 ;;
 (session)
 _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 && ret=0
 ;;
 (time)
 _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 && ret=0
 ;;
 (timings)
@@ -172,14 +175,14 @@ _arguments "${_arguments_options[@]}" \
 '--keymap=[The keymap of fish/zsh/cmd]:KEYMAP: ' \
 '-j+[The number of currently running jobs]:JOBS: ' \
 '--jobs=[The number of currently running jobs]:JOBS: ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 && ret=0
 ;;
 (toggle)
 _arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
+'-h[Print help]' \
+'--help[Print help]' \
 ':name -- The name of the module to be toggled:' \
 '::value -- The key of the config to be toggled:' \
 && ret=0
@@ -437,4 +440,8 @@ _starship__toggle_commands() {
     _describe -t commands 'starship toggle commands' commands "$@"
 }
 
-_starship "$@"
+if [ "$funcstack[1]" = "_starship" ]; then
+    _starship "$@"
+else
+    compdef _starship starship
+fi
