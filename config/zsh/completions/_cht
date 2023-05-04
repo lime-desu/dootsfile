@@ -1,4 +1,5 @@
 #compdef cht.sh
+
 __CHTSH_LANGS=($(curl -s cheat.sh/:list))
 _arguments -C \
   '--help[show this help message and exit]: :->noargs' \
