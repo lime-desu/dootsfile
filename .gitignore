@@ -8,3 +8,5 @@ flatpak-**.zsh
 config/broot/**/
 !scripts/**
 tmux.conf
+config/autostart/** 
+!**/autostart/**foot.desktop
