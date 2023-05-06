@@ -22,6 +22,9 @@
 [submodule "icons/Skeuowaita"]
 	path = icons/Skeuowaita
 	url = https://github.com/Frostbitten-jello/Skeuowaita
+[submodule "icons/MoreWaita"]
+	path = icons/MoreWaita
+	url = https://github.com/somepaulo/MoreWaita
 [submodule "bin"]
 	path = bin
 	url = https://github.com/lime-desu/bin.git
