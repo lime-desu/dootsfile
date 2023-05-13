@@ -1,9 +1,8 @@
-# resource fzf completion `**`
+# resource fzf completion `**` and remap it (also same bindings for fzf-tab-completion plugin)
 [[ -e /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
-bindkey -r '^I'                                             # Remove Tab binding
-bindkey '^[[27;5;9~' fzf-completion                         # Ctrl+Tab (same bindings for fzf-tab-completion plugin)
+bindkey '^@' fzf-completion         # Ctrl+` or Ctrl+Space, even works with Ctrl+@
 
-# zsh-autocomplete plugin - make tab go straight to the menu and cycle there
+# zsh-autocomplete plugin `tab` - make tab go straight to the menu and cycle there
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
 bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 
