@@ -461,7 +461,7 @@ set -g @catppuccin_flavour 'mocha'
 set -g @plugin 'sainnhe/tmux-fzf'
 TMUX_FZF_LAUNCH_KEY="C-f"
 TMUX_FZF_THEME=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=bg+:#313244,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
 --color=fg+:blue,border:blue"
@@ -470,14 +470,11 @@ TMUX_FZF_OPTIONS="-p $TMUX_FZF_THEME"
 set-environment -g -F TMUX_PLUGIN_MANAGER_PATH "${XDG_DATA_HOME}/tmux/plugins"
 
 # Options
-set -g default-terminal "xterm-256color"
-set-option -ga terminal-overrides ",xterm-256color:Tc"
- 
+set -g default-terminal "xterm-256color" #!important
+
 set -g mouse on
 set -g mode-keys vi
 
 # Control-Shift-{Left,Right} to move window
 bind-key -n C-S-Left swap-window -t -1\; select-window -t -1
 bind-key -n C-S-Right swap-window -t +1\; select-window -t +1
-
-
