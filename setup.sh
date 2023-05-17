@@ -36,6 +36,7 @@ check_dependencies() {
 	return 0
 }
 
+setup_flatpak() { sudo flatpak remote-modify --enable flathub && sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo; }
 install_packages() {
 	if command -v "$package_manager" &>/dev/null; then
 		case "$package_manager" in
@@ -52,16 +53,19 @@ declare -A PACKAGE_LISTS=(
 	["dnf"]="${base_url}/scripts/install/packages/fedora.txt"
 	["xbps-install"]="${base_url}/scripts/install/packages/void.txt"
 	["flatpak"]="${base_url}/scripts/install/packages/flatpak.txt"
+	["pkg"]="${base_url}/scripts/install/packages/termux.txt"
 )
 
-setup_flatpak() { sudo flatpak remote-modify --enable flathub && sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo; }
-
 install_essential_packages() {
-	setup_flatpak
-	for package_manager in "${!PACKAGE_LISTS[@]}"; do
-		readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[$package_manager]}")
-		install_packages "$package_manager" "${packages[@]}"
-	done
+	if [ -n "$TERMUX_VERSION" ]; then
+		readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[pkg]}")
+		pkg upgrade && pkg install -y "${packages[@]}" && pip install thefuck
+	else
+		for package_manager in "${!PACKAGE_LISTS[@]}"; do
+			readarray -t packages < <(curl -fsSL "${PACKAGE_LISTS[$package_manager]}")
+			install_packages "$package_manager" "${packages[@]}"
+		done
+	fi
 }
 
 create() {
@@ -115,18 +119,19 @@ setup() {
 main() {
 	if [ ! -d "$DOOTS" ]; then
 		source_colors
+		! check_dependencies && install_essential_packages
 		echo -e "${BLD}${BLU}Fetching ${CYN}Doots${RST}${BLU}${BLD} from the source...${RST}"
 		create "$DOOTS" && cd "$_" || return
-		git clone --recurse-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
+		git clone --recurse-submodules --shallow-submodules https://github.com/lime-desu/dootsfile.git "$(pwd)"
 		create_dircopy_and_backup
-		! check_dependencies && install_essential_packages && bat cache --build
 		# stow/symlink to proper directory
-		setup && git reset --hard &>/dev/null
+		setup && git reset --hard &>/dev/null && bat cache --build
 		# execute install scripts
 		source ./scripts/install/gnome.sh
 		source ./scripts/install/zsh.sh
 		source ./scripts/install/dl-from-github.sh
 		source ./scripts/install/firefox.sh
+		source ./scripts/install/termux.sh
 		echo -e "${BLD}${BLU}All done.${RST}\n\n"
 		# recommended tools
 		source ./scripts/tool.sh
