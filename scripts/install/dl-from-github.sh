@@ -1,7 +1,13 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 repos=("phisch/phinger-cursors" "lassekongo83/adw-gtk3" "Code-Hex/Neo-cowsay" "catppuccin/cursors")
-extensions=(".tar.bz2" ".tar.xz" "x86_64.tar.gz" "Mocha-Dark-Cursors.zip")
+arch=$(uname -m)
+case "$arch" in
+x86_64) extensions=(".tar.bz2" ".tar.xz" "x86_64.tar.gz" "Mocha-Dark-Cursors.zip") ;;
+1386) extensions=(".tar.bz2" ".tar.xz" "i386.tar.gz" "Mocha-Dark-Cursors.zip") ;;
+arm64) extensions=(".tar.bz2" ".tar.xz" "arm64.tar.gz" "Mocha-Dark-Cursors.zip") ;;
+arm) extensions=(".tar.bz2" ".tar.xz" "arm.tar.gz" "Mocha-Dark-Cursors.zip") ;;
+esac
 
 get_download_url() {
 	local repo="$1"
@@ -29,9 +35,7 @@ unzip_from_index_to() {
 	fi
 }
 
-cleanup_cowsay() {
-	rm -rvf "$BINS"/{LICENSE,doc}
-}
+cleanup_cowsay() { rm -rvf "$BINS"/{LICENSE,doc}; }
 
 dl_from_releases() {
 	local curl_cmd="curl -L"
