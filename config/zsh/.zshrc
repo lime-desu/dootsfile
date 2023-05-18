@@ -27,8 +27,13 @@ fi
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
-# ZSH_TMUX_AUTOSTART=true
-# ZSH_TMUX_AUTOSTART_ONCE=false
+
+if [[ -n "$TERMUX_APP_PID" ]]; then
+  ZSH_TMUX_AUTOSTART=true
+  ZSH_TMUX_AUTOSTART_ONCE=false
+  alias reload='exec $SHELL -l && termux-reload-settings'
+fi
+ZSH_TMUX_CONFIG=$DOOTS/config/tmux/tmux.conf
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
