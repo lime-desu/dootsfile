@@ -254,3 +254,4 @@ custom	'MochaTheme Style4'	'gsettings set org.gnome.shell.extensions.user-theme 
 custom	'MochaTheme Style5'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-5'	'<Control><Super>5'
 custom	'MochaTheme Style6'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-6'	'<Control><Super>6'
 custom	'MochaTheme Style7'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-7'	'<Control><Super>7'
+custom	'Change GTK  Style (Light/Dark)'	'/home/void/Git/Local/dootsfile/scripts/gtk-style.sh'	'<Shift><Super>t'

@@ -10,3 +10,4 @@ config/broot/**/
 tmux.conf
 config/autostart/** 
 !**/autostart/**foot.desktop
+*gtk.css
