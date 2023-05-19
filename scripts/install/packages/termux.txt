@@ -26,3 +26,4 @@ zsh
 build-essential
 nodejs
 python
+nala

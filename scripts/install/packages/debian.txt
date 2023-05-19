@@ -25,3 +25,4 @@ wl-clipboard
 zsh
 build-essential
 nodejs
+nala

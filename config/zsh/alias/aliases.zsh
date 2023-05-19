@@ -30,6 +30,7 @@ alias \
 autoload -Uz tetriscurses
 alias tetris=tetriscurses
 
-(( ! $+commands[dust] )) && {
-  alias dust='du --summarize -h * | sort --reverse -h' # If there's no dust command set alias
-}
+(( ! $+commands[dust] )) && { alias dust='du --summarize -h * | sort --reverse -h'; }
+(( $+commands[nala] )) && { alias apt='nala'; }
+(( $+commands[pkg] )) && { alias pkg='nala'; }
+[[ -n $TERMUX_APP_PID ]] && alias reload='exec $SHELL -l && termux-reload-settings'
