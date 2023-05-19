@@ -32,6 +32,7 @@ install() {
     *dnf) sudo dnf install "$@" ;;
     *apt) sudo apt install "$@" ;;
     *pacman) sudo pacman -S "$@" ;;
+    *pkg) pkg install "$@" ;;
     *xbps-install) sudo xbps-install -S "$@" ;;
   esac
 }
@@ -55,6 +56,7 @@ update() {
 		*dnf) sudo dnf makecache && sudo dnf upgrade -y ;;
 		*apt) sudo apt update && sudo apt upgrade -y ;;
 		*pacman) sudo pacman -Syu ;;
+		*pkg) pkg upgrade ;;
 		*xbps-install) sudo xbps-install -Syu ;;
 		esac
 	fi

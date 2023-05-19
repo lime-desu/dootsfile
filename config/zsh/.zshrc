@@ -31,7 +31,6 @@ fi
 if [[ -n "$TERMUX_APP_PID" ]]; then
   ZSH_TMUX_AUTOSTART=true
   ZSH_TMUX_AUTOSTART_ONCE=false
-  alias reload='exec $SHELL -l && termux-reload-settings'
 fi
 ZSH_TMUX_CONFIG=$DOOTS/config/tmux/tmux.conf
 

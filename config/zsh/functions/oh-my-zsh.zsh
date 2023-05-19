@@ -42,9 +42,7 @@ EOF
   }
 
   update_custom() {
-    echo "${BLU}Updating ${BLD}[Oh My Zsh]${RST} ..."
-    git -C "$ZSH" pull
-    echo ""
+    omz update && echo ""
     printf "${BLU}%s${RST}\n" "Updating custom plugins and themes..."
     find "$ZSH_CUSTOM" -type d -name ".git" | while read LINE; do
       plugin=${LINE%/.git}
