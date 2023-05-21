@@ -31,12 +31,11 @@ symlink_images() {
 }
 
 # Custom: simply uncomment/remove from the array, for adding sources (format: <username>/<reponame>)
-repositories=( # Total of 15.2+ GB
-	"catppuccin/wallpapers"                          # 100+ MB
+repositories=(
 	"damnitharshit/Wallpapers"                       # 20+ MB
 	"D3Ext/aesthetic-wallpapers"                     # 500+ MB
 	"DenverCoder1/minimalistic-wallpaper-collection" # 450+ MB
-	"dharmx/lambda-wallpapers"                       # 4.4+ GB
+	"dharmx/walls"                                   # 4.4+ GB
 	"elementary/wallpapers"                          # 120+ mb
 	"Everblush/wallpapers"                           # 15+ MB
 	"FrenzyExists/wallpapers"                        # 1.4+ GB

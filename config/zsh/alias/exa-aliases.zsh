@@ -3,7 +3,9 @@
       ls='exa --group-directories-first' \
       ll='ls --long --icons --git' \
       la='ll --all --header' \
+      ld='ll --sort=date' \
       l='la' \
+      lld='l --sort=date' \
       l.='ls --list-dirs .* --icons' \
   
   function tree() {
