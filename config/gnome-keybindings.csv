@@ -107,7 +107,7 @@ org.gnome.settings-daemon.plugins.media-keys	keyboard-brightness-toggle	[]
 org.gnome.settings-daemon.plugins.media-keys	keyboard-brightness-toggle-static	['XF86KbdLightOnOff']
 org.gnome.settings-daemon.plugins.media-keys	keyboard-brightness-up	[]
 org.gnome.settings-daemon.plugins.media-keys	keyboard-brightness-up-static	['XF86KbdBrightnessUp']
-org.gnome.settings-daemon.plugins.media-keys	logout	['<Shift><Super>e']
+org.gnome.settings-daemon.plugins.media-keys	logout	['<Shift><Super>c']
 org.gnome.settings-daemon.plugins.media-keys	magnifier	['<Alt><Super>8']
 org.gnome.settings-daemon.plugins.media-keys	magnifier-zoom-in	['<Alt><Super>equal']
 org.gnome.settings-daemon.plugins.media-keys	magnifier-zoom-out	['<Alt><Super>minus']
@@ -239,8 +239,8 @@ org.gnome.shell.extensions.pop-shell	toggle-stacking-global	['<Super>s']
 org.gnome.shell.extensions.pop-shell	toggle-tiling	['<Super>y']
 custom	'Open Terminal Emulator (Alacritty)'	'alacritty'	'<Super>t'
 custom	'Open Gnome Terminal'	'gnome-terminal'	'<Control><Alt>t'
-custom	'Open File Explorer'	'nautilus'	'<Super>e'
-custom	'Random Wallpaper'	'/home/void/Git/Local/dootsfile/scripts/set-random-wallpaper.sh'	'<Shift><Super>w'
+custom	'Open File Explorer'	'nautilus --new-window'	'<Super>e'
+custom	'Random Wallpaper'	'/home/void/.local/bin/scripts/set-random-wallpaper.sh'	'<Shift><Super>w'
 custom	'Rick Roll'	'foot bash -c   \"curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash\"'	'<Control><Alt>Delete'
 custom	'System Monitor'	'gnome-system-monitor'	'<Shift><Control>Escape'
 custom	'View Cheat Sheets Images'	'eog /home/void/Pictures/CheatSheets'	'<Shift><Super>Return'
@@ -254,4 +254,6 @@ custom	'MochaTheme Style4'	'gsettings set org.gnome.shell.extensions.user-theme 
 custom	'MochaTheme Style5'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-5'	'<Control><Super>5'
 custom	'MochaTheme Style6'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-6'	'<Control><Super>6'
 custom	'MochaTheme Style7'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-7'	'<Control><Super>7'
-custom	'Change GTK  Style (Light/Dark)'	'/home/void/Git/Local/dootsfile/scripts/gtk-style.sh'	'<Shift><Super>t'
+custom	'Change GTK  Style (Light/Dark)'	'/home/void/.local/bin/scripts/gtk-style.sh'	'<Shift><Super>t'
+custom	'Hide/Show Top Bar'	'/home/void/.local/bin/scripts/hide-topbar.sh'	'<Shift><Super>b'
+custom	'Open Extension Manager'	'flatpak run com.mattjakeman.ExtensionManager'	'<Shift><Super>e'
