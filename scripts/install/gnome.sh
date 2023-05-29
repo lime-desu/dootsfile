@@ -97,6 +97,7 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		gsettings set org.gnome.desktop.interface icon-theme 'Skeuowaita'
 		curl -sL https://raw.githubusercontent.com/catppuccin/gnome-terminal/v0.2.0/install.py | python3 - # execute catppuccin/gnome-terminal script
 		gsettings set org.gnome.Terminal.ProfilesList default '95894cfd-82f7-430d-af6e-84d168bc34f5'       # Catppuccin mocha
+		gsettings set org.gnome.pomodoro.preferences toggle-timer-key '@as []'                             # disable the gnome-pomodoro default Keybindings (use the custom one instead)
 	}
 
 	main() {

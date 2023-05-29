@@ -30,3 +30,4 @@ wl-clipboard
 zsh
 @c-development
 nodejs
+gnome-pomodoro
