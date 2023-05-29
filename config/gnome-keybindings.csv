@@ -257,3 +257,4 @@ custom	'MochaTheme Style7'	'gsettings set org.gnome.shell.extensions.user-theme 
 custom	'Change GTK  Style (Light/Dark)'	'/home/void/.local/bin/scripts/gtk-style.sh'	'<Shift><Super>t'
 custom	'Hide/Show Top Bar'	'/home/void/.local/bin/scripts/hide-topbar.sh'	'<Shift><Super>b'
 custom	'Open Extension Manager'	'flatpak run com.mattjakeman.ExtensionManager'	'<Shift><Super>e'
+custom	'Start/Stop Pomodoro Timer'	'/home/void/.local/bin/scripts/pomodoro.sh'	'<Control><Alt>p'
