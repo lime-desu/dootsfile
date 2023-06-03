@@ -57,7 +57,7 @@ export FZF_PREVIEW_KEYBIND_OPTS="
 "
 export FZF_KEYBIND_SHORTCUTS="
 $FZF_PREVIEW_KEYBIND_OPTS
---bind 'alt-o:execute(xdg-open {+})'
+--bind 'alt-o:execute([[ -e {} ]] && xdg-open {+})'
 --bind 'alt-s:toggle-sort'
 --bind 'ctrl-/:execute(
 if [[ -d {} ]]; then
@@ -69,12 +69,12 @@ else
 fi)'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-alt-d:deselect-all'
---bind 'ctrl-o:execute(flatpak run re.sonny.Junction {+})'
+--bind 'ctrl-o:execute-silent(flatpak run re.sonny.Junction {+})'
 --bind 'ctrl-y:execute-silent(wl-copy {+})'
 --bind 'ctrl-alt-y:execute-silent(readlink -f {+} | wl-copy)'
---bind 'ctrl-e:execute(${EDITOR} {} > /dev/tty)'
---bind 'ctrl-v:execute(code {+})'
---bind 'del:execute(rm -iv {};)+reload($FZF_DEFAULT_COMMAND)+clear-screen'
+--bind 'ctrl-v:execute-silent([[ -e {} ]] && code {+} || flatpak run com.visualstudio.code {+})'
+--bind 'ctrl-e:execute([[ -f {} ]] && ${EDITOR} {+} > /dev/tty)'
+--bind 'del:execute([[ -e {} ]] && rm -i {+})+reload($FZF_DEFAULT_COMMAND)+clear-screen'
 "
 # --bind 'ctrl-/:execute(if [[ -f {} ]]; then bat --paging=always --style=\"header,numbers,changes\" --language=sh {}  < /dev/tty > /dev/tty 2>&1; else broot {} < /dev/tty > /dev/tty 2>&1
 # ; fi)'
@@ -127,7 +127,6 @@ export FZF_CTRL_R_OPTS="
 # FZF_TMUX_CTRL_R_OPT="fzf-tmux -p $FZF_CTRL_R_OPTS"
 # --bind 'alt-p:execute($'FZF_TMUX_OPTS'='-p90% --color=border:blue')'
 
-# fzf completion '**' doesn't preview files (idk if it is a bug)
 _fzf_compgen_path() {
   fd --color=always --hidden --follow --exclude ".git" . "$1"
 }
