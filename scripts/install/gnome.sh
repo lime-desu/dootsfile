@@ -75,7 +75,9 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 
 	import_gnome_keybindings() {
 		echo -e "Importing ${BLD}${BLU}Gnome Keybindings${RST}..." && sleep 2
-		perl "${DOOTS}"/scripts/gnome-keybindings.pl --import "${DOOTS}/"config/gnome-keybindings.csv
+		sed "s|/home/void|$HOME|" "${DOOTS}/config/gnome-keybindings.csv" >"${DOOTS}/config/gnome-keybindings-generated.csv"
+		perl "${DOOTS}"/scripts/gnome-keybindings.pl --import "${DOOTS}/"config/gnome-keybindings-generated.csv
+		command rm -rf "${DOOTS}"/config/gnome-keybindings-generated.csv 2>/dev/null
 	}
 
 	# TODO: don't hardcode gsettings value ask for prompt
