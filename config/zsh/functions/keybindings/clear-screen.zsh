@@ -1,6 +1,8 @@
 clear-screen-and-scrollback() {
-  if [[ "$TERM" == "xterm-kitty" ]]; then
+  if [[ "$TERM" == "*kitty*" ]]; then
     printf '%b' '\e[H\e[2J' >"$TTY"
+  elif [[ -n "$TERMUX_APP_PID" ]]; then
+    clear
   else
     echoti civis >"$TTY"
     printf '%b' '\e[3J' >"$TTY"
