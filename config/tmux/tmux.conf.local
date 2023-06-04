@@ -457,7 +457,8 @@ set -g @continuum-boot-options 'alacritty'
 
 set -g @plugin 'catppuccin/tmux'
 set -g @catppuccin_flavour 'mocha'
-set -g @catppuccin_date_time "%b %e, %I:%M%P"
+if-shell "[[ -z "$TERMUX_APP_PID" ]]" \
+  'set -g @catppuccin_date_time "%b %e, %I:%M%P"'
 
 set -g @plugin 'sainnhe/tmux-fzf'
 TMUX_FZF_LAUNCH_KEY="C-f"
