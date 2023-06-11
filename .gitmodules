@@ -4,9 +4,6 @@
 [submodule "config/bat/themes"]
 	path = config/bat/themes
 	url = https://github.com/catppuccin/bat
-[submodule "config/btop/themes"]
-	path = config/btop/themes
-	url = https://github.com/catppuccin/btop
 [submodule "config/kitty/themes"]
 	path = config/kitty/catppuccin
 	url = https://github.com/catppuccin/kitty
