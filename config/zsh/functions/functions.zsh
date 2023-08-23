@@ -59,9 +59,9 @@ update() {
 		*pkg) pkg upgrade ;;
 		*xbps-install) sudo xbps-install -Syu ;;
 		esac
-	fi
 
-	echo && omz-custom update && echo       # update Oh-My-Zsh custom plugins
-	echo "${BLU}Updating ${BLD}[Oh My Tmux]${RST} ..." && git -C "$OMT_DIR" pull --rebase && echo
-	echo "${BLU}Updating ${BLD}Dootsfile${RST} ..." && git -C "$DOOTS" pull --rebase && echo
+		echo && omz-custom update && echo # update Oh-My-Zsh custom plugins
+		echo "${BLU}Updating ${BLD}[Oh My Tmux]${RST} ..." && git -C "$OMT_DIR" pull --rebase && echo
+	  echo "${BLU}Updating ${BLD}Dootsfile${RST} ..." && git -C "$DOOTS" pull --rebase && echo
+	fi
 }
