@@ -4,3 +4,4 @@ io.bassi.Amberol
 com.github.tchx84.Flatseal
 com.github.GradienceTeam.Gradience
 re.sonny.Junction
+io.github.slgobinath.SafeEyes

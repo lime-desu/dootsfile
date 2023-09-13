@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=io.github.slgobinath.SafeEyes
+Exec=flatpak run io.github.slgobinath.SafeEyes --enable
+X-Flatpak=io.github.slgobinath.SafeEyes
+Terminal=false

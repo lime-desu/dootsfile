@@ -10,5 +10,6 @@ config/broot/**/
 tmux.conf
 config/autostart/** 
 !**/autostart/**foot.desktop
+!**/autostart/**SafeEyes.desktop
 *gtk.css
 servers
