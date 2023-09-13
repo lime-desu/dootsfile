@@ -11,6 +11,7 @@ bindkey " " expand_globalias # <Space key>
 alias -g C='cat'
 alias -g B='bat -fp'
 alias -g G='| grep -i'
+alias -g J='| jq -C'
 alias -g L='| $PAGER '
 alias -g W='| wc -l'
 alias -g H='| head'
