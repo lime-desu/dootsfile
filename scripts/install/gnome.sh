@@ -89,6 +89,7 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click 'true' # enable tap to click on touchpad
 		gsettings set org.gnome.desktop.interface show-battery-percentage 'true' # show show-battery-percentage
 		gsettings set org.gnome.desktop.interface clock-show-weekday 'true'      # show weekdays
+		gsettings set org.gnome.desktop.interface locate-pointer 'true'          # locate mouse (pressing left-ctrl)
 		# gsettings set org.gnome.desktop.interface clock-format '12h'
 		# gsettings set org.gtk.Settings.FileChooser clock-format '12h'
 		# gsettings set org.gtk.gtk4.Settings.FileChooser clock-format '12h'
