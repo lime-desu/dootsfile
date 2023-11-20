@@ -23,7 +23,7 @@ fzf-man-widget() {
 		zle reset-prompt
 	else
     # else execute man, if no entry fallback to --help
-    man "$cmd" >/dev/null 2>&1 && man "$cmd" || "$cmd" --help | bat --plain --language=help --paging=always
+    man "$cmd" >/dev/null 2>&1 && man "$cmd" || "$cmd" --help | bat -f --style=plain --language=help --paging=auto && zle redisplay
 	fi
 }
 
