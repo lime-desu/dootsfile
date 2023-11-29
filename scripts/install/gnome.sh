@@ -35,7 +35,6 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		"color-picker@tuberry"
 		"dash-to-dock@micxgx.gmail.com"
 		"gsconnect@andyholmes.github.io"
-		"hidetopbar@mathieu.bidon.ca"
 		"just-perfection-desktop@just-perfection"
 		"memento-mori@paveloom"
 		"pano@elhan.io"
@@ -47,7 +46,7 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 
 	apply_extension_config() {
 		# Technically I can refactor this, and use single array only, but since enabling and applying extensions are different command, especially aylurs-widgets have different formatting, just to avoid confusion i created another array.
-		local extensions=("arcmenu" "color-picker" "aylurs-widgets" "dash-to-dock" "hidetopbar" "just-perfection" "memento-mori" "pano" "pop-shell" "rounded-window-corners" "user-theme")
+		local extensions=("arcmenu" "color-picker" "aylurs-widgets" "dash-to-dock" "just-perfection" "memento-mori" "pano" "pop-shell" "rounded-window-corners" "user-theme")
 		local schema="org/gnome/shell/extensions"
 
 		for ext in "${extensions[@]}"; do

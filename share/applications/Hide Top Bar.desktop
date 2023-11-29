@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Hide Top Bar
-Comment=hidetopbar extension must be installed
-Exec=gnome-extensions enable hidetopbar@mathieu.bidon.ca
-Icon=/home/void/.local/share/icons/desktop/extension.png
-Type=Application

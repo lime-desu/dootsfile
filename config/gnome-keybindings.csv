@@ -254,7 +254,7 @@ custom	'MochaTheme Style5'	'gsettings set org.gnome.shell.extensions.user-theme 
 custom	'MochaTheme Style6'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-6'	'<Control><Super>6'
 custom	'MochaTheme Style7'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-7'	'<Control><Super>7'
 custom	'Change GTK  Style (Light/Dark)'	'/home/void/.local/bin/scripts/gtk-style.sh'	'<Shift><Super>t'
-custom	'Hide/Show Top Bar'	'/home/void/.local/bin/scripts/hide-topbar.sh'	'<Shift><Super>b'
+custom	'Hide/Show Panel'	'/home/void/.local/bin/scripts/toggle-panel.sh'	'<Super>comma'
 custom	'Open Extension Manager'	'flatpak run com.mattjakeman.ExtensionManager'	'<Shift><Super>e'
 custom	'Start/Stop Pomodoro Timer'	'/home/void/.local/bin/scripts/pomodoro.sh'	'<Control><Alt>p'
 custom	'OCR Screenshot'	'/home/void/.local/bin/ocr'	'<Super>Print'
