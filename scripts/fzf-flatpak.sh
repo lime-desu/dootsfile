@@ -33,7 +33,7 @@ _fzf_flatpak_install() {
     for(i=3;i<=NF;i++){
       app_info=app_info" "$i 
     }; print blu bld $2" -" res cyn app_info "|" $1}' \
-  | column -t -s "|" -R 3 \
+  | column -t -s "|" \
   | _fzf_flatpak_fzf  \
     --prompt=" Install > " \
     --header=$'M-u: Update / Del: Remove Unused \n\n' \
