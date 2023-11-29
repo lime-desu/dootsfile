@@ -81,7 +81,6 @@ org.gnome.desktop.wm.keybindings	toggle-above	[]
 org.gnome.desktop.wm.keybindings	toggle-fullscreen	['F11']
 org.gnome.desktop.wm.keybindings	toggle-maximized	['<Super>m']
 org.gnome.desktop.wm.keybindings	toggle-on-all-workspaces	[]
-org.gnome.desktop.wm.keybindings	toggle-shaded	[]
 org.gnome.desktop.wm.keybindings	unmaximize	[]
 org.gnome.settings-daemon.plugins.power	power-button-action	'suspend'
 org.gnome.settings-daemon.plugins.media-keys	battery-status	[]
@@ -181,7 +180,6 @@ org.gnome.settings-daemon.plugins.media-keys	volume-up-static	['XF86AudioRaiseVo
 org.gnome.settings-daemon.plugins.media-keys	www	['<Super>b']
 org.gnome.settings-daemon.plugins.media-keys	www-static	['XF86WWW']
 org.gnome.shell.keybindings	focus-active-notification	[]
-org.gnome.shell.keybindings	open-application-menu	[]
 org.gnome.shell.keybindings	screenshot	['<Shift>Print']
 org.gnome.shell.keybindings	screenshot-window	['<Alt>Print']
 org.gnome.shell.keybindings	shift-overview-down	[]
@@ -200,6 +198,7 @@ org.gnome.shell.keybindings	switch-to-application-9	[]
 org.gnome.shell.keybindings	toggle-application-view	['<Super>a']
 org.gnome.shell.keybindings	toggle-message-tray	['<Super>v']
 org.gnome.shell.keybindings	toggle-overview	[]
+org.gnome.shell.keybindings	toggle-quick-settings	['<Super>s']
 org.gnome.shell.extensions.pop-shell	activate-launcher	[]
 org.gnome.shell.extensions.pop-shell	focus-down	['<Super>Down', '<Super>KP_Down', '<Super>j']
 org.gnome.shell.extensions.pop-shell	focus-left	['<Super>Left', '<Super>KP_Left', '<Super>h']
@@ -242,9 +241,9 @@ custom	'Open Gnome Terminal'	'gnome-terminal'	'<Control><Alt>t'
 custom	'Open File Explorer'	'nautilus --new-window'	'<Super>e'
 custom	'Random Wallpaper'	'/home/void/.local/bin/scripts/set-random-wallpaper.sh'	'<Shift><Super>w'
 custom	'Rick Roll'	'foot bash -c   \"curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash\"'	'<Control><Alt>Delete'
-custom	'System Monitor'	'gnome-system-monitor'	'<Shift><Control>Escape'
+custom	'System Monitor'	'bash -c \"id=\'io.missioncenter.MissionCenter\'; flatpak list --columns=app | grep -q -i \$id && flatpak run \$id || gnome-system-monitor\"'	'<Shift><Control>Escape'
 custom	'View Cheat Sheets Images'	'eog /home/void/Pictures/CheatSheets'	'<Shift><Super>Return'
-custom	'Open Ebook Reader (Foliate)'	'com.github.johnfactotum.Foliate'	'<Super>f'
+custom	'Open Ebook Reader (Foliate)'	'foliate'	'<Super>f'
 custom	'Open Text Editor (Neovim)'	'foot bash -c \"nvim\"'	'<Super>n'
 custom	'Open Terminal Emulator (Foot)'	'foot'	'<Control><Super>Return'
 custom	'MochaTheme Style1'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-1'	'<Control><Super>1'
