@@ -1,10 +1,13 @@
 [/]
 apply-custom-theme=false
+autohide=false
 background-color='rgb(17,17,27)'
 custom-background-color=false
 custom-theme-shrink=false
 dash-max-icon-size=48
+dock-fixed=false
 dock-position='BOTTOM'
 hot-keys=false
 intellihide=false
 intellihide-mode='ALL_WINDOWS'
+require-pressure-to-show=false
