@@ -13,3 +13,4 @@ config/autostart/**
 !**/autostart/**SafeEyes.desktop
 *gtk.css
 servers
+lazyvim.json
