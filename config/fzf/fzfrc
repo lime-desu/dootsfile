@@ -36,7 +36,7 @@ ${FZF_THEME_CATPPUCCIN_MOCHA_BG},spinner:#f5e0dc,hl:#f38ba8 \
 --color=marker:#f5e0dc,fg+:blue,border:blue,prompt:#cba6f7,hl+:#f38ba8"
 
 export FZF_PREVIEW_OPTS="--preview
-'([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg'|'.mp4'|'.mkv')$ ]] && (chafa --center=on {} && exiftool {})) || 
+'([[ {} =~ ('.jpg'|'.jpeg'|'.png'|'.gif'|'.bmp'|'.svg')$ ]] && (fzf-preview.sh {} && exiftool {} | bat -fpl=yaml)) || 
 ([[ -f {} ]] && (bat --style=header,numbers,changes,plain --color=always --language=sh --line-range :500 {} || cat {})) || 
 ([[ -d {} ]] && (lsd  -all --long --tree --depth=5 --group-dirs=first -I=.git {} )) || echo {} 3>/dev/null | head -n 500'
 "
