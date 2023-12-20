@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Phone
+Comment=scrcpy wrapper script
+Exec=/home/void/.local/bin/phone
+Icon=/usr/share/icons/Adwaita/scalable/devices/phone.svg
+Terminal=false
+Type=Application
