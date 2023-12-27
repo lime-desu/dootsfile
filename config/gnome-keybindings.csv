@@ -49,7 +49,7 @@ org.gnome.desktop.wm.keybindings	panel-run-dialog	['<Alt>F2']
 org.gnome.desktop.wm.keybindings	raise	[]
 org.gnome.desktop.wm.keybindings	raise-or-lower	[]
 org.gnome.desktop.wm.keybindings	set-spew-mark	[]
-org.gnome.desktop.wm.keybindings	show-desktop	['<Shift><Super>d']
+org.gnome.desktop.wm.keybindings	show-desktop	['<Super>d']
 org.gnome.desktop.wm.keybindings	switch-applications	['<Super>Tab']
 org.gnome.desktop.wm.keybindings	switch-applications-backward	['<Shift><Super>Tab']
 org.gnome.desktop.wm.keybindings	switch-group	['<Super>Above_Tab', '<Alt>Above_Tab']
@@ -196,7 +196,7 @@ org.gnome.shell.keybindings	switch-to-application-7	[]
 org.gnome.shell.keybindings	switch-to-application-8	[]
 org.gnome.shell.keybindings	switch-to-application-9	[]
 org.gnome.shell.keybindings	toggle-application-view	['<Super>a']
-org.gnome.shell.keybindings	toggle-message-tray	['<Super>period']
+org.gnome.shell.keybindings	toggle-message-tray	['<Shift><Super>comma']
 org.gnome.shell.keybindings	toggle-overview	[]
 org.gnome.shell.keybindings	toggle-quick-settings	['<Super>s']
 org.gnome.shell.extensions.pop-shell	activate-launcher	[]
@@ -255,6 +255,7 @@ custom	'MochaTheme Style6'	'gsettings set org.gnome.shell.extensions.user-theme 
 custom	'MochaTheme Style7'	'gsettings set org.gnome.shell.extensions.user-theme name MochaTheme-7'	'<Control><Super>7'
 custom	'Change GTK  Style (Light/Dark)'	'/home/void/.local/bin/scripts/gtk-style.sh'	'<Shift><Super>t'
 custom	'Hide/Show Panel'	'/home/void/.local/bin/scripts/toggle-panel.sh'	'<Super>comma'
+custom	'Turn on/off DND'	'/home/void/.local/bin/scripts/toggle-dnd.sh'	'<Control><Super>comma'
 custom	'Open Extension Manager'	'flatpak run com.mattjakeman.ExtensionManager'	'<Shift><Super>e'
 custom	'Start/Stop Pomodoro Timer'	'/home/void/.local/bin/scripts/pomodoro.sh'	'<Control><Alt>p'
 custom	'OCR Screenshot'	'/home/void/.local/bin/ocr'	'<Super>Print'
