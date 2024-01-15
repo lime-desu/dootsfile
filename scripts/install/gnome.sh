@@ -10,7 +10,7 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 	declare -A GNOME_PACKAGES=(
 		["pacman"]="gnome-tweaks libgda"
 		["apt"]="gnome-tweaks gnome-shell-extension-gsconnect openssl gir1.2-gda-5.0 gir1.2-gsound-1.0"
-		["dnf"]="gnome-tweaks gnome-shell-extension-gsconnect openssl gnome-shell-extension-pop-shell xprop gnome-shell-extension-user-theme libgda libgda-sqlite"
+		["dnf"]="gnome-tweaks gnome-shell-extension-gsconnect openssl nome-shell-extension-user-theme libgda libgda-sqlite"
 		["xbps-install"]="gnome-tweaks libgda"
 		["flatpak"]="com.mattjakeman.ExtensionManager"
 	)
@@ -38,7 +38,8 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		"just-perfection-desktop@just-perfection"
 		"memento-mori@paveloom"
 		"pano@elhan.io"
-		"pop-shell@system76.com"
+		"paperwm@paperwm.github.com"
+		# "pop-shell@system76.com"
 		"rounded-window-corners@yilozt"
 		"user-theme@gnome-shell-extensions.gcampax.github.com"
 	)

@@ -1,0 +1,42 @@
+[/]
+default-focus-mode=0
+disable-scratch-in-overview=false
+disable-topbar-styling=true
+gesture-enabled=true
+horizontal-margin=8
+only-scratch-in-overview=true
+restore-attach-modal-dialogs='false'
+restore-edge-tiling='false'
+restore-keybinds='{"toggle-tiled-left":{"bind":"[\\"<Primary><Super>Left\\",\\"<Primary><Super>KP_Left\\",\\"<Primary><Super>h\\"]","schema_id":"org.gnome.mutter.keybindings"},"toggle-tiled-right":{"bind":"[\\"<Primary><Super>Right\\",\\"<Primary><Super>KP_Right\\",\\"<Primary><Super>l\\"]","schema_id":"org.gnome.mutter.keybindings"},"switch-to-workspace-last":{"bind":"[\\"<Super>End\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-applications":{"bind":"[\\"<Super>Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-windows":{"bind":"[\\"<Alt>Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"toggle-maximized":{"bind":"[\\"<Super>m\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-to-workspace-up":{"bind":"[\\"<Primary><Super>Up\\",\\"<Primary><Super>KP_Up\\",\\"<Primary><Super>k\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-applications-backward":{"bind":"[\\"<Shift><Super>Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-windows-backward":{"bind":"[\\"<Shift><Alt>Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-group-backward":{"bind":"[\\"<Shift><Super>Above_Tab\\",\\"<Shift><Alt>Above_Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-to-workspace-down":{"bind":"[\\"<Primary><Super>Down\\",\\"<Primary><Super>KP_Down\\",\\"<Primary><Super>j\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-group":{"bind":"[\\"<Super>Above_Tab\\",\\"<Alt>Above_Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"show-screen-recording-ui":{"bind":"[\\"<Shift><Super>r\\"]","schema_id":"org.gnome.shell.keybindings"},"logout":{"bind":"[\\"<Shift><Super>c\\"]","schema_id":"org.gnome.settings-daemon.plugins.media-keys"}}'
+restore-workspaces-only-on-primary='false'
+show-focus-mode-icon=false
+show-window-position-bar=false
+show-workspace-indicator=false
+vertical-margin=8
+vertical-margin-bottom=5
+window-gap=8
+winprops=['{"wm_class":"gsconnect-preferences","scratch_layer":true}', '{"wm_class":"io.github.seadve.Kooha","scratch_layer":true}', '{"wm_class":"mpv","scratch_layer":true}', '{"wm_class":"net.sapples.LiveCaptions","scratch_layer":true}', '{"wm_class":"org.gnome.NautilusPreviewer","scratch_layer":true}', '{"wm_class":"safeeyes","scratch_layer":true}']
+
+[keybindings]
+barf-out=['<Shift><Super>o']
+close-window=['<Super>q']
+live-alt-tab=['<Super>Tab', '<Alt>Tab', '<Shift><Super>l']
+live-alt-tab-backward=['<Shift><Super>Tab', '<Shift><Alt>Tab', '<Shift><Super>h']
+move-down=['<Control><Super>Down', '<Control><Super>j']
+move-left=['<Control><Super>Left', '<Control><Super>h', '<Control><Super>bracketright']
+move-right=['<Control><Super>Right', '<Control><Super>l', '<Control><Super>bracketleft']
+move-up=['<Control><Super>Up', '<Control><Super>k']
+new-window=['<Super>Return']
+paper-toggle-fullscreen=['<Shift><Super>f']
+slurp-in=['<Super>o']
+switch-down=['<Super>Down', '<Super>j']
+switch-left=['<Super>Left', '<Super>h']
+switch-next=['<Super>bracketright']
+switch-previous=['<Super>bracketleft']
+switch-right=['<Super>Right', '<Super>l']
+switch-up=['<Super>Up', '<Super>k']
+take-window=['<Super>semicolon']
+toggle-maximize-width=['<Super>m']
+toggle-scratch=['<Super>y']
+toggle-scratch-layer=['<Super>g']
+toggle-scratch-window=['<Shift><Super>y']
