@@ -1,0 +1,39 @@
+import = [
+  # uncomment the flavour you want below:
+  "~/.config/alacritty/catppuccin/catppuccin-mocha.toml"
+  # "~/.config/alacritty/catppuccin/catppuccin-macchiato.toml"
+  # "~/.config/alacritty/catppuccincatppuccin-frappe.toml"
+  # "~/.config/alacritty/catppuccincatppuccin-latte.toml"
+]
+live_config_reload = true
+
+[env]
+TERM = "xterm-256color"
+
+[font.bold]
+family = "JetBrainsMono NF"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMono NF"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrainsMono NF"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMono NF"
+style = "Regular"
+
+[shell]
+args = ["-l", "-c", "tmux attach || tmux"]
+program = "/bin/zsh"
+
+[window]
+decorations = "none"
+opacity = 0.85
+
+[window.padding]
+x = 10
+y = 10
