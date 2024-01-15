@@ -34,31 +34,27 @@ if [[ "$XDG_CURRENT_DESKTOP" =~ "GNOME" ]]; then
 		"arcmenu@arcmenu.com"
 		"color-picker@tuberry"
 		"dash-to-dock@micxgx.gmail.com"
-		"gsconnect@andyholmes.github.io"
+		# "gsconnect@andyholmes.github.io"
 		"just-perfection-desktop@just-perfection"
 		"memento-mori@paveloom"
 		"pano@elhan.io"
 		"pop-shell@system76.com"
 		"rounded-window-corners@yilozt"
 		"user-theme@gnome-shell-extensions.gcampax.github.com"
-		"widgets@aylur"
 	)
 
 	apply_extension_config() {
-		# Technically I can refactor this, and use single array only, but since enabling and applying extensions are different command, especially aylurs-widgets have different formatting, just to avoid confusion i created another array.
-		local extensions=("arcmenu" "color-picker" "aylurs-widgets" "dash-to-dock" "just-perfection" "memento-mori" "pano" "pop-shell" "rounded-window-corners" "user-theme")
 		local schema="org/gnome/shell/extensions"
 
-		for ext in "${extensions[@]}"; do
-			dconf load "/$schema/$ext/" <"$DOOTS/share/gnome-shell/extensions/$ext"
+		for extension in "${EXTENSIONS[@]}"; do
+			ext_name=${extension%%@*}
+			dconf load "/$schema/$ext_name/" <"$DOOTS/share/gnome-shell/extensions/$ext_name"
 		done
 	}
 
 	enable_extension() {
 		echo -e "${BLD}${BLU}\nBefore proceeding ensure the following extension are installed to apply their configuration:${RST}"
-		printf " ${BLU}-${RST} %s\n" "${EXTENSIONS[@]}"
-		echo -e "${BLD}${YLW}Note:${RST} Only ${BLU}gsconnect${RST} config aren't included only for enabling it. (Already installed on ${GRN}Debian and Fedora${RST})"
-		echo -e "Also ${BLU}pop-shell${RST} and ${BLU}user-theme${RST} extensions are already installed on ${GRN}Fedora${RST} as system extensions\n" && sleep 10
+		printf " ${BLU}-${RST} %s\n" "${EXTENSIONS[@]}" && sleep 5
 		read -rp "Extensions are already installed? (y to proceed or n to skip) : " choice
 
 		if [[ "$choice" =~ ^[yY]$ ]]; then
