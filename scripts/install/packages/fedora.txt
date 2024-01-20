@@ -6,7 +6,7 @@ chafa
 util-linux-user
 curl
 git-delta
-exa
+eza
 fd-find
 foliate
 foot
